@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
+
+:root {
+  --color-dark-bg: #0e141b;
+}
+
+@font-face {
+  font-family: 'BeVietnamPro';
+  src: url('/fonts/BeVietnamPro-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  svg {
+    @apply w-4;
+    @apply h-4;
+    fill: currentColor;
+  }
+}
+
+@keyframes mode-switcher {
+  from {
+    transform: rotate(90deg);
+  }
+  75% {
+    transform: rotate(-15deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@layer components {
+  .blog {
+    @apply leading-7;
+  }
+
+  .blog blockquote {
+    @apply px-3 py-1 mb-4 text-secondary border-l-2 border-l-blue-500;
+  }
+
+  .blog blockquote p {
+    @apply mb-0;
+  }
+
+  .blog > p {
+    @apply mb-6 text-lg leading-8;
+  }
+
+  .blog p > a {
+    @apply text-blue-500 hover:underline;
+  }
+
+  .blog ul {
+    @apply list-disc list-inside mb-4;
+  }
+
+  .blog ol {
+    @apply list-decimal list-inside mb-4;
+  }
+
+  .blog li {
+    @apply mb-2;
+  }
+
+  .blog pre {
+    @apply mt-4 mb-8 bg-gray-100 dark:bg-gray-900 rounded-xl overflow-x-auto;
+  }
+
+  .blog pre[data-lang='tsx']::before,
+  .blog pre[data-lang='jsx']::before {
+    @apply bg-sky-500;
+  }
+
+  .blog p code {
+    @apply px-2 py-1 mx-1 text-rose-500 bg-gray-100 dark:bg-gray-800 rounded;
+  }
+
+  .blog code span {
+    @apply leading-6;
+  }
+}
+
+@layer utilities {
+  .text-primary {
+    @apply text-black dark:text-white;
+  }
+
+  .text-secondary {
+    @apply text-black/60 dark:text-white/60;
+  }
+
+  .border-primary {
+    @apply border-black dark:border-white;
+  }
+
+  .border-secondary {
+    @apply border-gray-200 dark:border-gray-600;
+  }
+
+  .background {
+    @apply bg-white dark:bg-dark-bg;
+  }
+
+  .heading {
+    @apply text-sky-500;
+  }
+
+  .transition-mode-switcher {
+    animation: mode-switcher 0.5s ease-in-out;
+  }
+
+  .toc .active {
+    @apply text-blue-500;
+  }
+
+  .underlined {
+    @apply relative after:absolute after:left-0 after:-bottom-1.5 after:w-full after:h-0.5 after:block after:bg-black after:dark:bg-white after:scale-0;
+  }
+
+  .underlined.active {
+    @apply after:scale-100 after:transition after:origin-left after:duration-300;
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    @apply w-1 bg-gray-300 rounded;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-700 rounded;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    @apply hidden;
+  }
+}

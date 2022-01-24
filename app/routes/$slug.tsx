@@ -67,12 +67,12 @@ const Blog = () => {
       <main className="max-w-5xl pt-32 mx-auto">
         <header className="flex justify-center px-8 mb-16">
           <div className="w-full md:max-w-2xl xl:max-w-5xl">
-            <h1 className="mb-3 text-primary text-4xl">{frontMatter?.title}</h1>
+            <h1 className="mb-3 text-4xl">{frontMatter?.title}</h1>
             <div className="text-secondary">{formatDate(new Date(frontMatter?.date))}</div>
           </div>
         </header>
         <main className="flex justify-center px-8 mb-16">
-          <article className="flex-1 max-w-full md:max-w-2xl text-primary blog" ref={ref}>
+          <article className="flex-1 max-w-full md:max-w-2xl blog" ref={ref}>
             {Component && <Component components={MDXComponents} />}
           </article>
           <TOC

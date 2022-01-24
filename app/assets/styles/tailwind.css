@@ -36,6 +36,26 @@
 }
 
 @layer components {
+  .text-primary {
+    @apply text-black dark:text-white;
+  }
+
+  .text-secondary {
+    @apply text-black/60 dark:text-white/60;
+  }
+
+  .border-primary {
+    @apply border-black dark:border-white;
+  }
+
+  .border-secondary {
+    @apply border-gray-200 dark:border-gray-600;
+  }
+
+  .background {
+    @apply bg-white dark:bg-dark-bg;
+  }
+
   .blog {
     @apply leading-7;
   }
@@ -87,26 +107,6 @@
 }
 
 @layer utilities {
-  .text-primary {
-    @apply text-black dark:text-white;
-  }
-
-  .text-secondary {
-    @apply text-black/60 dark:text-white/60;
-  }
-
-  .border-primary {
-    @apply border-black dark:border-white;
-  }
-
-  .border-secondary {
-    @apply border-gray-200 dark:border-gray-600;
-  }
-
-  .background {
-    @apply bg-white dark:bg-dark-bg;
-  }
-
   .heading {
     @apply text-sky-500;
   }
@@ -115,7 +115,7 @@
     animation: mode-switcher 0.5s ease-in-out;
   }
 
-  .toc .active {
+  .toc > nav > .active {
     @apply text-blue-500;
   }
 

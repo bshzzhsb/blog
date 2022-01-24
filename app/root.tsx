@@ -58,7 +58,7 @@ export default function App() {
           <Meta />
           <Links />
         </head>
-        <body className="font-sans background transition duration-500">
+        <body className="background text-primary font-sans transition duration-500">
           <Navbar />
           <main className="min-h-[calc(100vh-10.5rem)]">
             <Outlet />

@@ -25,7 +25,7 @@ interface MobileNavProps {
 }
 
 const NavLink: React.FC<NavLinkProps> = ({ to, name, active }) => (
-  <li className={'hover:text-primary ' + (active ? 'text-primary' : 'text-black/70 dark:text-white/70')}>
+  <li className={'hover:text-primary ' + (active ? '' : 'text-black/70 dark:text-white/70')}>
     <Link className={'block underlined hover:active text-lg font-semibold ' + (active ? 'active' : '')} to={to}>
       {name}
     </Link>
@@ -33,7 +33,7 @@ const NavLink: React.FC<NavLinkProps> = ({ to, name, active }) => (
 );
 
 const MobileNavLink: React.FC<MobileNavLinkProps> = ({ to, name, active, onClick }) => (
-  <li className={'hover:text-primary text-primary'}>
+  <li>
     <Link className={'block text-3xl font-semibold ' + (active ? 'active' : '')} to={to} onClick={onClick}>
       {name}
     </Link>
@@ -68,8 +68,8 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="sticky top-0 background transition duration-500 z-10">
-        <nav className="flex justify-between items-center max-w-5xl h-16 px-8 mx-auto text-primary z-10">
+      <div className="sticky top-0 background transition-[background-color] duration-500 z-10">
+        <nav className="flex justify-between items-center max-w-5xl xl:max-w-6xl h-16 px-8 mx-auto z-10">
           <div className="flex items-center">
             <div className="mr-16">
               <Link to="/" className="font-semibold text-2xl">

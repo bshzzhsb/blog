@@ -18,7 +18,7 @@ const Index: React.FC = () => {
 
   return (
     <div className="min-h-[calc(100vh-10.5rem)]">
-      <main className="flex flex-col gap-12 max-w-2xl py-32 px-8 mx-auto text-primary">
+      <main className="flex flex-col gap-12 max-w-2xl py-32 px-8 mx-auto">
         {data.map(({ frontMatter, slug }) => (
           <article key={slug}>
             <Link to={`${slug}`} className="group w-full h-full">

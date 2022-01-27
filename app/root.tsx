@@ -4,6 +4,7 @@ import type { MetaFunction } from 'remix';
 
 import Navbar from '~/page-components/navbar';
 import Footer from '~/page-components/footer';
+import Progress from './page-components/progress';
 import { Dinosaur } from './components/icon';
 import { ThemeContext } from '~/utils/theme';
 import type { Theme } from '~/utils/theme';
@@ -64,6 +65,7 @@ export default function App() {
             <Outlet />
           </main>
           <Footer text={TEXT.footer} />
+          <Progress />
           <ScrollRestoration />
           <Scripts />
           {process.env.NODE_ENV === 'development' && <LiveReload />}
@@ -74,7 +76,6 @@ export default function App() {
 }
 
 export const ErrorBoundary = ({ error }: { error: Error }) => {
-  const location = useLocation();
   console.error(error);
 
   return (

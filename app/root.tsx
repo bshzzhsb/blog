@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from 'remix';
+import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from 'remix';
 import type { MetaFunction } from 'remix';
 
 import Navbar from '~/page-components/navbar';
@@ -26,7 +26,21 @@ export const links = () => [
   {
     rel: 'preload',
     as: 'font',
-    href: '/fonts/BeVietnamPro-Regular.woff2',
+    href: '/fonts/Wotfard-Regular.woff2',
+    type: 'font/woff2',
+    crossOrigin: 'anonymous',
+  },
+  {
+    rel: 'preload',
+    as: 'font',
+    href: '/fonts/JetBrainsMono-Regular.woff2',
+    type: 'font/woff2',
+    crossOrigin: 'anonymous',
+  },
+  {
+    rel: 'preload',
+    as: 'font',
+    href: '/fonts/Sriracha-Regular.woff2',
     type: 'font/woff2',
     crossOrigin: 'anonymous',
   },

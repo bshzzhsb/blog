@@ -8,19 +8,27 @@
 }
 
 @font-face {
-  font-family: 'BeVietnamPro';
-  src: url('/fonts/BeVietnamPro-Regular.woff2') format('woff2');
+  font-family: 'wotfard';
+  src: url('/fonts/Wotfard-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-@layer base {
-  svg {
-    @apply w-4;
-    @apply h-4;
-    fill: currentColor;
-  }
+@font-face {
+  font-family: 'jetbrains mono';
+  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'sriracha';
+  src: url('/fonts/Sriracha-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @keyframes mode-switcher {
@@ -32,6 +40,22 @@
   }
   to {
     transform: rotate(0deg);
+  }
+}
+
+@layer base {
+  svg {
+    @apply w-4;
+    @apply h-4;
+    fill: currentColor;
+  }
+
+  code {
+    font-variant-ligatures: none;
+  }
+
+  strong {
+    font-family: 'sriracha';
   }
 }
 
@@ -98,7 +122,7 @@
   }
 
   .blog p code {
-    @apply px-2 py-1 mx-1 text-rose-500 bg-gray-100 dark:bg-gray-800 rounded;
+    @apply px-2 py-1 mx-1 text-rose-500 bg-gray-100 dark:bg-gray-800 rounded text-sm font-semibold;
   }
 
   .blog code span {

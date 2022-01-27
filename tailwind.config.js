@@ -14,8 +14,8 @@ module.exports = {
       xl: '1280px',
     },
     fontFamily: {
-      sans: ['BeVietnamPro', 'system-ui'],
-      mono: ['Consolas'],
+      sans: ['wotfard', 'system-ui'],
+      mono: ['jetbrains mono'],
     },
   },
 };

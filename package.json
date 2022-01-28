@@ -7,7 +7,8 @@
     "build:css": "postcss ./app/assets/styles --base ./app/assets/styles --dir ./app/styles --env production",
     "dev": "concurrently \"pnpm run dev:css\" \"remix dev\"",
     "dev:css": "postcss ./app/assets/styles --base ./app/assets/styles --dir ./app/styles --watch",
-    "postinstall": "remix setup node && metronome setup"
+    "postinstall": "remix setup node && metronome setup",
+    "type-check": "tsc --noEmit --project tsconfig.json"
   },
   "repository": {
     "type": "git",

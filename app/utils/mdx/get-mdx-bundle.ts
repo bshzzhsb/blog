@@ -2,10 +2,12 @@ import grayMatter from 'gray-matter';
 import esbuild from 'esbuild';
 import type { BuildOptions } from 'esbuild';
 
+import type { FrontMatter } from '~/api/blog.server';
 import resolveExternalPlugin, { EXTERNAL_CONFIG } from './resolve-external-plugin';
 
 export async function getMDXBundle(file: string) {
   const { default: xdmEsbuild } = await import('xdm/esbuild.js');
+  // eslint-disable-next-line
   // @ts-ignore
   // TODO: typescript has a bug with unist@4.1.0
   const { default: rehypePrism } = await import('@mapbox/rehype-prism');
@@ -29,7 +31,7 @@ export async function getMDXBundle(file: string) {
   const bundle = await esbuild.build(buildOptions);
   if (bundle.outputFiles) {
     return {
-      frontMatter: frontMatter,
+      frontMatter: frontMatter as FrontMatter,
       code: `${bundle.outputFiles[0].text};return Component;`,
     };
   } else {

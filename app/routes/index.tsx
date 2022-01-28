@@ -25,7 +25,7 @@ const Index: React.FC = () => {
               <h2 className="mb-2 text-2xl font-semibold">{frontMatter.title}</h2>
               <p className="mb-2 text-secondary">{formatDate(new Date(frontMatter.date))}</p>
               <p className="mb-3 text-base">{frontMatter.excerpt}</p>
-              <p className="flex items-center gap-4 text-sm font-semibold">
+              <p className="flex items-center gap-4 text-sm tracking-wider font-semibold">
                 {TEXT.readMore}
                 <Arrow className="opacity-0 group-hover:opacity-100 transition" />
               </p>

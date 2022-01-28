@@ -14,7 +14,7 @@ import { getHeading } from '~/mdx-components/heading';
 import HighlightBlock from '~/mdx-components/highlight-block';
 import { TEXT } from '~/constants';
 
-export const meta: MetaFunction = ({ data, parentsData }) => {
+export const meta: MetaFunction = ({ data }) => {
   const title = data.frontMatter?.title;
   return { title: title ? `${title} - ${TEXT.siteName}` : TEXT.siteName };
 };
@@ -72,7 +72,7 @@ const Blog = () => {
           </div>
         </header>
         <main className="flex justify-center px-8 mb-16">
-          <article className="flex-1 max-w-full md:max-w-2xl blog" ref={ref}>
+          <article className="blog flex-1 max-w-full md:max-w-2xl text-lg" ref={ref}>
             {Component && <Component components={MDXComponents} />}
           </article>
           <TOC

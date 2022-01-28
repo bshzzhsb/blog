@@ -97,7 +97,7 @@
   }
 
   .blog p > a {
-    @apply text-blue-500 hover:underline;
+    @apply text-blue-500;
   }
 
   .blog ul {

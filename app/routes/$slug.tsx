@@ -8,6 +8,7 @@ import { formatDate } from '~/utils/date';
 import getMDXComponent from '~/utils/mdx/get-mdx-component';
 import TOC from '~/page-components/toc';
 import type { TOCProps } from '~/page-components/toc';
+import Anchor from '~/mdx-components/anchor';
 import Code from '~/mdx-components/code';
 import Codeblock from '~/mdx-components/codeblock';
 import { getHeading } from '~/mdx-components/heading';
@@ -28,6 +29,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 const MDXComponents = {
+  a: Anchor,
   h1: getHeading(1),
   h2: getHeading(2),
   h3: getHeading(3),
@@ -72,7 +74,7 @@ const Blog = () => {
           </div>
         </header>
         <main className="flex justify-center px-8 mb-16">
-          <article className="blog flex-1 max-w-full md:max-w-2xl text-lg" ref={ref}>
+          <article className="blog flex-1 max-w-full md:max-w-2xl" ref={ref}>
             {Component && <Component components={MDXComponents} />}
           </article>
           <TOC

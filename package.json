@@ -7,7 +7,7 @@
     "build:css": "postcss ./app/assets/styles --base ./app/assets/styles --dir ./app/styles --env production",
     "dev": "concurrently \"pnpm run dev:css\" \"remix dev\"",
     "dev:css": "postcss ./app/assets/styles --base ./app/assets/styles --dir ./app/styles --watch",
-    "postinstall": "remix setup node"
+    "postinstall": "remix setup node && metronome setup"
   },
   "repository": {
     "type": "git",
@@ -23,11 +23,13 @@
     "@mapbox/rehype-prism": "^0.8.0",
     "@remix-run/react": "^1.1.3",
     "@remix-run/serve": "^1.1.3",
+    "@remix-run/server-runtime": "^1.1.3",
     "@remix-run/vercel": "^1.1.3",
     "@vercel/node": "^1.12.1",
     "esbuild": "0.12.9",
     "gray-matter": "^4.0.3",
     "lodash": "^4.17.21",
+    "metronome-sh": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "remark-frontmatter": "^4.0.1",

@@ -1,12 +1,38 @@
 import grayMatter from 'gray-matter';
-import esbuild from 'esbuild';
-import type { BuildOptions } from 'esbuild';
+import fs from 'fs/promises';
+import type Esbuild from 'esbuild';
 
-import type { FrontMatter } from '~/api/blog.server';
 import resolveExternalPlugin, { EXTERNAL_CONFIG } from './resolve-external-plugin';
 
+export interface FrontMatter {
+  title: string;
+  date: Date;
+  lastModified?: Date;
+  excerpt: string;
+}
+
+export const BLOG_DIR = `${__dirname}/../../app/blog`;
+
+let esbuild: typeof Esbuild | null = null;
+
+async function getEsbuild() {
+  if (esbuild === null) {
+    const _ = await import('esbuild');
+    esbuild = _;
+  }
+  return esbuild;
+}
+
 export async function getMDXBundle(file: string) {
-  const { default: xdmEsbuild } = await import('xdm/esbuild.js');
+  if (process.env.NODE_ENV === 'development') {
+    return await getMDXBundleFromEsbuild(file);
+  } else {
+    return await getMDXBundleFromCache(file);
+  }
+}
+
+export async function getMDXBundleFromEsbuild(file: string) {
+  const { default: mdx } = await import('@mdx-js/esbuild');
   // eslint-disable-next-line
   // @ts-ignore
   // TODO: typescript has a bug with unist@4.1.0
@@ -15,7 +41,7 @@ export async function getMDXBundle(file: string) {
 
   const { data: frontMatter } = grayMatter.read(file);
 
-  const buildOptions: BuildOptions = {
+  const buildOptions: Esbuild.BuildOptions = {
     entryPoints: [file],
     bundle: true,
     minify: process.env.NODE_ENV === 'production',
@@ -24,10 +50,11 @@ export async function getMDXBundle(file: string) {
     write: false,
     plugins: [
       resolveExternalPlugin(EXTERNAL_CONFIG),
-      xdmEsbuild({ remarkPlugins: [remarkFrontmatter], rehypePlugins: [rehypePrism] }),
+      mdx({ remarkPlugins: [remarkFrontmatter], rehypePlugins: [rehypePrism] }),
     ],
   };
 
+  const esbuild = await getEsbuild();
   const bundle = await esbuild.build(buildOptions);
   if (bundle.outputFiles) {
     return {
@@ -35,6 +62,15 @@ export async function getMDXBundle(file: string) {
       code: `${bundle.outputFiles[0].text};return Component;`,
     };
   } else {
-    throw new Error('build error');
+    throw new Error('build blog error');
+  }
+}
+
+async function getMDXBundleFromCache(file: string) {
+  try {
+    const res = await fs.readFile(file.replace('.mdx', '.json'), 'utf-8');
+    return JSON.parse(res) as { frontMatter: FrontMatter; code: string };
+  } catch (e) {
+    throw new Error('get blog from cache error');
   }
 }

@@ -1,12 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { useTheme } from '~/utils/theme';
 
 interface ModeSwitcherProps {
   maskId: string;
 }
-
-type Theme = 'light' | 'dark';
 
 // SSR: sun small R; SBR: sun big R; MR: moon R
 const [SSR, SBR, MR, R] = [4, 12, 20, 24];

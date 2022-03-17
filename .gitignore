@@ -9,3 +9,5 @@ api/_build
 build
 
 app/styles/*
+app/blog/**/**/index.json
+scripts/bundle.js

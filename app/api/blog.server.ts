@@ -1,15 +1,9 @@
 import fs from 'fs/promises';
 import grayMatter from 'gray-matter';
 
-import { getMDXBundle } from '~/utils/mdx/get-mdx-bundle';
+import { getMDXBundle, BLOG_DIR } from '~/utils/mdx/get-mdx-bundle';
+import type { FrontMatter } from '~/utils/mdx/get-mdx-bundle';
 import { objToCamelCase } from '~/utils/to-camel-case';
-
-export interface FrontMatter {
-  title: string;
-  date: Date;
-  lastModified?: Date;
-  excerpt: string;
-}
 
 export type BlogListProps = {
   slug: string;
@@ -20,8 +14,6 @@ export type BlogProps = {
   frontMatter: FrontMatter;
   code: string;
 };
-
-const BLOG_DIR = `${__dirname}/../../app/blog`;
 
 export async function getBlogList(): Promise<BlogListProps> {
   const dir = await fs.readdir(BLOG_DIR);

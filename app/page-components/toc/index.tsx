@@ -41,7 +41,7 @@ const TOC: React.FC<TOCProps> = ({ className, headings }) => {
     }, 20);
 
     const handleScroll = () => {
-      if (toc.length === 0) return;
+      if (toc.length === 0 || headings.length === 0) return;
       // reset active toc
       toc.forEach((toc) => {
         toc.classList.remove('active');

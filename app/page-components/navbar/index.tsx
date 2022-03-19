@@ -26,7 +26,10 @@ interface MobileNavProps {
 
 const NavLink: React.FC<NavLinkProps> = ({ to, name, active }) => (
   <li className={'hover:text-primary ' + (active ? '' : 'text-black/70 dark:text-white/70')}>
-    <Link className={'block underlined hover:active text-xl font-semibold tracking-wide ' + (active ? 'active' : '')} to={to}>
+    <Link
+      className={'block underlined hover:active text-xl font-semibold tracking-wide ' + (active ? 'active' : '')}
+      to={to}
+    >
       {name}
     </Link>
   </li>
@@ -58,7 +61,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ visible, setVisible, path }) => (
         />
       ))}
     </ul>
-    <ModeSwitcher maskId="mobile-mode-switch-mask" />
+    <ModeSwitcher />
   </div>
 );
 
@@ -83,13 +86,13 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="hidden md:flex pr-12 md:pr-0">
-            <ModeSwitcher maskId="mode-switch-mask" />
+            <ModeSwitcher />
           </div>
         </nav>
       </div>
       <div className="md:hidden">
         <Hamburger
-          className="fixed top-[1.375rem] right-8 z-20"
+          className="fixed top-[1.125rem] right-8 z-20"
           open={mobileNavVisible}
           setOpen={setMobileNavVisible}
         />

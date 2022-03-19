@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 
 interface HamburgerProps {
   className?: string;
@@ -6,27 +8,28 @@ interface HamburgerProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface PathProps {
+  variant: Variants;
+}
+
+const Path: React.FC<PathProps> = ({ variant }) => (
+  <motion.path strokeWidth="5" strokeLinecap="round" className="stroke-black dark:stroke-white" variants={variant} />
+);
+
 const Hamburger: React.FC<HamburgerProps> = ({ className, open, setOpen }) => (
-  <div className={className + ' w-6 h-[1.25rem] cursor-pointer'} onClick={() => setOpen((pre) => !pre)}>
-    <div className='relative'>
-    <div
-      className={
-        'absolute top-0 left-0 w-6 h-0.5 bg-black dark:bg-white rounded-sm transition duration-300 ' +
-        (open ? 'rotate-45 scale-150 translate-y-2' : '')
-      }
-    />
-    <div
-      className={
-        'absolute top-2 left-0 w-6 h-0.5 bg-black dark:bg-white rounded-sm transition duration-300 ' +
-        (open ? 'scale-0' : '')
-      }
-    />
-    <div
-      className={
-        'absolute top-4 left-0 w-6 h-0.5 bg-black dark:bg-white rounded-sm transition duration-300 ' +
-        (open ? '-rotate-45 scale-150 -translate-y-2' : '')
-      }
-    /></div>
+  <div className={className + ' cursor-pointer'} onClick={() => setOpen((pre) => !pre)}>
+    <motion.svg
+      animate={open ? 'open' : 'closed'}
+      className="w-7 h-7 text-gray-800 cursor-pointer overflow-visible"
+      fill="currentColor"
+      viewBox="0 0 48 48"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <Path variant={{ closed: { d: 'M 4 8 L 44 8' }, open: { d: 'M 4 4 L 44 44' } }} />
+      <Path variant={{ closed: { d: 'M 4 24 L 44 24' }, open: { d: 'M 24 24 L 24 24' } }} />
+      <Path variant={{ closed: { d: 'M 4 40 L 44 40' }, open: { d: 'M 4 44 L 44 4' } }} />
+    </motion.svg>
   </div>
 );
 

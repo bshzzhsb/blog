@@ -1,4 +1,5 @@
-.token.keyword {
+.token.keyword,
+.cmt-keyword {
   @apply text-violet-600;
 }
 
@@ -8,27 +9,34 @@
 
 .token.tag,
 .token.punctuation,
-.token.operator {
+.token.operator,
+.cmt-operator,
+.cmt-number,
+.cmt-atom {
   @apply text-rose-500;
 }
 
 .token.class-name,
-.token.maybe-class-name {
+.token.maybe-class-name,
+.cmt-typeName,
+.cmt-punctuation {
   @apply text-blue-400;
 }
 
+.token.attr-name,
+.cmt-propertyName {
+  @apply text-violet-500;
+}
+
 .token.string,
-.token.attr-value {
+.token.attr-value,
+.cmt-string {
   @apply text-orange-600;
 }
 
 .dark .token.string,
 .dark .token.attr-value {
   @apply text-orange-300;
-}
-
-.token.attr-name {
-  @apply text-violet-500;
 }
 
 .token.attr-equals,

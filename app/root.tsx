@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from 'remix';
+import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from 'remix';
 import type { MetaFunction } from 'remix';
 
 import Navbar from '~/page-components/navbar';
@@ -8,7 +8,7 @@ import Progress from './page-components/progress';
 import { Dinosaur } from './components/icon';
 import { ThemeContext } from '~/utils/theme';
 import type { Theme } from '~/utils/theme';
-import { TEXT } from '~/constants';
+import { LINKS, TEXT } from '~/constants';
 import tailwindStyles from '~/styles/tailwind.css';
 import codeStyles from '~/styles/code.css';
 
@@ -33,13 +33,6 @@ export const links = () => [
   {
     rel: 'preload',
     as: 'font',
-    href: '/fonts/JetBrainsMono-Regular.woff2',
-    type: 'font/woff2',
-    crossOrigin: 'anonymous',
-  },
-  {
-    rel: 'preload',
-    as: 'font',
     href: '/fonts/Sriracha-Regular.woff2',
     type: 'font/woff2',
     crossOrigin: 'anonymous',
@@ -48,6 +41,10 @@ export const links = () => [
 
 export default function App() {
   const [theme, setTheme] = useState<Theme>('light');
+  const location = useLocation();
+  const link = LINKS.find((link) => link.to === location.pathname);
+  const withHeader = link?.withHeader ?? true;
+  const withFooter = link?.withFooter ?? true;
 
   useEffect(() => {
     const theme = localStorage.getItem('theme') as Theme;
@@ -74,11 +71,11 @@ export default function App() {
           <Links />
         </head>
         <body className="background text-primary font-sans transition duration-500">
-          <Navbar />
+          {withHeader && <Navbar />}
           <main className="min-h-[calc(100vh-10.5rem)]">
             <Outlet />
           </main>
-          <Footer text={TEXT.footer} />
+          {withFooter && <Footer text={TEXT.footer} />}
           <Progress />
           <ScrollRestoration />
           <Scripts />

@@ -16,14 +16,6 @@
 }
 
 @font-face {
-  font-family: 'jetbrains mono';
-  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
   font-family: 'sriracha';
   src: url('/fonts/Sriracha-Regular.woff2') format('woff2');
   font-weight: 400;
@@ -78,6 +70,10 @@
 
   .background {
     @apply bg-white dark:bg-dark-bg;
+  }
+
+  .plain-btn {
+    @apply hover:bg-blue-600/10 active:text-blue-600 active:bg-blue-600/30 -mx-1 p-1 rounded;
   }
 
   .blog {

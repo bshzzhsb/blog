@@ -15,7 +15,7 @@ module.exports = {
     },
     fontFamily: {
       sans: ['wotfard', 'system-ui'],
-      mono: ['Consolas'],
+      mono: ['Consolas', 'Monaco', 'monospace'],
     },
     boxShadow: {
       sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',

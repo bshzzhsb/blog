@@ -148,7 +148,7 @@
   }
 
   .scrollbar::-webkit-scrollbar {
-    @apply w-1 bg-gray-300 rounded;
+    @apply w-1 h-1 bg-gray-300 rounded;
   }
 
   .scrollbar::-webkit-scrollbar-thumb {

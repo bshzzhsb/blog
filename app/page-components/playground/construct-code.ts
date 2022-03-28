@@ -58,7 +58,7 @@ export function constructCode(codes: Codes, id: string) {
           source: "frame-${id}",
           message: {
             type: "error",
-            data: { name: error.name, message: error.message }
+            data: error ? { name: error.name, message: error.message } : { message }
           },
         }, "*");
       }

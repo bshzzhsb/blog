@@ -24,8 +24,5 @@ export function getEditorTheme() {
     '&.cm-editor.cm-focused': {
       outline: 'none',
     },
-    '.cm-scroller': {
-      class: 'scrollbar',
-    },
   });
 }

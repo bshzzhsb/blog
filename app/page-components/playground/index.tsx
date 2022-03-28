@@ -69,7 +69,7 @@ const Playground: React.FC<PlaygroundProps> = ({ id }) => {
             <Reset className="w-5 h-5" />
           </IconButton>
           <IconButton onClick={handleChangeShowResult}>
-            <Split className="w-5 h-5" split={showResult} />
+            <Split className="w-5 h-5" split={!showResult} />
           </IconButton>
         </div>
       </header>

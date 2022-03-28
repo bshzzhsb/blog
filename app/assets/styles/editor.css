@@ -7,7 +7,7 @@
 }
 
 .cm-editor .cm-scroller::-webkit-scrollbar {
-  @apply w-1 bg-gray-300 rounded;
+  @apply w-1.5 h-1.5 rounded;
 }
 
 .cm-editor .cm-scroller::-webkit-scrollbar-thumb {

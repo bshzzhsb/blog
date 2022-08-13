@@ -1,5 +1,5 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import type { LoaderFunction, MetaFunction } from '@remix-run/node';
+import { Link, useLoaderData } from '@remix-run/react';
 
 import { getBlogList } from '~/api/blog.server';
 import type { BlogListProps } from '~/api/blog.server';

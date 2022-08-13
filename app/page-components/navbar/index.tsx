@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from "@remix-run/react";
+import { Link, useLocation } from '@remix-run/react';
 
 import { ModeSwitcher } from '~/components/mode-switcher';
 import Hamburger from '~/components/hamburger';

@@ -1,6 +1,7 @@
 import React from 'react';
 
 interface CodeblockProps {
+  children: React.ReactNode;
   className: string;
 }
 

@@ -5,6 +5,7 @@ import slugify from '~/utils/slugify';
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 interface HeadingProps {
+  children: React.ReactNode;
   id: string;
   level: HeadingLevel;
   className?: string;

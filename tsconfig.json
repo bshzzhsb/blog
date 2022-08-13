@@ -13,8 +13,9 @@
     "strict": true,
     "target": "esnext",
     "paths": {
-      "~/*": ["./app/*"],
-    }
+      "~/*": ["./app/*"]
+    },
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["**/*.ts", "**/*.tsx", "app/utils/mdx/rehype-prism.js"]
 }

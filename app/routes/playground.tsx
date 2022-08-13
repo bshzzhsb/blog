@@ -1,4 +1,4 @@
-import type { MetaFunction } from 'remix';
+import type { MetaFunction } from "@remix-run/node";
 
 import { TEXT } from '~/constants';
 import Playground from '~/page-components/playground';

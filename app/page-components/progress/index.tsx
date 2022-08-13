@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLocation, useTransition } from 'remix';
+import { useLocation, useTransition } from "@remix-run/react";
 
 const Progress: React.FC = () => {
   const [progress, setProgress] = useState(0);

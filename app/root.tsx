@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from 'remix';
-import type { MetaFunction } from 'remix';
+import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from '@remix-run/react';
+import type { MetaFunction } from '@remix-run/node';
+import { MetronomeLinks } from '@metronome-sh/react';
 
 import Navbar from '~/page-components/navbar';
 import Footer from '~/page-components/footer';
@@ -69,6 +70,7 @@ export default function App() {
           <meta name="viewport" content="width=device-width,initial-scale=1" />
           <Meta />
           <Links />
+          <MetronomeLinks />
         </head>
         <body className="background text-primary font-sans transition duration-500">
           {withHeader && <Navbar />}

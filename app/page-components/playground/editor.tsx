@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { EditorView, highlightActiveLine, keymap } from '@codemirror/view';
+import { EditorView, lineNumbers, highlightActiveLine, keymap } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
-import { history, historyKeymap } from '@codemirror/history';
-import { defaultKeymap } from '@codemirror/commands';
-import { classHighlightStyle } from '@codemirror/highlight';
-import { lineNumbers } from '@codemirror/gutter';
-import { bracketMatching } from '@codemirror/matchbrackets';
+import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
+import { bracketMatching, syntaxHighlighting } from '@codemirror/language';
+import { classHighlighter } from '@lezer/highlight';
 
 import { getLanguage, getEditorTheme } from './utils';
 import type { Language } from './utils';
@@ -33,7 +31,7 @@ const Editor: React.FC<LanguageProps> = ({ defaultCode, language, onChange }) =>
             getEditorTheme(),
             highlightActiveLine(),
             bracketMatching(),
-            classHighlightStyle,
+            syntaxHighlighting(classHighlighter),
             lineNumbers(),
             keymap.of([...defaultKeymap, ...historyKeymap]),
           ],

@@ -112,9 +112,22 @@
     @apply mt-4 mb-8 bg-gray-100 dark:bg-gray-900 rounded-xl overflow-x-auto;
   }
 
-  .blog pre[data-lang='tsx']::before,
+  .blog pre[data-lang='html']::before {
+    @apply bg-orange-300;
+  }
+
+  .blog pre[data-lang='css']::before {
+    @apply bg-indigo-300;
+  }
+
+  .blog pre[data-lang='js']::before,
   .blog pre[data-lang='jsx']::before {
-    @apply bg-sky-500;
+    @apply bg-yellow-300;
+  }
+
+  .blog pre[data-lang='ts']::before,
+  .blog pre[data-lang='tsx']::before {
+    @apply bg-cyan-300;
   }
 
   .blog p code {

@@ -8,4 +8,5 @@ module.exports = {
   publicPath: '/build/',
   serverBuildTarget: 'vercel',
   server: process.env.NODE_ENV === 'production' ? './server/index.ts' : undefined,
+  serverDependenciesToBundle: [/^unist.*/],
 };

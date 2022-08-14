@@ -14,7 +14,7 @@ const Codeblock: React.FC<CodeblockProps> = ({ className, children }) => {
       className={
         className +
         ' relative pt-10 pb-8 px-8 lg:-mx-8 text-sm' +
-        ' before:absolute before:top-0 before:content-[attr(data-lang)] before:px-2 before:py-1 before:rounded-b'
+        ' before:absolute before:top-0 before:content-[attr(data-lang)] before:px-2 before:py-1 before:text-sm before:rounded-b'
       }
     >
       {children}

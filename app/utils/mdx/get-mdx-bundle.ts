@@ -3,6 +3,7 @@ import fs from 'fs/promises';
 import type Esbuild from 'esbuild';
 
 import resolveExternalPlugin, { EXTERNAL_CONFIG } from './resolve-external-plugin';
+import rehypePrismPlugin from './rehype-prism-plugin';
 
 export interface FrontMatter {
   title: string;
@@ -33,10 +34,6 @@ export async function getMDXBundle(file: string) {
 
 export async function getMDXBundleFromEsbuild(file: string) {
   const { default: mdx } = await import('@mdx-js/esbuild');
-  // eslint-disable-next-line
-  // @ts-ignore
-  // TODO: typescript has a bug with unist@4.1.0
-  const { default: rehypePrism } = await import('@mapbox/rehype-prism');
   const { default: remarkFrontmatter } = await import('remark-frontmatter');
 
   const { data: frontMatter } = grayMatter.read(file);
@@ -50,7 +47,7 @@ export async function getMDXBundleFromEsbuild(file: string) {
     write: false,
     plugins: [
       resolveExternalPlugin(EXTERNAL_CONFIG),
-      mdx({ remarkPlugins: [remarkFrontmatter], rehypePlugins: [rehypePrism] }),
+      mdx({ remarkPlugins: [remarkFrontmatter], rehypePlugins: [rehypePrismPlugin] }),
     ],
   };
 

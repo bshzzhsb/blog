@@ -71,6 +71,6 @@ async function getMDXBundleFromCache(file: string) {
     const res = await fs.readFile(file.replace('.mdx', '.json'), 'utf-8');
     return JSON.parse(res) as { frontMatter: FrontMatter; code: string };
   } catch (e) {
-    throw new Error('get blog from cache error');
+    throw new Error(`get blog "${file}" from cache error`);
   }
 }

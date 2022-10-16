@@ -1,70 +1,81 @@
-import { useEffect, useRef, useState } from 'react';
-import { EditorView, lineNumbers, highlightActiveLine, keymap } from '@codemirror/view';
-import { EditorState } from '@codemirror/state';
-import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
-import { bracketMatching, syntaxHighlighting } from '@codemirror/language';
-import { classHighlighter } from '@lezer/highlight';
+import React, { useEffect, useRef } from 'react';
+import type * as MonacoEditor from 'monaco-editor';
 
-import { getLanguage, getEditorTheme } from './utils';
-import type { Language } from './utils';
+import { useSetup } from '~/utils/hooks';
 
-interface LanguageProps {
-  defaultCode: string;
-  language: Language;
-  onChange: (code: string) => void;
+import { clearMonacoEnv, setupMonacoEnv, setupMonacoTSCompileOptions } from './utils/monaco';
+import { ImportResolver } from './utils/import-resolver';
+
+type Monaco = typeof MonacoEditor;
+export type { Monaco };
+
+interface EditorProps {
+  monaco: Monaco;
+  model: MonacoEditor.editor.ITextModel;
+  readonly?: boolean;
+  resolveImports?: boolean;
 }
 
-const Editor: React.FC<LanguageProps> = ({ defaultCode, language, onChange }) => {
-  const [code, setCode] = useState(defaultCode);
-  const editorRef = useRef<HTMLDivElement>(null);
-  const cmView = useRef<EditorView>();
+export const Editor: React.FC<EditorProps> = props => {
+  const { monaco, model, readonly, resolveImports } = props;
+  const editor = useRef<MonacoEditor.editor.IStandaloneCodeEditor>();
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const editorDiv = useRef<HTMLDivElement>(null);
+
+  useSetup(
+    () => {
+      (window as any).monaco = monaco;
+      setupMonacoEnv();
+      setupMonacoTSCompileOptions(monaco);
+    },
+    () => {
+      clearMonacoEnv();
+    },
+  );
 
   useEffect(() => {
-    const lang = getLanguage(language);
-    if (editorRef.current) {
-      const view = new EditorView({
-        state: EditorState.create({
-          doc: code,
-          extensions: [
-            history(),
-            lang,
-            getEditorTheme(),
-            highlightActiveLine(),
-            bracketMatching(),
-            syntaxHighlighting(classHighlighter),
-            lineNumbers(),
-            keymap.of([...defaultKeymap, ...historyKeymap]),
-          ],
-        }),
-        parent: editorRef.current,
-        dispatch: (tr) => {
-          view.update([tr]);
-          if (tr.docChanged) {
-            const newCode = tr.newDoc.sliceString(0, tr.newDoc.length);
-            setCode(newCode);
-            onChange(newCode);
-          }
-        },
-      });
-      cmView.current = view;
-    }
+    if (!editorDiv.current) return;
+
+    const monacoEditor = monaco.editor.create(editorDiv.current, {
+      model: null,
+      automaticLayout: true,
+      lineNumbers: 'on',
+      lineNumbersMinChars: 3,
+      readOnly: true,
+      domReadOnly: false,
+      minimap: {
+        enabled: false,
+      },
+    });
+    editor.current = monacoEditor;
+
     return () => {
-      cmView.current?.destroy();
+      monacoEditor.dispose();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [monaco]);
 
   useEffect(() => {
-    if (cmView.current && defaultCode !== code) {
-      const view = cmView.current;
-      cmView.current.dispatch({
-        changes: { from: 0, to: view.state.doc.length, insert: defaultCode },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultCode]);
+    if (!editor.current) return;
+    if (!resolveImports) return;
 
-  return <div ref={editorRef} className="editor h-full"></div>;
+    const importResolver = new ImportResolver(editor.current, monaco, ['react/jsx-runtime']);
+
+    return () => {
+      importResolver.dispose();
+    };
+  }, [monaco, resolveImports]);
+
+  useEffect(() => {
+    if (!editor.current) return;
+    editor.current.setModel(model);
+  }, [editor, model]);
+
+  useEffect(() => {
+    if (!editor.current) return;
+    editor.current.updateOptions({
+      readOnly: readonly,
+    });
+  }, [editor, readonly]);
+
+  return <div ref={editorDiv} className="editor h-full min-h-0"></div>;
 };
-
-export default Editor;

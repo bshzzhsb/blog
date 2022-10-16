@@ -62,7 +62,7 @@ function hastToString(node: UnistNode) {
 
   function all(node: UnistNode): string {
     if (!node.children) return '';
-    return node.children.map((child) => one(child)).join('');
+    return node.children.map(child => one(child)).join('');
   }
 
   return node.children ? all(node) : one(node);

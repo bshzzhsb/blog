@@ -73,7 +73,7 @@
   }
 
   .plain-btn {
-    @apply hover:bg-blue-600/10 active:text-blue-600 active:bg-blue-600/30 -mx-1 p-1 rounded;
+    @apply hover:bg-blue-600/10 active:text-blue-600 active:bg-blue-600/30 p-1 rounded dark:hover:bg-blue-600/50 dark:active:text-blue-400 dark:active:bg-blue-600/30;
   }
 
   .blog {
@@ -174,5 +174,18 @@
 
   .scrollbar-none::-webkit-scrollbar {
     @apply hidden;
+  }
+
+  .editor-scrollbar::-webkit-scrollbar {
+    @apply w-3 border-l border-l-neutral-600/10;
+    border-left-style: solid;
+  }
+
+  .editor-scrollbar:hover::-webkit-scrollbar-thumb {
+    @apply bg-neutral-500/40;
+  }
+
+  .editor-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-500/70;
   }
 }

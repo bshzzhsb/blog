@@ -43,7 +43,7 @@ const TOC: React.FC<TOCProps> = ({ className, headings }) => {
     const handleScroll = () => {
       if (toc.length === 0 || headings.length === 0) return;
       // reset active toc
-      toc.forEach((toc) => {
+      toc.forEach(toc => {
         toc.classList.remove('active');
       });
 
@@ -87,7 +87,7 @@ const TOC: React.FC<TOCProps> = ({ className, headings }) => {
         {headings.map(({ text, level }, i) => (
           <a
             key={text}
-            ref={(ref) => {
+            ref={ref => {
               if (ref) tocRefs.current[i] = ref;
             }}
             className={

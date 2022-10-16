@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from '@remix-run/react';
-import type { MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@vercel/remix';
+import { Analytics } from '@vercel/analytics/react';
 import { MetronomeLinks } from '@metronome-sh/react';
 
 import Navbar from '~/page-components/navbar';
@@ -11,7 +12,6 @@ import { ThemeContext } from '~/utils/theme';
 import type { Theme } from '~/utils/theme';
 import { LINKS, TEXT } from '~/constants';
 import tailwindStyles from '~/styles/tailwind.css';
-import codeStyles from '~/styles/code.css';
 
 export const meta: MetaFunction = () => ({ title: TEXT.siteName });
 
@@ -19,10 +19,6 @@ export const links = () => [
   {
     rel: 'stylesheet',
     href: tailwindStyles,
-  },
-  {
-    rel: 'stylesheet',
-    href: codeStyles,
   },
   {
     rel: 'preload',
@@ -43,7 +39,7 @@ export const links = () => [
 export default function App() {
   const [theme, setTheme] = useState<Theme>('light');
   const location = useLocation();
-  const link = LINKS.find((link) => link.to === location.pathname);
+  const link = LINKS.find(link => link.to === location.pathname);
   const withHeader = link?.withHeader ?? true;
   const withFooter = link?.withFooter ?? true;
 
@@ -80,6 +76,7 @@ export default function App() {
           {withFooter && <Footer text={TEXT.footer} />}
           <Progress />
           <ScrollRestoration />
+          <Analytics />
           <Scripts />
           {process.env.NODE_ENV === 'development' && <LiveReload />}
         </body>

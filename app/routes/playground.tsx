@@ -1,15 +1,15 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@vercel/remix';
 
 import { TEXT } from '~/constants';
-import Playground from '~/page-components/playground';
-import editorStyles from '~/styles/editor.css';
+import { Playground } from '~/page-components/playground';
+import monacoStyles from '~/styles/editor.main.css';
 
 export const meta: MetaFunction = () => ({ title: TEXT.playground });
 
 export const links = () => [
   {
     rel: 'stylesheet',
-    href: editorStyles,
+    href: monacoStyles,
   },
 ];
 

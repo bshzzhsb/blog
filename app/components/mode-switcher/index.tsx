@@ -30,7 +30,7 @@ export const ModeSwitcher: React.FC = () => {
   const [theme, setTheme] = useTheme();
 
   const handleChangeTheme = () => {
-    setTheme((pre) => (pre === 'light' ? 'dark' : 'light'));
+    setTheme(pre => (pre === 'light' ? 'dark' : 'light'));
   };
 
   return (

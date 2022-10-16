@@ -1,21 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLocation, useTransition } from '@remix-run/react';
+import { useLocation, useNavigation } from '@remix-run/react';
 
 const Progress: React.FC = () => {
   const [progress, setProgress] = useState(0);
-  const transition = useTransition();
+  const navigation = useNavigation();
   const location = useLocation();
   const timer = useRef<number>();
 
   useEffect(() => {
-    const { state, location: toLocation } = transition;
+    const { state, location: toLocation } = navigation;
     // exclude in page routing
     if (location.pathname !== toLocation?.pathname) {
       if (state === 'loading') {
         window.clearInterval(timer.current);
         setProgress(10);
         timer.current = window.setInterval(() => {
-          setProgress((pre) => {
+          setProgress(pre => {
             if (pre < 90) {
               return pre + 5;
             } else {
@@ -35,7 +35,7 @@ const Progress: React.FC = () => {
         }, 200);
       }
     }
-  }, [location, transition]);
+  }, [location, navigation]);
 
   return (
     <div

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { LoaderFunction, MetaFunction } from '@vercel/remix';
 import { useLoaderData } from '@remix-run/react';
 
 import { getBlog } from '~/api/blog.server';
@@ -46,7 +46,7 @@ const getHeadings = (children: HTMLCollection) => {
 
   return Array.from(children)
     .filter((child): child is HTMLHeadingElement => headingTags.includes(child.tagName))
-    .map((child) => ({
+    .map(child => ({
       text: child.innerText.slice(1).trim(),
       level: +child.tagName.replace('H', '') as 1 | 2 | 3,
     }));

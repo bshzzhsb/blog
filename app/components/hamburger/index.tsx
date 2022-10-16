@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
+import { classnames } from '~/utils/classname';
+
 interface HamburgerProps {
   className?: string;
   open: boolean;
@@ -17,7 +19,7 @@ const Path: React.FC<PathProps> = ({ variant }) => (
 );
 
 const Hamburger: React.FC<HamburgerProps> = ({ className, open, setOpen }) => (
-  <div className={className + ' cursor-pointer'} onClick={() => setOpen((pre) => !pre)}>
+  <div className={classnames('cursor-pointer', className)} onClick={() => setOpen(pre => !pre)}>
     <motion.svg
       animate={open ? 'open' : 'closed'}
       className="w-7 h-7 text-gray-800 cursor-pointer overflow-visible"

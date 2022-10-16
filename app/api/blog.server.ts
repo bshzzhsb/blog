@@ -18,7 +18,7 @@ export type BlogProps = {
 export async function getBlogList(): Promise<BlogListProps> {
   const dir = await fs.readdir(BLOG_DIR);
   const blogList = await Promise.all(
-    dir.map(async (fileDir) => {
+    dir.map(async fileDir => {
       const filePath = `${BLOG_DIR}/${fileDir}/index.mdx`;
       const file = await fs.readFile(filePath);
       const { data } = await grayMatter(file.toString());

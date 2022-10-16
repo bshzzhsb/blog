@@ -1,4 +1,4 @@
-import type { LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { LoaderFunction, MetaFunction } from '@vercel/remix';
 import { Link, useLoaderData } from '@remix-run/react';
 
 import { getBlogList } from '~/api/blog.server';

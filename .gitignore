@@ -4,10 +4,12 @@ node_modules
 .vercel
 .output
 
-public/build
-api
-build
+/public/build
+/public/fonts/codicon.ttf
+/public/workers
+/api
+/build
 
-app/styles/*
-app/blog/**/**/index.json
-scripts/bundle.js
+/app/styles/*
+/app/blog/**/**/index.json
+/scripts/bundle.js

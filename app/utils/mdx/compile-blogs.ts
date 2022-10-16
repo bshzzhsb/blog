@@ -8,7 +8,7 @@ async function compileBlogs() {
   const dir = await fs.readdir(BLOG_DIR);
 
   await Promise.all(
-    dir.map(async (fileDir) => {
+    dir.map(async fileDir => {
       const filePath = `${BLOG_DIR}/${fileDir}/index.mdx`;
       const blog = await getMDXBundleFromEsbuild(filePath);
       await fs.writeFile(`${BLOG_DIR}/${fileDir}/index.json`, JSON.stringify(blog), 'utf-8');

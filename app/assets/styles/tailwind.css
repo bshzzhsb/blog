@@ -92,7 +92,7 @@
     @apply mb-6 text-lg leading-8;
   }
 
-  .blog p > a {
+  .blog a {
     @apply text-blue-500;
   }
 
@@ -132,6 +132,10 @@
 
   .blog p code {
     @apply px-2 py-1 mx-1 text-rose-500 bg-gray-100 dark:bg-gray-800 rounded text-sm font-semibold;
+  }
+
+  .blog p code:first-child {
+    @apply ml-0;
   }
 
   .blog code span {

@@ -1,0 +1,135 @@
+---
+title: How Does useEffect Run After Render?
+date: 2022-11-20
+last-modified: 2022-11-20
+excerpt: As is known to all react users, useEffect hook will be called after render. Let's get into React to learn how it is realized.
+---
+
+[`useEffect`](https://beta.reactjs.org/apis/react/useEffect) is a frequently used hook for all react users.
+As is mentioned in this [doc](https://beta.reactjs.org/learn/synchronizing-with-effects),
+effects let you run some code _after rendering_ so that you can synchronize your component with some system outside of React.
+Maybe you are as curious as I am about how React controls the timing to call useEffect.
+In this article, we will focus on how it is realized.
+
+# TL; DR
+
+Your browser will do Style calculations, Layout, Paint and Compositing after javascript task.
+So in the next task of Javascript, the change of previous task are rendered.
+`useEffect` use MessageChannel API to call the effect function in the next javascript task.
+
+# The browser's rendering pipeline
+
+Imagining changing the width of a div in your site using javascript, the browser won't immediately commit it to render.
+(The rendering pipeline is very complicated, we just focus on the process and don't need to go deep.)
+
+1. The browser will first run all synchronous javascript after your change-width code;
+2. Calculate styles caused by the change;
+3. Layout the elements on the screen by the final styles;
+4. Paint visual parts of the elements;
+5. Compositing layers and then you can see final web on screen.
+
+In the next javascript task, the render process caused by changing width is done and you can get the offsetWidth of the div performance friendly.
+
+Maybe you will ask: what if I get offsetWidth right after changing width? Will I get the width before changing it?
+
+Definitely not. The browser guarantees you can get the right width by invoke a immediate layout.
+What you should keep in mind is that it is costly to layout and paint and you should call it as less as you can.
+
+The rendering process can be visible in chrome performance devtool.
+
+Just open a web page, open the Chrome Devtools and Switch to Performance tab.
+Then click recording and run the below code in devtools console.
+Finally stop recording, Chrome will show you the timeline of render process.
+
+```js
+const div = document.getElementById('your-div');
+div.style.width = '200px';
+```
+You will see timeline like that. The render process is the same as we talked before.
+
+![change element width](./images/how-does-useEffect-run-after-render/change-width.png)
+
+Change the code to below and run it again by the same steps.
+
+```js
+const div = document.getElementById('your-div');
+div.style.width = '300px';
+console.log(div.offsetWidth); // 200
+```
+
+This time things become different. Recalculate Style and Layout are in the same task as Javascript.
+So that the console log width is the final width of div.
+
+![change element width and get offsetWidth](./images/how-does-useEffect-run-after-render/change-width-get-offsetWidth.png)
+
+# How does useEffect run after render
+
+The secret of React is in [Scheduler.js](https://github.com/facebook/react/blob/HEAD/packages/scheduler/src/forks/Scheduler.js#L599-L630).
+
+```js
+// Copied from react repo.
+let schedulePerformWorkUntilDeadline;
+if (typeof localSetImmediate === 'function') {
+  // Node.js and old IE.
+  // There's a few reasons for why we prefer setImmediate.
+  //
+  // Unlike MessageChannel, it doesn't prevent a Node.js process from exiting.
+  // (Even though this is a DOM fork of the Scheduler, you could get here
+  // with a mix of Node.js 15+, which has a MessageChannel, and jsdom.)
+  // https://github.com/facebook/react/issues/20756
+  //
+  // But also, it runs earlier which is the semantic we want.
+  // If other browsers ever implement it, it's better to use it.
+  // Although both of these would be inferior to native scheduling.
+  schedulePerformWorkUntilDeadline = () => {
+    localSetImmediate(performWorkUntilDeadline);
+  };
+} else if (typeof MessageChannel !== 'undefined') {
+  // DOM and Worker environments.
+  // We prefer MessageChannel because of the 4ms setTimeout clamping.
+  const channel = new MessageChannel();
+  const port = channel.port2;
+  channel.port1.onmessage = performWorkUntilDeadline;
+  schedulePerformWorkUntilDeadline = () => {
+    port.postMessage(null);
+  };
+} else {
+  // We should only fallback here in non-browser environments.
+  schedulePerformWorkUntilDeadline = () => {
+    localSetTimeout(performWorkUntilDeadline, 0);
+  };
+}
+```
+
+`useEffect` use MessageChannel API to run effect function at next javascript task.
+When `useEffect` is called, React will send a message to MessageChannel and the listener will be called at the next javascript task.
+At this time, all the style change of previous task are committed and you can get dom properties performance friendly.
+
+Let's look it in Performance devtool.
+
+```js
+const div = document.getElementById('div');
+div.style.width = '400px';
+const mc = new MessageChannel();
+mc.port1.onmessage = () => console.log(div.offsetWidth);
+mc.port2.postMessage(null);
+```
+
+![change element width and get offsetWidth in MessageChannel](./images/how-does-useEffect-run-after-render/change-width-MessageChannel-get-offsetWidth.png)
+
+The first task is Javascript, following by Layout task (Recalculate Style, Layout, Paint and Compositing). MessageChannel listener is called at the final task.
+We attempt to get div's offsetWidth after Layout task without invoking a immediate Layout.
+
+When I write this post, I find things maybe a little different if your task is too small.
+Browser doesn't run Layout task before MessageChannel listener.
+But anyway, MessageChannel is not the same task as previous Javascript task. 
+All changes in the previous Javascript task are committed before Layout.
+
+![change element width and get offsetWidth in MessageChannel](./images/how-does-useEffect-run-after-render/change-width-MessageChannel-get-offsetWidth-in-same-task.png)
+
+# References
+
+1. [React Doc: Synchronizing with Effects](https://beta.reactjs.org/learn/synchronizing-with-effects)
+2. [Rendering Performance](https://web.dev/rendering-performance/)
+3. [Inner workings of a Renderer Process](https://developer.chrome.com/blog/inside-browser-part3/)
+4. [What forces layout / reflow](https://gist.github.com/paulirish/5d52fb081b3570c81e3a)

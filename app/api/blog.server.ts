@@ -25,7 +25,7 @@ export async function getBlogList(): Promise<BlogListProps> {
       return { slug: fileDir, frontMatter: objToCamelCase(data) as unknown as FrontMatter };
     }),
   );
-  blogList.sort((a, b) => b.frontMatter.date.getDate() - a.frontMatter.date.getDate());
+  blogList.sort((a, b) => b.frontMatter.date.getTime() - a.frontMatter.date.getTime());
 
   return blogList;
 }

@@ -18,8 +18,10 @@ import Navbar from '~/page-components/navbar';
 import Footer from '~/page-components/footer';
 import Progress from './page-components/progress';
 import { Dinosaur } from './components/icon';
+import { GTag } from '~/components/gtag';
 import { ThemeContext } from '~/utils/theme';
 import type { Theme } from '~/utils/theme';
+import { gtag } from '~/utils/gtag';
 import { LINKS, TEXT } from '~/constants';
 import tailwindStyles from '~/styles/tailwind.css';
 
@@ -49,6 +51,7 @@ export const links = () => [
 export const loader = () => {
   return {
     ENV: {
+      GA_TRACKING_ID: process.env.GA_TRACKING_ID,
       VERCEL_ANALYTICS_ID: process.env.VERCEL_ANALYTICS_ID,
     },
   };
@@ -64,8 +67,9 @@ export default function App() {
   const withFooter = link?.withFooter ?? true;
 
   useEffect(() => {
-    window.ENV = ENV;
-  }, [ENV]);
+    if (!ENV.GA_TRACKING_ID) return;
+    gtag.pageView(location.pathname, ENV.GA_TRACKING_ID);
+  }, [ENV.GA_TRACKING_ID, location]);
 
   useEffect(() => {
     const theme = localStorage.getItem('theme') as Theme;
@@ -91,6 +95,7 @@ export default function App() {
           <Meta />
           <Links />
           <MetronomeLinks />
+          {ENV.GA_TRACKING_ID && <GTag gaTrackingId={ENV.GA_TRACKING_ID} />}
         </head>
         <body className="background text-primary font-sans transition duration-500">
           {withHeader && <Navbar />}
@@ -101,6 +106,7 @@ export default function App() {
           <Progress />
           <ScrollRestoration />
           <Analytics />
+          <script dangerouslySetInnerHTML={{ __html: `window.ENV = ${JSON.stringify(ENV)}` }} />
           <Scripts />
           {process.env.NODE_ENV === 'development' && <LiveReload />}
         </body>

@@ -13,6 +13,7 @@ import { PlaygroundHeader } from './header';
 import type { ErrorType } from './error';
 import { Result } from './result';
 import { Output } from './output';
+import { gtag } from '~/utils/gtag';
 
 interface PlaygroundProps {
   id: string;
@@ -95,6 +96,7 @@ const MonacoPlayground: React.FC<MonacoPlaygroundProps> = React.memo(({ id, mona
       setLogs([]);
       setError(null);
       sendPackRequest(files);
+      gtag.event('pack', { category: 'playground', label: 'playground' });
     },
     [sendPackRequest],
   );

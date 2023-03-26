@@ -12,10 +12,11 @@
     "resolveJsonModule": true,
     "strict": true,
     "target": "esnext",
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
     "paths": {
       "~/*": ["./app/*"]
-    },
-    "forceConsistentCasingInFileNames": true
+    }
   },
   "include": ["**/*.ts", "**/*.tsx", "app/utils/mdx/rehype-prism.js"]
 }

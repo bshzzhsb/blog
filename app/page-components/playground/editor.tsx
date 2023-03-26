@@ -24,7 +24,6 @@ export const Editor: React.FC<EditorProps> = props => {
 
   useSetup(
     () => {
-      (window as any).monaco = monaco;
       setupMonacoEnv();
       setupMonacoTSCompileOptions(monaco);
     },

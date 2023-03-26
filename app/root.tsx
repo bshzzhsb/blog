@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from '@remix-run/react';
+import {
+  Link,
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+  useLocation,
+} from '@remix-run/react';
 import type { MetaFunction } from '@vercel/remix';
 import { Analytics } from '@vercel/analytics/react';
 import { MetronomeLinks } from '@metronome-sh/react';
@@ -36,12 +46,26 @@ export const links = () => [
   },
 ];
 
+export const loader = () => {
+  return {
+    ENV: {
+      VERCEL_ANALYTICS_ID: process.env.VERCEL_ANALYTICS_ID,
+    },
+  };
+};
+
 export default function App() {
   const [theme, setTheme] = useState<Theme>('light');
   const location = useLocation();
+  const { ENV } = useLoaderData<typeof loader>();
+
   const link = LINKS.find(link => link.to === location.pathname);
   const withHeader = link?.withHeader ?? true;
   const withFooter = link?.withFooter ?? true;
+
+  useEffect(() => {
+    window.ENV = ENV;
+  }, [ENV]);
 
   useEffect(() => {
     const theme = localStorage.getItem('theme') as Theme;

@@ -1,13 +1,17 @@
 import { vitePlugin as remix } from '@remix-run/dev';
 import { installGlobals } from '@remix-run/node';
 import { defineConfig } from 'vite';
+import { vercelPreset } from '@vercel/remix/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { visualizer } from 'rollup-plugin-visualizer';
 
 installGlobals();
 
 export default defineConfig({
-  plugins: [remix(), tsconfigPaths(), visualizer({ emitFile: true })],
+  plugins: [remix({ presets: [vercelPreset()] }), tsconfigPaths(), visualizer({ emitFile: true })],
+  ssr: {
+    external: ['monaco-editor'],
+  },
   server: {
     fs: {
       // Restrict files that could be served by Vite's dev server.  Accessing

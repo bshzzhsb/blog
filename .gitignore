@@ -2,6 +2,7 @@
 
 node_modules
 
+.env*.local
 .cache
 .vercel
 .output
@@ -16,4 +17,4 @@ tsconfig.tsbuildinfo
 
 /app/styles/*
 /app/blog/**/**/index.json
-/scripts/bundle.js
+/scripts/bundle.*js

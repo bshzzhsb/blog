@@ -1,5 +1,5 @@
-import type * as MonacoEditor from 'monaco-editor';
-import { FormatInput } from '~/workers/prettier';
+import * as MonacoEditor from 'monaco-editor';
+import { FormatInput } from '~/page-components/playground/hooks/workers/prettier';
 
 import type { Monaco } from '../editor';
 
@@ -48,18 +48,18 @@ export function setupMonacoEnv() {
   window.MonacoEnvironment = {
     getWorkerUrl: function (moduleId, label) {
       if (label === 'json') {
-        return '../../workers/monaco/language/json/json.worker.js';
+        return '/workers/monaco/language/json/json.worker.js';
       }
       if (label === 'css' || label === 'scss' || label === 'less') {
-        return '../../workers/monaco/language/css/css.worker.js';
+        return '/workers/monaco/language/css/css.worker.js';
       }
       if (label === 'html' || label === 'handlebars' || label === 'razor') {
-        return '../../workers/monaco/language/html/html.worker.js';
+        return '/workers/monaco/language/html/html.worker.js';
       }
       if (label === 'typescript' || label === 'javascript') {
-        return '../../workers/monaco/language/typescript/ts.worker.js';
+        return '/workers/monaco/language/typescript/ts.worker.js';
       }
-      return '../../workers/monaco/editor/editor.worker.js';
+      return '/workers/monaco/editor/editor.worker.js';
     },
   };
 }

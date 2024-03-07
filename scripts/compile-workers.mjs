@@ -21,30 +21,30 @@ const workerEntryPoints = [
 
 async function preprocess() {
   const buildOptions = {
-    entryPoints: [path.resolve('./app/workers/compiler.ts'), path.resolve('./app/workers/prettier.ts')],
+    entryPoints: [
+      path.resolve('./app/page-components/playground/hooks/workers/compiler.ts'),
+      path.resolve('./app/page-components/playground/hooks/workers/prettier.ts'),
+    ],
     bundle: true,
     minify: true,
     format: 'iife',
     platform: 'browser',
     outdir: './public/workers/',
-    watch:
-      options.env !== 'production'
-        ? {
-            onRebuild(error) {
-              if (error) console.error('Rebuild workers failed:', error);
-              else console.log('Rebuild workers succeeded');
-            },
-          }
-        : undefined,
   };
 
-  await esbuild.build(buildOptions);
-  console.log(options.env !== 'production' ? 'Watching workers...' : 'Build workers succeeded');
+  if (options.env === 'production') {
+    esbuild.build(buildOptions);
+    console.log('Build workers succeeded');
+  } else {
+    const context = await esbuild.context(buildOptions);
+    await context.watch();
+    console.log('Watching workers...');
+  }
 }
 
 async function buildMonacoWorkers() {
   const buildOptions = {
-    entryPoints: workerEntryPoints.map((entry) => path.resolve('./node_modules/monaco-editor/esm/', entry)),
+    entryPoints: workerEntryPoints.map(entry => path.resolve('./node_modules/monaco-editor/esm/', entry)),
     bundle: true,
     minify: true,
     format: 'iife',

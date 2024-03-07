@@ -7,7 +7,7 @@
     "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "noEmit": true,
     "resolveJsonModule": true,
     "strict": true,
@@ -16,7 +16,13 @@
     "skipLibCheck": true,
     "paths": {
       "~/*": ["./app/*"]
-    }
+    },
+    "incremental": true
   },
-  "include": ["**/*.ts", "**/*.tsx", "app/utils/mdx/rehype-prism.js"]
+
+  // Vite takes care of building everything, not tsc.
+  "noEmit": true,
+
+  "include": ["env.d.ts", "**/*.ts", "**/*.tsx", "app/utils/mdx/rehype-prism.js"],
+  "exclude": ["node_modules"]
 }

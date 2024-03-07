@@ -1,7 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import type * as MonacoEditor from 'monaco-editor';
-
-import { useSetup } from '~/utils/hooks';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import type * as MonacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 
 import { clearMonacoEnv, setupMonacoEnv, setupMonacoTSCompileOptions } from './utils/monaco';
 import { ImportResolver } from './utils/import-resolver';
@@ -22,15 +20,14 @@ export const Editor: React.FC<EditorProps> = props => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const editorDiv = useRef<HTMLDivElement>(null);
 
-  useSetup(
-    () => {
-      setupMonacoEnv();
-      setupMonacoTSCompileOptions(monaco);
-    },
-    () => {
+  useLayoutEffect(() => {
+    setupMonacoEnv();
+    setupMonacoTSCompileOptions(monaco);
+
+    return () => {
       clearMonacoEnv();
-    },
-  );
+    };
+  }, [monaco]);
 
   useEffect(() => {
     if (!editorDiv.current) return;

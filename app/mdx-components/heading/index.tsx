@@ -23,10 +23,10 @@ export function getHeading(level: HeadingLevel) {
     level === 1
       ? 'mt-12 mb-4 heading text-3xl font-semibold'
       : level === 2
-      ? 'mt-12 mb-3 heading text-2xl font-semibold'
-      : level === 3
-      ? 'my-12 mb-3 heading text-xl font-semibold'
-      : 'mt-6 mb-2 heading font-medium';
+        ? 'mt-12 mb-3 heading text-2xl font-semibold'
+        : level === 3
+          ? 'my-12 mb-3 heading text-xl font-semibold'
+          : 'mt-6 mb-2 heading font-medium';
   return ({ children }: { children: React.ReactNode }) => {
     const anchorId = slugify(children as string);
 

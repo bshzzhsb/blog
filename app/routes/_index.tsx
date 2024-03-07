@@ -7,7 +7,7 @@ import { Arrow } from '~/components/icon';
 import { formatDate } from '~/utils/date';
 import { TEXT } from '~/constants';
 
-export const meta: MetaFunction = () => ({ title: TEXT.siteName });
+export const meta: MetaFunction = () => [{ title: TEXT.siteName }];
 
 export const loader: LoaderFunction = async () => {
   return getBlogList();

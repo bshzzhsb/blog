@@ -1,6 +1,3 @@
-declare module '*.css';
-declare module '*.txt';
-
 interface Window {
   ENV: {
     GA_TRACKING_ID?: string;

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import type * as Monaco from 'monaco-editor';
 
 import type { CodeFile } from '~/constants';
@@ -18,12 +18,12 @@ interface MonacoTabsProps {
 
 export const MonacoTabs: React.FC<MonacoTabsProps> = React.memo(props => {
   const { id, monaco, onActiveFileChange, pack } = props;
-  const [filenames, setFilenames] = useState<string[]>([]);
-  const [modifiedFiles, setModifiedFiles] = useState<string[]>([]);
-  const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  const monacoTabs = useMonacoTabs({ monaco });
-  const activeFilename = useMemo(() => filenames[activeIndex], [activeIndex, filenames]);
+  const { tabsActions, ...monacoTabs } = useMonacoTabs({ monaco });
+  const activeFilename = useMemo(
+    () => monacoTabs.tabNames[monacoTabs.activeIndex],
+    [monacoTabs.activeIndex, monacoTabs.tabNames],
+  );
   const activeModel = monacoTabs.getModel(activeFilename);
 
   useEffect(() => {
@@ -33,20 +33,18 @@ export const MonacoTabs: React.FC<MonacoTabsProps> = React.memo(props => {
 
   useEffect(() => {
     const files = getFilesFromLocalStorage(id);
-
-    setFilenames(files.map(file => file.filename));
-    monacoTabs.reset(files);
+    tabsActions.reset(files);
     pack(files);
 
     return () => {
-      monacoTabs.reset([]);
+      tabsActions.reset([]);
     };
-  }, [id, monacoTabs, pack]);
+  }, [id, pack, tabsActions]);
 
   useEffect(() => {
     return monacoTabs.eventEmitter.subscribe(Event.MODEL_CONTENT_CHANGE, filename => {
       onActiveFileChange({ filename, source: monacoTabs.getModel(filename)?.getValue() ?? '' });
-      setModifiedFiles(pre => {
+      monacoTabs.setModifiedTabs(pre => {
         return pre.includes(filename) ? pre : [...pre, filename];
       });
     });
@@ -56,7 +54,7 @@ export const MonacoTabs: React.FC<MonacoTabsProps> = React.memo(props => {
     const handleKeyboardSave = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.code === 'KeyS') {
         e.preventDefault();
-        setModifiedFiles([]);
+        monacoTabs.setModifiedTabs([]);
         const tabs = monacoTabs.getTabs();
         saveFilesToLocalStorage(id, tabs);
         pack(tabs);
@@ -71,10 +69,10 @@ export const MonacoTabs: React.FC<MonacoTabsProps> = React.memo(props => {
 
   const onClickTab = useCallback(
     (filename: string) => {
-      const activeIndex = filenames.findIndex(it => it === filename);
-      setActiveIndex(Math.max(activeIndex, 0));
+      const activeIndex = monacoTabs.tabNames.findIndex(it => it === filename);
+      monacoTabs.setActiveIndex(Math.max(activeIndex, 0));
     },
-    [filenames],
+    [monacoTabs],
   );
 
   const onAddTab = useCallback(() => {
@@ -84,84 +82,35 @@ export const MonacoTabs: React.FC<MonacoTabsProps> = React.memo(props => {
     }
     const filename = `index${fileIndex}.tsx`;
 
-    monacoTabs.createTab({ filename, source: '' });
-    // Set new file active and modified
-    setFilenames(pre => {
-      const index = pre.findIndex(it => it === filename);
-      if (index >= 0) return pre;
-
-      setActiveIndex(pre.length);
-      return [...pre, filename];
-    });
-    setModifiedFiles(pre => {
-      return pre.includes(filename) ? pre : [...pre, filename];
-    });
-  }, [monacoTabs]);
+    tabsActions.addTab({ filename, source: '' });
+  }, [monacoTabs.value, tabsActions]);
 
   const onDeleteTab = useCallback(
     (filename: string) => {
-      monacoTabs.deleteTab(filename);
-      setFilenames(pre => {
-        const index = pre.findIndex(it => it === filename);
-        if (index < 0) return pre;
-
-        pre.splice(index, 1);
-        setActiveIndex(preActiveIndex => {
-          return pre.length - 1 < preActiveIndex ? preActiveIndex - 1 : preActiveIndex;
-        });
-        return [...pre];
-      });
-      setModifiedFiles(pre => {
-        const index = pre.findIndex(it => it === filename);
-        if (index < 0) return pre;
-
-        pre.splice(index, 1);
-        return [...pre];
-      });
+      tabsActions.deleteTab(filename);
     },
-    [monacoTabs],
+    [tabsActions],
   );
 
   const onRenameTab = useCallback(
     (oldFilename: string, newFilename: string) => {
-      const tab = monacoTabs.renameTab(oldFilename, newFilename);
-      // New filename already exist, rename failed.
-      if (!tab) return;
-
-      setFilenames(pre => {
-        const index = pre.findIndex(it => it === oldFilename);
-        if (index < 0) return pre;
-
-        pre[index] = newFilename;
-        return [...pre];
-      });
-      setModifiedFiles(pre => {
-        const index = pre.findIndex(it => it === oldFilename);
-        if (index < 0) return pre;
-
-        pre[index] = newFilename;
-        return [...pre];
-      });
+      tabsActions.renameTab(oldFilename, newFilename);
     },
-    [monacoTabs],
+    [tabsActions],
   );
 
   const onReset = useCallback(() => {
-    monacoTabs.reset(CODE_FILES);
-
-    setFilenames(CODE_FILES.map(file => file.filename));
-    setActiveIndex(0);
-    setModifiedFiles([]);
+    tabsActions.reset(CODE_FILES);
     saveFilesToLocalStorage(id, CODE_FILES);
     pack(CODE_FILES);
-  }, [id, monacoTabs, pack]);
+  }, [id, pack, tabsActions]);
 
   return (
     <div className="flex flex-col">
       <MonacoTabsHeader
-        activeIndex={activeIndex}
-        filenames={filenames}
-        modifiedFiles={modifiedFiles}
+        activeIndex={monacoTabs.activeIndex}
+        filenames={monacoTabs.tabNames}
+        modifiedFiles={monacoTabs.modifiedTabs}
         onRenameTab={onRenameTab}
         onClickTab={onClickTab}
         onAddTab={onAddTab}

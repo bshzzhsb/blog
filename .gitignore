@@ -1,8 +1,12 @@
+.DS_Store
+
 node_modules
 
 .cache
 .vercel
 .output
+vite.config.ts.timestamp-*
+tsconfig.tsbuildinfo
 
 /public/build
 /public/fonts/codicon.ttf

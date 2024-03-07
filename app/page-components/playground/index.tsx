@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import type * as Monaco from 'monaco-editor';
 
-import type { CompilerWorker } from '~/workers/compiler';
+import type { CompilerWorker } from '~/page-components/playground/hooks/workers/compiler';
 import Tabs, { TabPane } from '~/components/tabs';
 import type { CodeFile } from '~/constants';
 import { useTheme } from '~/utils/theme';
@@ -75,6 +75,8 @@ const MonacoPlayground: React.FC<MonacoPlaygroundProps> = React.memo(({ id, mona
   const { formatter, sendCompileRequest, sendPackRequest } = useWorkers({ onReceiveCompilerMessage });
 
   useEffect(() => {
+    if (!formatter) return;
+
     setupMonacoFormatter(monaco, formatter);
   }, [formatter, monaco]);
 

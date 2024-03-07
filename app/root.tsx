@@ -1,18 +1,8 @@
 import { useEffect, useState } from 'react';
-import {
-  Link,
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useLoaderData,
-  useLocation,
-} from '@remix-run/react';
+import { Link, Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData, useLocation } from '@remix-run/react';
+import type { LinksFunction } from '@remix-run/node';
 import type { MetaFunction } from '@vercel/remix';
 import { Analytics } from '@vercel/analytics/react';
-import { MetronomeLinks } from '@metronome-sh/react';
 
 import Navbar from '~/page-components/navbar';
 import Footer from '~/page-components/footer';
@@ -23,14 +13,19 @@ import { ThemeContext } from '~/utils/theme';
 import type { Theme } from '~/utils/theme';
 import { gtag } from '~/utils/gtag';
 import { LINKS, TEXT } from '~/constants';
-import tailwindStyles from '~/styles/tailwind.css';
+import tailwindStyles from '~/assets/styles/tailwind.css?url';
+import codeStyles from '~/assets/styles/code.css?url';
 
-export const meta: MetaFunction = () => ({ title: TEXT.siteName });
+export const meta: MetaFunction = () => [{ title: TEXT.siteName }];
 
-export const links = () => [
+export const links: LinksFunction = () => [
   {
     rel: 'stylesheet',
     href: tailwindStyles,
+  },
+  {
+    rel: 'stylesheet',
+    href: codeStyles,
   },
   {
     rel: 'preload',
@@ -94,7 +89,6 @@ export default function App() {
           <meta name="viewport" content="width=device-width,initial-scale=1" />
           <Meta />
           <Links />
-          <MetronomeLinks />
           {ENV.GA_TRACKING_ID && <GTag gaTrackingId={ENV.GA_TRACKING_ID} />}
         </head>
         <body className="background text-primary font-sans transition duration-500">
@@ -108,7 +102,6 @@ export default function App() {
           <Analytics />
           <script dangerouslySetInnerHTML={{ __html: `window.ENV = ${JSON.stringify(ENV)}` }} />
           <Scripts />
-          {process.env.NODE_ENV === 'development' && <LiveReload />}
         </body>
       </html>
     </ThemeContext.Provider>

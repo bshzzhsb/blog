@@ -5,7 +5,7 @@ async function preprocess() {
     entryPoints: [path.resolve('./app', 'utils', 'mdx', 'compile-blogs.ts')],
     bundle: true,
     minify: true,
-    format: 'iife',
+    format: 'esm',
     platform: 'node',
     external: ['gray-matter', 'fs', 'esbuild', '@mdx-js/esbuild', 'remark-frontmatter'],
     outfile: './scripts/bundle.js',

@@ -1,3 +1,5 @@
+import type { Config } from 'tailwindcss';
+
 module.exports = {
   content: ['./app/**/*.{ts,tsx}'],
   darkMode: 'class',
@@ -31,4 +33,4 @@ module.exports = {
       none: 'none',
     },
   },
-};
+} satisfies Config;

@@ -3,7 +3,7 @@ import debounce from '~/utils/debounce';
 
 import { getLogger, LogModule } from '~/utils/logger';
 
-import { getTypeDeclarationsPath } from './file';
+import { getTypeDeclarationPath } from './file';
 
 type ImportResource = {
   type: 'relative' | 'external';
@@ -14,12 +14,15 @@ type ImportResource = {
 const REGEXP_IMPORT = /import[^'"]*(?:from)?\s(?:'|")([^'"]+)('|")/g;
 const SUFFIXES = ['.d.ts', '/index.d.ts'];
 const LOCAL_STORAGE_PREFIX = '__IMPORT__';
+const PACKAGE_MAP: Record<string, string> = {
+  react: 'react/ts5.0',
+};
 
 const logger = getLogger(LogModule.REPL, 'IMPORT_RESOLVER');
 
 export class ImportResolver {
   private disposers: MonacoEditor.IDisposable[] = [];
-  private loadedImports: string[] = [];
+  private pendingImports: string[] = [];
   private cache = new LocalCache();
 
   constructor(
@@ -95,46 +98,56 @@ export class ImportResolver {
     if (type === 'relative') return;
 
     const resourcePath = `${packageName}/${path}`.replace(/\/+$/, '');
-    if (this.loadedImports.includes(resourcePath)) return;
+    if (this.pendingImports.includes(resourcePath)) return;
 
+    this.pendingImports.push(resourcePath);
     try {
-      const content = await this.loadFileContent(`@types/${resourcePath}`);
-      const filePath = getTypeDeclarationsPath(resourcePath);
+      const { content, filePath } = await this.loadFileContent(packageName, path);
+      const typeDeclarationPath = getTypeDeclarationPath(filePath);
 
       // Set type declarations to monaco
-      this.monaco.languages.typescript.typescriptDefaults.addExtraLib(content, filePath);
-      this.monaco.languages.typescript.javascriptDefaults.addExtraLib(content, filePath);
-
-      this.loadedImports.push(resourcePath);
+      this.monaco.languages.typescript.typescriptDefaults.addExtraLib(content, typeDeclarationPath);
+      this.monaco.languages.typescript.javascriptDefaults.addExtraLib(content, typeDeclarationPath);
     } catch (e) {
       logger.error(e);
     }
   }
 
-  private async loadFileContent(path: string) {
+  private async loadFileContent(packageName: string, subPath: string) {
+    const typeDeclarationPathPrefix = [`@types/${PACKAGE_MAP[packageName] ?? packageName}`, subPath]
+      .filter(Boolean)
+      .join('/');
+    // Although monaco's typescript version is 5.0.2, we should load react types from @types/react/ts5.0.
+    // But we can't set monaco's type path to that, it should be `@types/react/index.d.ts` eg.
+    const virtualTypeDeclarationPathPrefix = [`@types/${packageName}`, subPath].filter(Boolean).join('/');
+
     // Load from cache
-    const content = this.cache.getFromCache(path);
-    if (content) {
-      logger.info(`load ${path} from cache success`);
-      return content;
+    for (const suffix of SUFFIXES) {
+      const filePath = `${typeDeclarationPathPrefix}${suffix}`;
+      const content = this.cache.getFromCache(filePath);
+      if (content) {
+        logger.info(`load ${filePath} from cache success`);
+        return { content, filePath: `${virtualTypeDeclarationPathPrefix}${suffix}` };
+      }
     }
 
     // Load from unpkg
     for (const suffix of SUFFIXES) {
-      const url = `https://unpkg.com/${path}${suffix}`;
+      const filePath = `${typeDeclarationPathPrefix}${suffix}`;
+      const url = `https://unpkg.com/${filePath}`;
       try {
         const content = await this.loadFileFromUnpkg(url);
         if (content) {
-          logger.info(`load ${path} from unpkg success`);
-          this.cache.setToCache(path, content);
-          return content;
+          logger.info(`load ${typeDeclarationPathPrefix} from unpkg success`);
+          this.cache.setToCache(filePath, content);
+          return { content, filePath: `${virtualTypeDeclarationPathPrefix}${suffix}` };
         }
       } catch (e) {
         logger.error(`load type declarations from ${url} error`, e);
       }
     }
 
-    throw new Error(`failed to load type declarations of ${path}`);
+    throw new Error(`failed to load type declarations of ${packageName}/${subPath}`);
   }
 
   private async loadFileFromUnpkg(url: string) {

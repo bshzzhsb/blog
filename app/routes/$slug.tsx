@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { LoaderFunction, MetaFunction } from '@vercel/remix';
+import type { LoaderFunctionArgs, MetaFunction } from '@vercel/remix';
 import { useLoaderData } from '@remix-run/react';
 
 import { getBlog } from '~/api/blog.server';
@@ -15,12 +15,14 @@ import { getHeading } from '~/mdx-components/heading';
 import HighlightBlock from '~/mdx-components/highlight-block';
 import { TEXT } from '~/constants';
 
-export const meta: MetaFunction = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (!data) return [];
+
   const title = data.frontMatter?.title;
-  return { title: title ? `${title} - ${TEXT.siteName}` : TEXT.siteName };
+  return [{ title: title ? `${title} - ${TEXT.siteName}` : TEXT.siteName }];
 };
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   if (params.slug) {
     const blog = await getBlog(params.slug);
     return blog;

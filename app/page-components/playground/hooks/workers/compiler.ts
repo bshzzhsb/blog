@@ -87,6 +87,7 @@ async function pack(files: CodeFile[]) {
   }
 
   const entry = `./${files[0].filename.replace(/\.(j|t)sx?$/, '')}`;
+  logger.info('entry', entry);
   const packer = await rollup({
     input: entry,
     plugins: [esmImportPlugin()],

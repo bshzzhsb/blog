@@ -12,7 +12,7 @@ export interface FrontMatter {
   excerpt: string;
 }
 
-export const BLOG_DIR = `${__dirname}/../app/blog`;
+export const BLOG_DIR = `./app/blog`;
 
 let esbuild: typeof Esbuild | null = null;
 

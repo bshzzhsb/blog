@@ -4,7 +4,7 @@ import path from 'path';
 import { getMDXBundleFromEsbuild } from './get-mdx-bundle';
 
 async function compileBlogs() {
-  const BLOG_DIR = path.resolve(__dirname, '..', 'app', 'blog');
+  const BLOG_DIR = path.resolve('./app/blog');
   const dir = await fs.readdir(BLOG_DIR);
 
   await Promise.all(

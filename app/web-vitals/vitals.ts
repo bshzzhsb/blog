@@ -2,8 +2,13 @@ import type { Metric } from 'web-vitals';
 
 const VITALS_URL = 'https://vitals.vercel-analytics.com/v1/vitals';
 
+type ConnectionType = 'slow-2g' | '2g' | '3g' | '4g';
+
 function getConnectionSpeed() {
-  return 'connection' in navigator && navigator['connection'] && 'effectiveType' in navigator['connection']
+  return 'connection' in navigator &&
+    navigator['connection'] &&
+    typeof navigator['connection'] === 'object' &&
+    'effectiveType' in navigator['connection']
     ? (navigator.connection as unknown as { effectiveType: ConnectionType }).effectiveType
     : '';
 }

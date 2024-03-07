@@ -5,8 +5,8 @@ export function getFilePath(path: string) {
   return `file:///repl/${path}`;
 }
 
-export function getTypeDeclarationsPath(path: string) {
-  return `file:///node_modules/@types/${path}/index.d.ts`;
+export function getTypeDeclarationPath(path: string) {
+  return `file:///node_modules/${path}`;
 }
 
 export function getFilesFromLocalStorage(id: string): CodeFile[] {

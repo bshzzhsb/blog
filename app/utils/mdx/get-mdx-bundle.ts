@@ -1,5 +1,4 @@
 import grayMatter from 'gray-matter';
-import fs from 'fs/promises';
 import type Esbuild from 'esbuild';
 
 import resolveExternalPlugin, { EXTERNAL_CONFIG } from './resolve-external-plugin';
@@ -12,8 +11,6 @@ export interface FrontMatter {
   excerpt: string;
 }
 
-export const BLOG_DIR = `./app/blog`;
-
 let esbuild: typeof Esbuild | null = null;
 
 async function getEsbuild() {
@@ -22,14 +19,6 @@ async function getEsbuild() {
     esbuild = _;
   }
   return esbuild;
-}
-
-export async function getMDXBundle(file: string) {
-  if (process.env.NODE_ENV === 'development') {
-    return await getMDXBundleFromEsbuild(file);
-  } else {
-    return await getMDXBundleFromCache(file);
-  }
 }
 
 export async function getMDXBundleFromEsbuild(file: string) {
@@ -60,14 +49,5 @@ export async function getMDXBundleFromEsbuild(file: string) {
     };
   } else {
     throw new Error('build blog error');
-  }
-}
-
-async function getMDXBundleFromCache(file: string) {
-  try {
-    const res = await fs.readFile(file.replace('.mdx', '.json'), 'utf-8');
-    return JSON.parse(res) as { frontMatter: FrontMatter; code: string };
-  } catch (e) {
-    throw new Error(`get blog "${file}" from cache error`);
   }
 }

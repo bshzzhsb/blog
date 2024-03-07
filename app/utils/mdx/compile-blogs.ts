@@ -1,6 +1,12 @@
 import fs from 'fs/promises';
 import path from 'path';
 
+import { kv } from '@vercel/kv';
+import dotenv from 'dotenv';
+dotenv.config({ path: path.resolve(process.cwd(), '.env.development.local') });
+
+import { BLOG_KEY } from '~/constants';
+
 import { getMDXBundleFromEsbuild } from './get-mdx-bundle';
 
 async function compileBlogs() {
@@ -11,7 +17,8 @@ async function compileBlogs() {
     dir.map(async fileDir => {
       const filePath = `${BLOG_DIR}/${fileDir}/index.mdx`;
       const blog = await getMDXBundleFromEsbuild(filePath);
-      await fs.writeFile(`${BLOG_DIR}/${fileDir}/index.json`, JSON.stringify(blog), 'utf-8');
+      console.log(`[KV] set ${fileDir} to vercel kv`);
+      kv.hset(BLOG_KEY, { [fileDir]: blog });
     }),
   );
 }

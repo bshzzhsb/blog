@@ -7,8 +7,8 @@ async function preprocess() {
     minify: true,
     format: 'esm',
     platform: 'node',
-    external: ['gray-matter', 'fs', 'esbuild', '@mdx-js/esbuild', 'remark-frontmatter'],
-    outfile: './scripts/bundle.js',
+    external: ['gray-matter', 'fs', 'esbuild', '@mdx-js/esbuild', 'remark-frontmatter', 'dotenv'],
+    outfile: './scripts/bundle.mjs',
   };
 
   const { default: esbuild } = await import('esbuild');

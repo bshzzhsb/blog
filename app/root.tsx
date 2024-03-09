@@ -3,6 +3,7 @@ import { Link, Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData, u
 import type { LinksFunction } from '@remix-run/node';
 import type { MetaFunction } from '@vercel/remix';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/remix';
 
 import Navbar from '~/page-components/navbar';
 import Footer from '~/page-components/footer';
@@ -100,6 +101,7 @@ export default function App() {
           <Progress />
           <ScrollRestoration />
           <Analytics />
+          <SpeedInsights />
           <script dangerouslySetInnerHTML={{ __html: `window.ENV = ${JSON.stringify(ENV)}` }} />
           <Scripts />
         </body>

@@ -9,9 +9,6 @@ installGlobals();
 
 export default defineConfig({
   plugins: [remix({ presets: [vercelPreset()] }), tsconfigPaths(), visualizer({ emitFile: true })],
-  ssr: {
-    external: ['monaco-editor'],
-  },
   server: {
     fs: {
       // Restrict files that could be served by Vite's dev server.  Accessing

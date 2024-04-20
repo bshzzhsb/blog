@@ -13,7 +13,7 @@ import { GTag } from '~/components/gtag';
 import { ThemeContext } from '~/utils/theme';
 import type { Theme } from '~/utils/theme';
 import { gtag } from '~/utils/gtag';
-import { LINKS, TEXT } from '~/constants';
+import { TEXT } from '~/constants';
 import tailwindStyles from '~/assets/styles/tailwind.css?url';
 import codeStyles from '~/assets/styles/code.css?url';
 
@@ -58,10 +58,6 @@ export default function App() {
   const location = useLocation();
   const { ENV } = useLoaderData<typeof loader>();
 
-  const link = LINKS.find(link => link.to === location.pathname);
-  const withHeader = link?.withHeader ?? true;
-  const withFooter = link?.withFooter ?? true;
-
   useEffect(() => {
     if (!ENV.GA_TRACKING_ID) return;
     gtag.pageView(location.pathname, ENV.GA_TRACKING_ID);
@@ -93,11 +89,11 @@ export default function App() {
           {ENV.GA_TRACKING_ID && <GTag gaTrackingId={ENV.GA_TRACKING_ID} />}
         </head>
         <body className="background text-primary font-sans transition duration-500">
-          {withHeader && <Navbar />}
+          <Navbar />
           <main className="min-h-[calc(100vh-10.5rem)]">
             <Outlet />
           </main>
-          {withFooter && <Footer text={TEXT.footer} />}
+          <Footer text={TEXT.footer} />
           <Progress />
           <ScrollRestoration />
           <Analytics />

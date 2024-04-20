@@ -23,11 +23,6 @@ export const loader = async () => {
     <lastmod>${time}</lastmod>
     <priority>1.0</priority>
   </url>
-  <url>
-    <loc>https://blog.bshz.xyz/playground</loc>
-    <lastmod>${time}</lastmod>
-    <priority>1.0</priority>
-  </url>
   ${blogs}
 </urlset>
 `;

@@ -7,7 +7,7 @@ async function preprocess() {
     minify: true,
     format: 'esm',
     platform: 'node',
-    external: ['gray-matter', 'fs', 'esbuild', '@mdx-js/esbuild', 'remark-frontmatter', 'dotenv'],
+    external: ['gray-matter', 'esbuild', '@mdx-js/esbuild', 'remark-frontmatter', 'dotenv'],
     outfile: './scripts/bundle.mjs',
   };
 

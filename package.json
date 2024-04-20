@@ -5,8 +5,8 @@
   "type": "module",
   "description": "blog of bshz",
   "scripts": {
-    "build": "node ./scripts/compile-workers.mjs --env production && remix vite:build",
-    "dev": "concurrently \"remix vite:dev\" \"node ./scripts/compile-workers.mjs\"",
+    "build": "remix vite:build",
+    "dev": "remix vite:dev",
     "postinstall": "pnpm run compile-blog",
     "compile-blog": "node ./scripts/compile-blog.mjs && node ./scripts/bundle.mjs",
     "type-check": "tsc --noEmit --project tsconfig.json",
@@ -39,7 +39,6 @@
     "gray-matter": "^4.0.3",
     "isbot": "^5.1.1",
     "lodash": "^4.17.21",
-    "monaco-editor": "^0.46.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "refractor": "^4.7.0",

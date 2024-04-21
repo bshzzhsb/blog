@@ -2,8 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { LoaderFunctionArgs, MetaFunction } from '@vercel/remix';
 import { useLoaderData } from '@remix-run/react';
 
-import { getBlog } from '~/api/blog.server';
-import type { BlogProps } from '~/api/blog.server';
+import { getBlog } from '~/.server/blog';
+import type { BlogProps } from '~/.server/blog';
 import { formatDate } from '~/utils/date';
 import getMDXComponent from '~/utils/mdx/get-mdx-component';
 import TOC from '~/page-components/toc';
@@ -24,7 +24,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   if (params.slug) {
-    const blog = await getBlog(params.slug);
+    const blog = await getBlog(params.slug.replace(/^\/?blog\//g, ''));
     return blog;
   }
   return null;

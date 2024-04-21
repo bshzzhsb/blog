@@ -17,3 +17,5 @@ tsconfig.tsbuildinfo
 /app/styles/*
 /app/blog/**/**/index.json
 /scripts/bundle.*js
+
+.vercel

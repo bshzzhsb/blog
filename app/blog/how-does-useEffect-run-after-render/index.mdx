@@ -47,7 +47,7 @@ div.style.width = '200px';
 ```
 You will see timeline like that. The render process is the same as we talked before.
 
-![change element width](./images/how-does-useEffect-run-after-render/change-width.png)
+![change element width](../images/how-does-useEffect-run-after-render/change-width.png)
 
 Change the code to below and run it again by the same steps.
 
@@ -60,7 +60,7 @@ console.log(div.offsetWidth); // 200
 This time things become different. Recalculate Style and Layout are in the same task as Javascript.
 So that the console log width is the final width of div.
 
-![change element width and get offsetWidth](./images/how-does-useEffect-run-after-render/change-width-get-offsetWidth.png)
+![change element width and get offsetWidth](../images/how-does-useEffect-run-after-render/change-width-get-offsetWidth.png)
 
 # How does useEffect run after render
 
@@ -115,7 +115,7 @@ mc.port1.onmessage = () => console.log(div.offsetWidth);
 mc.port2.postMessage(null);
 ```
 
-![change element width and get offsetWidth in MessageChannel](./images/how-does-useEffect-run-after-render/change-width-MessageChannel-get-offsetWidth.png)
+![change element width and get offsetWidth in MessageChannel](../images/how-does-useEffect-run-after-render/change-width-MessageChannel-get-offsetWidth.png)
 
 The first task is Javascript, following by Layout task (Recalculate Style, Layout, Paint and Compositing). MessageChannel listener is called at the final task.
 We attempt to get div's offsetWidth after Layout task without invoking a immediate Layout.
@@ -125,7 +125,7 @@ Browser doesn't run Layout task before MessageChannel listener.
 But anyway, MessageChannel is not the same task as previous Javascript task. 
 All changes in the previous Javascript task are committed before Layout.
 
-![change element width and get offsetWidth in MessageChannel](./images/how-does-useEffect-run-after-render/change-width-MessageChannel-get-offsetWidth-in-same-task.png)
+![change element width and get offsetWidth in MessageChannel](../images/how-does-useEffect-run-after-render/change-width-MessageChannel-get-offsetWidth-in-same-task.png)
 
 # References
 

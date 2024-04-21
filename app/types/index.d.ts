@@ -10,6 +10,11 @@ declare global {
     interface ProcessEnv {
       GA_TRACKING_ID: string;
       VERCEL_ANALYTICS_ID: string;
+      USER_PASSWORD: string;
+      USER_PASSWORD_SECRET_ID: string;
+      TIPTAP_APP_SECRET_ID: string;
+      TIPTAP_API_SECRET_ID: string;
+      TIPTAP_TOKEN_KEY: 'tiptapToken';
     }
   }
 

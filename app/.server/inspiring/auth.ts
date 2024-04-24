@@ -24,12 +24,3 @@ export async function registerTiptapToken(request: Request) {
     },
   });
 }
-
-function response(status: number, data: unknown) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-}

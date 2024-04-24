@@ -12,8 +12,8 @@ import { ThemeContext } from '~/utils/theme';
 import type { Theme } from '~/utils/theme';
 import { gtag } from '~/utils/gtag';
 import { TEXT } from '~/constants';
-import tailwindStyles from '~/assets/styles/tailwind.css?url';
-import codeStyles from '~/assets/styles/code.css?url';
+import tailwindStyles from '~/styles/tailwind.css?url';
+import codeStyles from '~/styles/code.css?url';
 
 export const meta: MetaFunction = () => [{ title: TEXT.siteName }];
 

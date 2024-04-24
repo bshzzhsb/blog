@@ -1,7 +1,7 @@
 import { redirect, useLoaderData, useParams } from '@remix-run/react';
 import { LoaderFunctionArgs, json } from '@vercel/remix';
 
-import Tiptap from '~/components/tiptap';
+import Tiptap from '~/components/inspiring';
 import { getSession } from '~/session';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -21,7 +21,7 @@ const Editor: React.FC = () => {
 
   if (!id || !tiptapToken) return null;
 
-  return <Tiptap docName={id} token={tiptapToken} className="h-full overflow-y-auto" />;
+  return <Tiptap key={id} id={id} token={tiptapToken} className="h-full overflow-y-auto" />;
 };
 
 export default Editor;

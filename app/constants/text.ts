@@ -1,5 +1,6 @@
 export const TEXT = {
   siteName: `block's blog`,
+  editorMetaTitle: 'Editor',
   name: 'block',
   readMore: 'Read more',
   footer: 'Always want to record life, but found that life will not record itself',
@@ -7,4 +8,5 @@ export const TEXT = {
   backToHome: 'Back To Home',
   back: 'back',
   submitLogin: 'Submit',
+  publish: 'Publish',
 };

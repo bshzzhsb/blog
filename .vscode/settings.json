@@ -3,7 +3,13 @@
   "cSpell.words": [
     "classname",
     "codemirror",
+    "collab",
+    "gtag",
+    "Hocuspocus",
     "importee",
     "Tiptap"
-  ]
+  ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
 }

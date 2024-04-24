@@ -1,9 +1,14 @@
-.tiptap-container {
-  @apply flex justify-center;
+.tiptap {
+  @apply outline-none;
 }
 
-.tiptap {
-  @apply outline-none w-full max-w-3xl m-8;
+.tiptap p.is-editor-empty:first-child::before,
+.tiptap h1.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
 }
 
 .tiptap h1 {

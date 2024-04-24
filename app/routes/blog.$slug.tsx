@@ -1,24 +1,20 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import type { LoaderFunctionArgs, MetaFunction } from '@vercel/remix';
 import { useLoaderData } from '@remix-run/react';
+import { EditorContent } from '@tiptap/react';
 
 import { getBlog } from '~/.server/blog';
-import type { BlogProps } from '~/.server/blog';
 import { formatDate } from '~/utils/date';
-import getMDXComponent from '~/utils/mdx/get-mdx-component';
 import TOC from '~/page-components/toc';
 import type { TOCProps } from '~/page-components/toc';
-import Anchor from '~/mdx-components/anchor';
-import Code from '~/mdx-components/code';
-import Codeblock from '~/mdx-components/codeblock';
-import { getHeading } from '~/mdx-components/heading';
-import HighlightBlock from '~/mdx-components/highlight-block';
 import { TEXT } from '~/constants';
+import { getDocContent } from '~/utils/get-doc-content';
+import { useBlogContent, useBlogTitle } from '~/components/inspiring/use-editor';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) return [];
 
-  const title = data.frontMatter?.title;
+  const title = getDocContent(data.title);
   return [{ title: title ? `${title} - ${TEXT.siteName}` : TEXT.siteName }];
 };
 
@@ -28,19 +24,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     return blog;
   }
   return null;
-};
-
-const MDXComponents = {
-  a: Anchor,
-  h1: getHeading(1),
-  h2: getHeading(2),
-  h3: getHeading(3),
-  h4: getHeading(4),
-  h5: getHeading(5),
-  h6: getHeading(6),
-  code: Code,
-  pre: Codeblock,
-  HighlightBlock: HighlightBlock,
 };
 
 const getHeadings = (children: HTMLCollection) => {
@@ -54,11 +37,14 @@ const getHeadings = (children: HTMLCollection) => {
     }));
 };
 
-const Blog = () => {
+const Blog = memo(() => {
   const [headings, setHeadings] = useState<TOCProps['headings']>([]);
   const ref = useRef<HTMLElement>(null);
-  const { frontMatter, code } = useLoaderData<BlogProps>();
-  const Component = useMemo(() => (code ? getMDXComponent(code) : null), [code]);
+  const { title, content, size, createdAt, updatedAt } = useLoaderData<typeof loader>() ?? {};
+
+  const { blogTitle } = useBlogTitle(title ?? {});
+  const { blogContent, characterCount } = useBlogContent(content ?? {});
+
   useEffect(() => {
     if (ref.current?.children) {
       const headings = getHeadings(ref.current.children);
@@ -71,13 +57,19 @@ const Blog = () => {
       <main className="max-w-5xl pt-32 mx-auto">
         <header className="flex justify-center px-8 mb-16">
           <div className="w-full md:max-w-2xl xl:max-w-5xl">
-            <h1 className="mb-3 text-4xl">{frontMatter?.title}</h1>
-            <div className="text-secondary">{formatDate(new Date(frontMatter?.date))}</div>
+            <EditorContent editor={blogTitle} />
+            <div className="text-secondary">
+              {characterCount.words()}&nbsp;
+              {characterCount.characters()}&nbsp;
+              {size}&nbsp;
+              {createdAt && formatDate(new Date(createdAt))}&nbsp;
+              {updatedAt && formatDate(new Date(updatedAt))}
+            </div>
           </div>
         </header>
         <main className="flex justify-center px-8 mb-16">
           <article className="blog flex-1 max-w-full md:max-w-2xl" ref={ref}>
-            {Component && <Component components={MDXComponents} />}
+            <EditorContent editor={blogContent} />
           </article>
           <TOC
             className="sticky top-24 ml-auto basis-52 max-h-[calc(100vh-12rem)] hidden xl:block"
@@ -87,6 +79,6 @@ const Blog = () => {
       </main>
     </div>
   );
-};
+});
 
 export default Blog;

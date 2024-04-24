@@ -1,6 +1,6 @@
 import { Form } from '@remix-run/react';
 import { ActionFunctionArgs } from '@vercel/remix';
-import { registerTiptapToken } from '~/.server/tiptap/auth';
+import { registerTiptapToken } from '~/.server/inspiring/auth';
 
 import { TEXT } from '~/constants';
 

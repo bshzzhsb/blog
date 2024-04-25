@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-// import { throttle } from 'lodash-es';
+import { throttle } from 'lodash-es';
 import * as Y from 'yjs';
 import { JSONContent, useEditor } from '@tiptap/react';
+import type { Editor } from '@tiptap/core';
 import { StarterKit } from '@tiptap/starter-kit';
 import { Document } from '@tiptap/extension-document';
 import { Text } from '@tiptap/extension-text';
@@ -12,38 +13,43 @@ import { Collaboration } from '@tiptap/extension-collaboration';
 import { CollaborationCursor } from '@tiptap/extension-collaboration-cursor';
 import { CharacterCount, CharacterCountStorage } from '@tiptap/extension-character-count';
 import { HocuspocusProvider, WebSocketStatus } from '@hocuspocus/provider';
+import { TableOfContentData, TableOfContents, getHierarchicalIndexes } from '@tiptap-pro/extension-table-of-contents';
 
-import { EditorUser } from '~/types/tiptap';
+import { EditorState, EditorUser } from '~/types/inspiring';
 
-export function useTitleEditor(doc: Y.Doc) {
+export function useTitleEditor(doc: Y.Doc, contentEditor: React.RefObject<Editor>) {
   const titleEditor = useEditor({
     extensions: [
-      Document,
+      Document.extend({
+        content: 'heading',
+      }),
       Text,
-      Heading.configure({ levels: [1] }),
+      Heading.extend({
+        addKeyboardShortcuts() {
+          const handleEnter = () => {
+            return contentEditor.current?.commands.focus('start') ?? true;
+          };
+
+          return {
+            ArrowDown: handleEnter,
+            Enter: handleEnter,
+            'Mod-Enter': handleEnter,
+          };
+        },
+      }).configure({ levels: [1] }),
       Placeholder.configure({ placeholder: 'Title' }),
       Collaboration.configure({ document: doc, field: 'title' }),
     ],
-    // onUpdate: throttle(
-    //   ({ editor }) => {
-    // fetch(`/editor/save/${id}`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/x-www-form-urlencoded',
-    //   },
-    //   body: JSON.stringify({ title: editor.getText(), _action: 'SAVE' }),
-    // });
-    // },
-    //   500,
-    //   { leading: true },
-    // ),
+    onUpdate: throttle<({ editor }: { editor: Editor }) => void>(({ editor }) => {
+      console.log('title update', editor.getJSON());
+    }, 1000),
   });
 
   return { titleEditor };
 }
 
 export function useContentEditor(doc: Y.Doc, provider: HocuspocusProvider) {
-  const [collabState, setCollabState] = useState(WebSocketStatus.Connecting);
+  const [editorState, setEditorState] = useState(EditorState.CONNECTING);
 
   const contentEditor = useEditor({
     extensions: [
@@ -70,17 +76,29 @@ export function useContentEditor(doc: Y.Doc, provider: HocuspocusProvider) {
   };
 
   useEffect(() => {
-    const handelStatusChange = (event: { status: WebSocketStatus }) => {
-      setCollabState(event.status);
+    const handleSynced = () => {
+      setEditorState(EditorState.SYNCED);
     };
-    provider.on('status', handelStatusChange);
+
+    const handleStateChange = (status: WebSocketStatus) => {
+      const stateMap: Record<WebSocketStatus, EditorState> = {
+        [WebSocketStatus.Connecting]: EditorState.CONNECTING,
+        [WebSocketStatus.Connected]: EditorState.CONNECTED,
+        [WebSocketStatus.Disconnected]: EditorState.DISCONNECTED,
+      };
+      setEditorState(stateMap[status]);
+    };
+
+    provider.on('synced', handleSynced);
+    provider.on('status', handleStateChange);
 
     return () => {
-      provider.off('status', handelStatusChange);
+      provider.off('synced', handleSynced);
+      provider.off('status', handleStateChange);
     };
   }, [provider]);
 
-  return { contentEditor, users, characterCount, collabState };
+  return { contentEditor, users, characterCount, editorState };
 }
 
 export function useBlogTitle(content: JSONContent) {
@@ -94,12 +112,20 @@ export function useBlogTitle(content: JSONContent) {
 }
 
 export function useBlogContent(content: JSONContent) {
+  const [toc, setToc] = useState<TableOfContentData>([]);
+
   const blogContent = useEditor({
     content,
     editable: false,
     extensions: [
       StarterKit.configure({ history: false }),
       Link.configure({ HTMLAttributes: { rel: undefined } }),
+      TableOfContents.configure({
+        getIndex: getHierarchicalIndexes,
+        onUpdate(data) {
+          setToc(data);
+        },
+      }),
       CharacterCount,
     ],
   });
@@ -109,5 +135,5 @@ export function useBlogContent(content: JSONContent) {
     words: () => 0,
   };
 
-  return { blogContent, characterCount };
+  return { blogContent, toc, characterCount };
 }

@@ -7,12 +7,20 @@ export type TiptapDocumentList = {
   updated_at: string;
 }[];
 
-export type DocumentList = { id: string; title: JSONContent; savedAt: number }[];
+export type DocumentListItem = { id: string; title: JSONContent; savedAt: number };
+export type DocumentList = DocumentListItem[];
 
 export type Document = {
   title: JSONContent;
   content: JSONContent;
 };
+
+export enum EditorState {
+  CONNECTING = 'connecting',
+  CONNECTED = 'connected',
+  DISCONNECTED = 'disconnected',
+  SYNCED = 'synced',
+}
 
 export type EditorUser = {
   name: string;

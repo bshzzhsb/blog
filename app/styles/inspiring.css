@@ -1,9 +1,13 @@
-.tiptap {
+.inspiring-title .inspiring h1 {
+  @apply text-4xl;
+}
+
+.inspiring .tiptap {
   @apply outline-none;
 }
 
-.tiptap p.is-editor-empty:first-child::before,
-.tiptap h1.is-editor-empty:first-child::before {
+.inspiring p.is-editor-empty:first-child::before,
+.inspiring h1.is-editor-empty:first-child::before {
   color: #adb5bd;
   content: attr(data-placeholder);
   float: left;
@@ -11,40 +15,40 @@
   pointer-events: none;
 }
 
-.tiptap h1 {
-  @apply mt-12 mb-4 text-3xl font-semibold;
+.inspiring h1 {
+  @apply my-4 text-3xl font-semibold;
 }
 
-.tiptap h2 {
-  @apply mt-12 mb-3 text-2xl font-semibold;
+.inspiring h2 {
+  @apply my-3 text-2xl font-semibold;
 }
 
-.tiptap h3 {
-  @apply my-12 mb-3 text-xl font-semibold;
+.inspiring h3 {
+  @apply my-2 text-xl font-semibold;
 }
 
-.tiptap {
+.inspiring {
   @apply leading-7;
 }
 
-.tiptap h4,
-.tiptap h5,
-.tiptap h6 {
+.inspiring h4,
+.inspiring h5,
+.inspiring h6 {
   @apply mt-6 mb-2 font-medium;
 }
 
-.tiptap blockquote {
+.inspiring blockquote {
   @apply px-3 py-1 mb-4 border-l-2 border-l-blue-500;
 }
 
-.tiptap blockquote p {
+.inspiring blockquote p {
   @apply mb-0;
 }
 
-.tiptap a {
+.inspiring a {
   @apply text-blue-500 cursor-pointer;
 }
 
-.tiptap > p {
-  @apply mb-6 text-lg leading-8;
+.inspiring > p {
+  @apply mb-4 text-lg leading-8;
 }

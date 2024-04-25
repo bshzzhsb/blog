@@ -1,21 +1,23 @@
 import { memo } from 'react';
-import { WebSocketStatus } from '@hocuspocus/provider';
+
 import { classnames } from '~/utils/classname';
+import { EditorState } from '~/types/inspiring';
 
 export interface EditorInfoProps {
   characters: number;
   words: number;
-  collabState: WebSocketStatus;
+  editorState: EditorState;
 }
 
-const CollabStateMap: Record<WebSocketStatus, string> = {
-  [WebSocketStatus.Connected]: 'Connected',
-  [WebSocketStatus.Connecting]: 'Connecting',
-  [WebSocketStatus.Disconnected]: 'Disconnected',
+const EditorStateMap: Record<EditorState, string> = {
+  [EditorState.CONNECTING]: 'Connecting',
+  [EditorState.CONNECTED]: 'Connected',
+  [EditorState.DISCONNECTED]: 'Disconnected',
+  [EditorState.SYNCED]: 'Connected',
 };
 
 const EditorInfo: React.FC<EditorInfoProps> = memo(props => {
-  const { characters, words, collabState } = props;
+  const { characters, words, editorState } = props;
 
   return (
     <div className="flex gap-4">
@@ -31,12 +33,13 @@ const EditorInfo: React.FC<EditorInfoProps> = memo(props => {
       <div className="flex items-center gap-2">
         <div
           className={classnames('w-2 h-2 rounded-full', {
-            'bg-yellow-500 dark:bg-yellow-400': collabState === WebSocketStatus.Connecting,
-            'bg-green-500 dark:bg-green-400': collabState === WebSocketStatus.Connected,
-            'bg-red-500 dark:bg-red-400': collabState === WebSocketStatus.Disconnected,
+            'bg-yellow-500 dark:bg-yellow-400': editorState === EditorState.CONNECTING,
+            'bg-green-500 dark:bg-green-400':
+              editorState === EditorState.CONNECTED || editorState === EditorState.SYNCED,
+            'bg-red-500 dark:bg-red-400': editorState === EditorState.DISCONNECTED,
           })}
         />
-        <span>{CollabStateMap[collabState]}</span>
+        <span>{EditorStateMap[editorState]}</span>
       </div>
     </div>
   );

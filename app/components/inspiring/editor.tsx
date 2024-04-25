@@ -1,14 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import * as Y from 'yjs';
 import { useFetcher } from '@remix-run/react';
-import { EditorContent } from '@tiptap/react';
-import type { TiptapCollabProvider, WebSocketStatus } from '@hocuspocus/provider';
+import { Editor, EditorContent } from '@tiptap/react';
+import { TiptapCollabProvider } from '@hocuspocus/provider';
 
 import { classnames } from '~/utils/classname';
-
-import { useContentEditor, useTitleEditor } from './use-editor';
-import { EditorHeader } from './header';
 import { Loading } from '~/components/icon';
+import { EditorState } from '~/types/inspiring';
+
+import { useContentEditor, useTitleEditor } from '../../utils/hooks/use-editor';
+import { EditorHeader } from './header';
 
 interface InspiringProps {
   id: string;
@@ -19,28 +20,12 @@ interface InspiringProps {
 
 const InspiringEditor: React.FC<InspiringProps> = React.memo(props => {
   const { id, provider, ydoc, className } = props;
-  const [state, setState] = useState<'connecting' | 'connected' | 'syncing' | 'synced' | 'disconnected'>('connecting');
   const saveFetcher = useFetcher();
+  const contentEditorRef = useRef<Editor | null>(null);
 
-  const { titleEditor } = useTitleEditor(ydoc);
-  const { contentEditor, characterCount, collabState } = useContentEditor(ydoc, provider);
-
-  useEffect(() => {
-    const handleSynced = () => {
-      setState('synced');
-    };
-    const handleStateChange = (state: WebSocketStatus) => {
-      setState(state);
-    };
-
-    provider.on('synced', handleSynced);
-    provider.on('status', handleStateChange);
-
-    return () => {
-      provider.off('synced', handleSynced);
-      provider.off('status', handleStateChange);
-    };
-  }, [provider]);
+  const { titleEditor } = useTitleEditor(ydoc, contentEditorRef);
+  const { contentEditor, characterCount, editorState } = useContentEditor(ydoc, provider);
+  contentEditorRef.current = contentEditor;
 
   useEffect(() => {
     if (!titleEditor) return;
@@ -73,18 +58,18 @@ const InspiringEditor: React.FC<InspiringProps> = React.memo(props => {
       <EditorHeader
         characters={characterCount.characters()}
         words={characterCount.words()}
-        collabState={collabState}
+        editorState={editorState}
         getEditorContent={getEditorContent}
       />
-      <div className="flex-1 flex items-center flex-col w-full overflow-hidden">
-        {state !== 'synced' ? (
+      <div className="inspiring flex-1 flex items-center flex-col w-full overflow-auto">
+        {editorState !== EditorState.SYNCED ? (
           <div className="flex justify-center items-center w-full h-full">
             <Loading className="w-12 h-12" />
           </div>
         ) : (
           <>
-            <EditorContent className="w-full max-w-3xl m-8" editor={titleEditor} />
-            <EditorContent className="w-full max-w-3xl m-8 flex-1" editor={contentEditor} />
+            <EditorContent className="inspiring-title w-full max-w-3xl mx-8 mt-12 mb-8" editor={titleEditor} />
+            <EditorContent className="w-full max-w-3xl mx-8 mb-12 flex-1" editor={contentEditor} />
           </>
         )}
       </div>

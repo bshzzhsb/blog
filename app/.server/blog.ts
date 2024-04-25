@@ -1,7 +1,7 @@
 import { kv } from '@vercel/kv';
 
 import { VERCEL_KV_BLOG_KEY } from '~/constants';
-import type { BlogDocument, BlogList } from '~/types/tiptap';
+import type { BlogDocument, BlogList } from '~/types/inspiring';
 import { getDocContent } from '~/utils/get-doc-content';
 
 export async function getBlogList(): Promise<BlogList> {

@@ -1,7 +1,7 @@
 import { kv } from '@vercel/kv';
 import { JSONContent } from '@tiptap/react';
 
-import type { BlogDocument, Document, TiptapDocumentList } from '~/types/tiptap';
+import type { BlogDocument, Document, DocumentListItem, TiptapDocumentList } from '~/types/inspiring';
 import { TIPTAP_APP_ID, VERCEL_KV_BLOG_KEY, VERCEL_KV_DOC_LIST_KEY } from '~/constants';
 
 type SaveDocumentTitlePayload = {
@@ -19,13 +19,20 @@ export async function getDocumentList(): Promise<TiptapDocumentList> {
   return await listDocumentResponse.json();
 }
 
+export async function getDocumentListFromVercelKV() {
+  const list = await kv.hgetall<Record<string, SaveDocumentTitlePayload>>(VERCEL_KV_DOC_LIST_KEY);
+  if (!list) return [];
+
+  return Object.entries(list).map(([id, data]) => ({ ...data, id }));
+}
+
 export async function getDocument(id: string) {
   const response = await api(`${id}?format=yjs`, 'GET');
   Buffer.from(await response.arrayBuffer());
 }
 
-export async function saveDocumentTitleToVercelKV(id: string, data: Omit<SaveDocumentTitlePayload, 'savedAt'>) {
-  await kv.hset(VERCEL_KV_DOC_LIST_KEY, { [id]: data });
+export async function saveDocumentTitleToVercelKV(id: string, data: Omit<DocumentListItem, 'savedAt' | 'id'>) {
+  await kv.hset<Omit<DocumentListItem, 'id'>>(VERCEL_KV_DOC_LIST_KEY, { [id]: { ...data, savedAt: Date.now() } });
 }
 
 export async function saveAllDocumentsTitlesToVercelKV() {
@@ -35,13 +42,6 @@ export async function saveAllDocumentsTitlesToVercelKV() {
     const title = await getDocumentResponse.json();
     await saveDocumentTitleToVercelKV(document.name, { title });
   }
-}
-
-export async function getDocumentListFromVercelKV() {
-  const list = await kv.hgetall<Record<string, SaveDocumentTitlePayload>>(VERCEL_KV_DOC_LIST_KEY);
-  if (!list) return [];
-
-  return Object.entries(list).map(([id, data]) => ({ ...data, id }));
 }
 
 export async function saveDocumentToVercel(id: string, data: Document) {

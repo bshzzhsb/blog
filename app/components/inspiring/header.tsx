@@ -1,9 +1,9 @@
 import { memo, useEffect } from 'react';
 import { useFetcher } from '@remix-run/react';
-import { WebSocketStatus } from '@hocuspocus/provider';
 import { JSONContent } from '@tiptap/react';
 
 import { TEXT } from '~/constants';
+import { EditorState } from '~/types/inspiring';
 
 import { Loading, Publish } from '../icon';
 import EditorInfo from './editor-info';
@@ -11,12 +11,12 @@ import EditorInfo from './editor-info';
 export interface EditorHeaderProps {
   characters: number;
   words: number;
-  collabState: WebSocketStatus;
+  editorState: EditorState;
   getEditorContent: () => { id: string; title: JSONContent; content: JSONContent } | undefined;
 }
 
 export const EditorHeader: React.FC<EditorHeaderProps> = memo(props => {
-  const { characters, words, collabState, getEditorContent } = props;
+  const { characters, words, editorState, getEditorContent } = props;
   const publishFetcher = useFetcher();
 
   const handleClickPublish = () => {
@@ -37,7 +37,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = memo(props => {
   }, [publishFetcher.state]);
 
   return (
-    <div className="flex justify-end w-full px-4 py-2 border-b-2 border-b-gray-300">
+    <div className="flex justify-end w-full px-4 py-2 border-b-[1px] border-b-gray-300">
       <div className="flex items-center gap-4 text-xs">
         <button
           onClick={handleClickPublish}
@@ -46,7 +46,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = memo(props => {
           {publishFetcher.state === 'submitting' ? <Loading /> : <Publish />}
           <span>{TEXT.publish}</span>
         </button>
-        <EditorInfo characters={characters} words={words} collabState={collabState} />
+        <EditorInfo characters={characters} words={words} editorState={editorState} />
       </div>
     </div>
   );

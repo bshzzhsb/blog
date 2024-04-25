@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from '@remix-run/react';
 
-import type { DocumentList } from '~/types/tiptap';
+import type { DocumentList } from '~/types/inspiring';
 import { getDocContent } from '~/utils/get-doc-content';
 
 interface DocListProps {
@@ -12,7 +12,7 @@ const DocList: React.FC<DocListProps> = React.memo(props => {
   const { docList } = props;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-0.5 text-sm leading-5 text-gray-700">
       {docList
         .sort((a, b) => b.savedAt - a.savedAt)
         .map(doc => (

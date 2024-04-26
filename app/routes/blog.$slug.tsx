@@ -32,6 +32,8 @@ const Blog = memo(() => {
   const { blogTitle } = useBlogTitle(title ?? {});
   const { blogContent, toc } = useBlogContent(content ?? {});
 
+  if (!blogTitle || !blogContent) return null;
+
   return (
     <div className="min-h-[calc(100vh-10.5rem)]">
       <main className="max-w-5xl pt-32 mx-auto">

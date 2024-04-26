@@ -34,10 +34,10 @@ const InspiringEditor: React.FC<InspiringProps> = React.memo(props => {
       if (event.metaKey && event.key === 's') {
         event.preventDefault();
         saveFetcher.submit(
-          { title: titleEditor.getText() },
+          { title: titleEditor.getJSON() },
           { method: 'POST', action: `/editor/api/save/${id}`, encType: 'application/json' },
         );
-        console.log('[DEBUG] save', id, titleEditor.getText());
+        console.log('[DEBUG] save', id, titleEditor.getJSON());
       }
     };
 

@@ -9,12 +9,14 @@ import { Text } from '@tiptap/extension-text';
 import { Heading } from '@tiptap/extension-heading';
 import { Link } from '@tiptap/extension-link';
 import { Placeholder } from '@tiptap/extension-placeholder';
+import { FileHandler } from '@tiptap-pro/extension-file-handler';
 import { Collaboration } from '@tiptap/extension-collaboration';
 import { CollaborationCursor } from '@tiptap/extension-collaboration-cursor';
 import { CharacterCount, CharacterCountStorage } from '@tiptap/extension-character-count';
 import { HocuspocusProvider, WebSocketStatus } from '@hocuspocus/provider';
 import { TableOfContentData, TableOfContents, getHierarchicalIndexes } from '@tiptap-pro/extension-table-of-contents';
 
+import ImageBlock from '~/components/inspiring/extensions/image-block';
 import { EditorState, EditorUser } from '~/types/inspiring';
 
 export function useTitleEditor(doc: Y.Doc, contentEditor: React.RefObject<Editor>) {
@@ -54,9 +56,25 @@ export function useContentEditor(doc: Y.Doc, provider: HocuspocusProvider) {
   const contentEditor = useEditor({
     extensions: [
       StarterKit.configure({ history: false }),
+      ImageBlock,
       Link.configure({ HTMLAttributes: { rel: undefined } }),
       Placeholder.configure({ placeholder: 'Write something...' }),
       Collaboration.configure({ document: doc, field: 'content' }),
+      FileHandler.configure({
+        allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
+        onPaste(editor, files) {
+          files.forEach(async file => {
+            const data = new FormData();
+            data.append('file', file);
+            const response = await fetch('/editor/api/upload_image', {
+              method: 'POST',
+              body: data,
+            });
+            const url = await response.json();
+            return editor.chain().setImageBlockAt({ pos: editor.state.selection.anchor, src: url }).focus().run();
+          });
+        },
+      }),
       CollaborationCursor.configure({
         provider,
         user: {

@@ -5,6 +5,8 @@ export const VERCEL_KV_BLOG_KEY = 'blog_dev';
 
 export const TIPTAP_APP_ID = 'W9N461MO';
 
+export const CLOUDINARY_APP_ID = 'dtvameinx';
+
 export * from './text';
 export * from './code';
 

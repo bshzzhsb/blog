@@ -3,7 +3,7 @@ import { Link, useFetcher } from '@remix-run/react';
 
 import type { DocumentList } from '~/types/inspiring';
 import { getDocContent } from '~/utils/get-doc-content';
-import { Delete } from '../icon';
+import { Icon } from '~/components/icon';
 
 interface DocListProps {
   docList: DocumentList;
@@ -36,7 +36,7 @@ const DocList: React.FC<DocListProps> = React.memo(props => {
                 handleDelete(doc.id);
               }}
             >
-              <Delete />
+              <Icon name="trash-can-regular" />
             </button>
           </Link>
         ))}

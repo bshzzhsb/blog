@@ -5,7 +5,7 @@ import { JSONContent } from '@tiptap/react';
 import { TEXT } from '~/constants';
 import { EditorState } from '~/types/inspiring';
 
-import { Loading, Publish } from '../icon';
+import { Icon } from '../icon';
 import EditorInfo from './editor-info';
 
 export interface EditorHeaderProps {
@@ -43,7 +43,11 @@ export const EditorHeader: React.FC<EditorHeaderProps> = memo(props => {
           onClick={handleClickPublish}
           className="flex items-center gap-1 px-1 py-1 border-[1px] border-gray-200 shadow rounded hover:bg-gray-100 active:bg-gray-200"
         >
-          {publishFetcher.state === 'submitting' ? <Loading /> : <Publish />}
+          {publishFetcher.state === 'submitting' ? (
+            <Icon name="loading" className="animate-spin ease-in-out" />
+          ) : (
+            <Icon name="arrow-up-from-bracket-solid" />
+          )}
           <span>{TEXT.publish}</span>
         </button>
         <EditorInfo characters={characters} words={words} editorState={editorState} />

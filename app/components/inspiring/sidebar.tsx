@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, useFetcher, useNavigation } from '@remix-run/react';
 
 import type { DocumentList } from '~/types/inspiring';
-import { Add, Loading, Reset } from '~/components/icon';
+import { Icon } from '~/components/icon';
 
 import DocList from './doc-list';
 
@@ -29,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = React.memo(props => {
               type="submit"
               className="flex justify-center items-center w-7 h-7 rounded cursor-pointer hover:bg-gray-200"
             >
-              <Reset className="w-5 h-5" />
+              <Icon name="arrows-rotate-solid" className="w-5 h-5" />
             </button>
           </fetcher.Form>
           <Form method="POST" action="/editor/api/create">
@@ -40,9 +40,9 @@ const Sidebar: React.FC<SidebarProps> = React.memo(props => {
               className="flex justify-center items-center w-7 h-7 rounded cursor-pointer hover:bg-gray-200"
             >
               {navigation.formAction === '/editor/api/create' ? (
-                <Loading className="w-6 h-6" />
+                <Icon name="loading" className="w-6 h-6 animate-spin ease-in-out" />
               ) : (
-                <Add className="w-6 h-6" />
+                <Icon name="plus-solid" className="w-6 h-6" />
               )}
             </button>
           </Form>

@@ -3,6 +3,7 @@ import { json, redirect } from '@vercel/remix';
 
 import {
   createDocument,
+  deleteDocument,
   saveAllDocumentsTitlesToVercelKV,
   saveDocumentTitleToVercelKV,
   saveDocumentToVercel,
@@ -67,7 +68,13 @@ export const action: ActionFunction = async ({ request, params }) => {
         return json({}, { status: 500 });
       }
     }
+    case 'delete': {
+      const [id] = rest;
+      console.log('delete id', id);
+      await deleteDocument(id);
+      return json({ ok: true });
+    }
   }
 
-  return json({ ok: true });
+  return json(null, { status: 400 });
 };

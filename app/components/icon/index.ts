@@ -1,5 +1,6 @@
 import Add from './add';
 import Arrow from './arrow';
+import Close from './close';
 import Delete from './delete';
 import Dinosaur from './dinosaur';
 import Loading from './loading';
@@ -11,4 +12,4 @@ export interface IconProps {
   className?: string;
 }
 
-export { Add, Arrow, Delete, Dinosaur, Loading, Publish, Reset, Split };
+export { Add, Arrow, Close, Delete, Dinosaur, Loading, Publish, Reset, Split };

@@ -2,8 +2,12 @@
   @apply text-4xl;
 }
 
+.inspiring {
+  @apply text-lg leading-7;
+}
+
 .inspiring .tiptap {
-  @apply outline-none;
+  @apply flex flex-col gap-4 outline-none;
 }
 
 .inspiring p.is-editor-empty:first-child::before,
@@ -27,10 +31,6 @@
   @apply my-2 text-xl font-semibold;
 }
 
-.inspiring {
-  @apply leading-7;
-}
-
 .inspiring h4,
 .inspiring h5,
 .inspiring h6 {
@@ -46,9 +46,56 @@
 }
 
 .inspiring a {
-  @apply text-blue-500 cursor-pointer;
+  @apply text-blue-500 cursor-pointer hover:shadow-[0_2px_0] transition-shadow;
 }
 
 .inspiring > p {
   @apply mb-4 text-lg leading-8;
+}
+
+.inspiring ul {
+  @apply px-8 list-disc;
+}
+
+.inspiring ol {
+  @apply px-8 list-decimal;
+}
+
+.inspiring li {
+  @apply mb-2;
+}
+
+.inspiring pre {
+  @apply relative pt-10 pb-8 px-8 mt-4 mb-8 lg:-mx-8 bg-gray-100 dark:bg-gray-900 rounded-xl overflow-x-auto text-sm;
+  @apply before:absolute before:top-0 before:content-[attr(data-lang)] before:px-2 before:py-1 before:text-sm before:rounded-b;
+}
+
+.inspiring pre[data-lang='html']::before {
+  @apply bg-orange-300;
+}
+
+.inspiring pre[data-lang='css']::before {
+  @apply bg-indigo-300;
+}
+
+.inspiring pre[data-lang='js']::before,
+.inspiring pre[data-lang='jsx']::before {
+  @apply bg-yellow-300;
+}
+
+.inspiring pre[data-lang='ts']::before,
+.inspiring pre[data-lang='tsx']::before {
+  @apply bg-cyan-300;
+}
+
+.inspiring p code {
+  @apply px-2 py-1 mx-1 text-rose-500 bg-gray-100 dark:bg-gray-800 rounded text-sm font-semibold;
+}
+
+.inspiring p code:first-child {
+  @apply ml-0;
+}
+
+.inspiring code span {
+  @apply leading-6;
 }

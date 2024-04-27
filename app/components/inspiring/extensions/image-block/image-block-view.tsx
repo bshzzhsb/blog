@@ -1,8 +1,9 @@
-import { useCallback, useRef } from 'react';
+import { memo, useCallback, useRef } from 'react';
 import { NodeViewWrapper } from '@tiptap/react';
 import type { Editor } from '@tiptap/react';
 
 import { classnames } from '~/utils/classname';
+import { Loading } from '~/components/icon';
 
 interface ImageBlockViewProps {
   editor: Editor;
@@ -17,9 +18,10 @@ interface ImageBlockViewProps {
   updateAttributes: (attrs: Record<string, string>) => void;
 }
 
-const ImageBlockView: React.FC<ImageBlockViewProps> = props => {
+const ImageBlockView: React.FC<ImageBlockViewProps> = memo(props => {
   const { editor, getPos, node } = props;
   const imageWrapperRef = useRef<HTMLDivElement>(null);
+
   const { src } = node.attrs;
 
   const wrapperClassName = classnames(
@@ -36,11 +38,11 @@ const ImageBlockView: React.FC<ImageBlockViewProps> = props => {
     <NodeViewWrapper>
       <div className={wrapperClassName} style={{ width: node.attrs.width }}>
         <div contentEditable={false} ref={imageWrapperRef}>
-          <img className="block" src={src} alt="" onClick={onClick} />
+          {src ? <img className="block" src={src} alt="" onClick={onClick} /> : <Loading />}
         </div>
       </div>
     </NodeViewWrapper>
   );
-};
+});
 
 export default ImageBlockView;

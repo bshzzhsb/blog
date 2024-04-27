@@ -31,7 +31,7 @@ const InspiringEditor: React.FC<InspiringProps> = React.memo(props => {
     if (!titleEditor) return;
 
     const handleSave = (event: KeyboardEvent) => {
-      if (event.metaKey && event.key === 's') {
+      if ((event.ctrlKey || event.metaKey) && event.key === 's') {
         event.preventDefault();
         saveFetcher.submit(
           { title: titleEditor.getJSON() },
@@ -69,7 +69,7 @@ const InspiringEditor: React.FC<InspiringProps> = React.memo(props => {
         ) : (
           <>
             <EditorContent className="inspiring-title w-full max-w-3xl mx-8 mt-12 mb-8" editor={titleEditor} />
-            <EditorContent className="w-full max-w-3xl mx-8 mb-12 flex-1" editor={contentEditor} />
+            <EditorContent className="w-full max-w-3xl mx-8 mb-48 flex-1" editor={contentEditor} />
           </>
         )}
       </div>

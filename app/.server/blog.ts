@@ -8,6 +8,8 @@ export async function getBlogList(): Promise<BlogList> {
   const blogRecords = await kv.hgetall<Record<string, BlogDocument>>(VERCEL_KV_BLOG_KEY);
   if (!blogRecords) return [];
 
+  console.log('blog list', Array.from(Object.keys(blogRecords)));
+
   return Object.entries(blogRecords)
     .map(([id, blog]) => {
       return {

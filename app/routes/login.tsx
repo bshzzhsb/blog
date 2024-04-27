@@ -16,7 +16,7 @@ const Login: React.FC = () => {
   return (
     <div className="flex justify-center items-center w-full h-full">
       <Form method="post" className="p-4 shadow-md">
-        <input className="" name="tiptapPassword" />
+        <input className="" name="tiptapPassword" type="password" />
         <button>{TEXT.submitLogin}</button>
       </Form>
     </div>

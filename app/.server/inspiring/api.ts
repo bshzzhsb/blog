@@ -63,6 +63,10 @@ export async function saveDocumentToVercel(id: string, data: Document) {
   });
 }
 
+export async function deleteDocument(id: string) {
+  await Promise.all([kv.hdel(VERCEL_KV_DOC_LIST_KEY, id), api(id, 'DELETE')]);
+}
+
 const BASE_URL = `https://${TIPTAP_APP_ID}.collab.tiptap.cloud/api/documents`;
 
 async function api(path: string, method: string, data?: BodyInit) {

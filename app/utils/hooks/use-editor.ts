@@ -7,6 +7,7 @@ import { StarterKit } from '@tiptap/starter-kit';
 import { Document } from '@tiptap/extension-document';
 import { Text } from '@tiptap/extension-text';
 import { Heading } from '@tiptap/extension-heading';
+import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight';
 import { Link } from '@tiptap/extension-link';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import { FileHandler } from '@tiptap-pro/extension-file-handler';
@@ -15,6 +16,7 @@ import { CollaborationCursor } from '@tiptap/extension-collaboration-cursor';
 import { CharacterCount, CharacterCountStorage } from '@tiptap/extension-character-count';
 import { HocuspocusProvider, WebSocketStatus } from '@hocuspocus/provider';
 import { TableOfContentData, TableOfContents, getHierarchicalIndexes } from '@tiptap-pro/extension-table-of-contents';
+import { lowlight } from 'lowlight';
 
 import ImageBlock from '~/components/inspiring/extensions/image-block';
 import { EditorState, EditorUser } from '~/types/inspiring';
@@ -55,7 +57,8 @@ export function useContentEditor(doc: Y.Doc, provider: HocuspocusProvider) {
 
   const contentEditor = useEditor({
     extensions: [
-      StarterKit.configure({ history: false }),
+      StarterKit.configure({ history: false, codeBlock: false }),
+      CodeBlockLowlight.configure({ lowlight }),
       ImageBlock,
       Link.configure({ HTMLAttributes: { rel: undefined } }),
       Placeholder.configure({ placeholder: 'Write something...' }),
@@ -136,7 +139,10 @@ export function useBlogContent(content: JSONContent) {
     content,
     editable: false,
     extensions: [
-      StarterKit.configure({ history: false }),
+      StarterKit.configure({ history: false, codeBlock: false }),
+      // TODO: show language
+      CodeBlockLowlight.configure({ lowlight }),
+      ImageBlock,
       Link.configure({ HTMLAttributes: { rel: undefined } }),
       TableOfContents.configure({
         getIndex: getHierarchicalIndexes,

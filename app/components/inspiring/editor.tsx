@@ -5,7 +5,7 @@ import { Editor, EditorContent } from '@tiptap/react';
 import { TiptapCollabProvider } from '@hocuspocus/provider';
 
 import { classnames } from '~/utils/classname';
-import { Loading } from '~/components/icon';
+import { Icon } from '~/components/icon';
 import { EditorState } from '~/types/inspiring';
 
 import { useContentEditor, useTitleEditor } from '../../utils/hooks/use-editor';
@@ -64,7 +64,7 @@ const InspiringEditor: React.FC<InspiringProps> = React.memo(props => {
       <div className="inspiring flex-1 flex items-center flex-col w-full overflow-auto">
         {editorState !== EditorState.SYNCED ? (
           <div className="flex justify-center items-center w-full h-full">
-            <Loading className="w-12 h-12" />
+            <Icon name="loading" className="w-12 h-12 animate-spin ease-in-out" />
           </div>
         ) : (
           <>

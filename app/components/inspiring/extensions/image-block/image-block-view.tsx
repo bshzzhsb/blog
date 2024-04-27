@@ -3,7 +3,6 @@ import { NodeViewWrapper } from '@tiptap/react';
 import type { Editor } from '@tiptap/react';
 
 import { classnames } from '~/utils/classname';
-import { Loading } from '~/components/icon';
 
 interface ImageBlockViewProps {
   editor: Editor;
@@ -38,7 +37,7 @@ const ImageBlockView: React.FC<ImageBlockViewProps> = memo(props => {
     <NodeViewWrapper>
       <div className={wrapperClassName} style={{ width: node.attrs.width }}>
         <div contentEditable={false} ref={imageWrapperRef}>
-          {src ? <img className="block" src={src} alt="" onClick={onClick} /> : <Loading />}
+          <img className="block" src={src} alt="" onClick={onClick} />
         </div>
       </div>
     </NodeViewWrapper>

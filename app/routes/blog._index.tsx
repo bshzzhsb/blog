@@ -2,7 +2,7 @@ import type { MetaFunction } from '@vercel/remix';
 import { Link, useLoaderData } from '@remix-run/react';
 
 import { getBlogList } from '~/.server/blog';
-import { Arrow } from '~/components/icon';
+import { Icon } from '~/components/icon';
 import { formatDate } from '~/utils/date';
 import { TEXT } from '~/constants';
 
@@ -25,7 +25,7 @@ const Blog: React.FC = () => {
               {!!createdAt && <p className="mb-2 text-secondary">{formatDate(new Date(createdAt))}</p>}
               <p className="flex items-center gap-4 text-sm tracking-wider font-semibold">
                 {TEXT.readMore}
-                <Arrow className="opacity-0 group-hover:opacity-100 transition" />
+                <Icon name="arrow-right-solid" className="opacity-0 group-hover:opacity-100 transition" />
               </p>
             </Link>
           </article>

@@ -7,6 +7,8 @@
   "scripts": {
     "build": "remix vite:build",
     "dev": "remix vite:dev",
+    "icon": "node ./scripts/icon.js",
+    "postinstall": "pnpm run icon",
     "type-check": "tsc --noEmit --project tsconfig.json",
     "prepare": "husky install",
     "lint": "eslint --ext .js,jsx,ts,tsx"

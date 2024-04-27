@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/remix';
 
 import Progress from './page-components/progress';
-import { Dinosaur } from './components/icon';
+import { Icon } from './components/icon';
 import { GTag } from '~/components/gtag';
 import { ThemeContext } from '~/utils/theme';
 import type { Theme } from '~/utils/theme';
@@ -14,6 +14,7 @@ import { gtag } from '~/utils/gtag';
 import { TEXT } from '~/constants';
 import tailwindStyles from '~/styles/tailwind.css?url';
 import codeStyles from '~/styles/code.css?url';
+import svg from '~/components/icon/index.svg?raw';
 
 export const meta: MetaFunction = () => [{ title: TEXT.siteName }];
 
@@ -87,6 +88,7 @@ export default function App() {
           {ENV.GA_TRACKING_ID && <GTag gaTrackingId={ENV.GA_TRACKING_ID} />}
         </head>
         <body className="background text-primary font-sans transition duration-500">
+          <div dangerouslySetInnerHTML={{ __html: svg }} className="absolute w-0 h-0 overflow-hidden" />
           <Outlet />
           <Progress />
           <ScrollRestoration />
@@ -111,7 +113,7 @@ export const ErrorBoundary = ({ error }: { error: Error }) => {
       </head>
       <body>
         <div className="flex flex-col justify-center items-center w-screen h-screen">
-          <Dinosaur className="w-36 h-36 mb-4" />
+          <Icon name="dinosaur" className="w-36 h-36 mb-4" />
           <p className="mb-4">{TEXT.error}</p>
           <Link className="mb-8 text-blue-500 hover:underline" to="/">
             {TEXT.backToHome}

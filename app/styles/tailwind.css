@@ -80,6 +80,24 @@
     @apply leading-7;
   }
 
+  .blog h1 {
+    @apply mt-12 mb-4 heading text-3xl font-semibold;
+  }
+
+  .blog h2 {
+    @apply mt-12 mb-3 heading text-2xl font-semibold;
+  }
+
+  .blog h3 {
+    @apply my-12 mb-3 heading text-xl font-semibold;
+  }
+
+  .blog h4,
+  .blog h5,
+  .blog h6 {
+    @apply mt-6 mb-2 heading font-medium;
+  }
+
   .blog blockquote {
     @apply px-3 py-1 mb-4 text-secondary border-l-2 border-l-blue-500;
   }
@@ -88,20 +106,20 @@
     @apply mb-0;
   }
 
-  .blog > p {
+  .blog .tiptap > p {
     @apply mb-6 text-lg leading-8;
   }
 
   .blog a {
-    @apply text-blue-500;
+    @apply text-blue-500 cursor-pointer hover:shadow-[0_2px_0] transition-shadow;
   }
 
   .blog ul {
-    @apply list-disc list-inside mb-4;
+    @apply list-disc px-8 mb-4;
   }
 
   .blog ol {
-    @apply list-decimal list-inside mb-4;
+    @apply list-decimal px-8 mb-4;
   }
 
   .blog li {
@@ -109,7 +127,8 @@
   }
 
   .blog pre {
-    @apply mt-4 mb-8 bg-gray-100 dark:bg-gray-900 rounded-xl overflow-x-auto;
+    @apply relative pt-10 pb-8 px-8 mt-4 mb-8 lg:-mx-8 bg-gray-100 dark:bg-gray-900 rounded-xl overflow-x-auto text-sm;
+    @apply before:absolute before:top-0 before:content-[attr(data-lang)] before:px-2 before:py-1 before:text-sm before:rounded-b;
   }
 
   .blog pre[data-lang='html']::before {

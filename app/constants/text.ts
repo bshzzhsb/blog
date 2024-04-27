@@ -1,9 +1,12 @@
 export const TEXT = {
   siteName: `block's blog`,
+  editorMetaTitle: 'Editor',
   name: 'block',
   readMore: 'Read more',
   footer: 'Always want to record life, but found that life will not record itself',
   error: 'This page was eaten by the dinosaur.',
   backToHome: 'Back To Home',
   back: 'back',
+  submitLogin: 'Submit',
+  publish: 'Publish',
 };

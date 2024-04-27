@@ -15,7 +15,7 @@ export function jump(targetHash: string | number, options: JumpOptions) {
   const start = window.scrollY;
   let distance: number;
   if (typeof targetHash === 'string') {
-    const target = document.querySelector(decodeURI(targetHash)) || document.querySelector(targetHash);
+    const target = document.querySelector(`[id="${targetHash.slice(1)}"]`);
     distance =
       options.offset + (target ? target.getBoundingClientRect().top || 0 : -document.documentElement.scrollTop);
   } else {
@@ -24,6 +24,8 @@ export function jump(targetHash: string | number, options: JumpOptions) {
   const duration = typeof options.duration === 'function' ? options.duration(distance) : options.duration;
   let timeStart: number;
   let timeElapsed: number;
+
+  console.log('jump', targetHash, options);
 
   const end = () => {
     window.scrollTo(0, start + distance);
@@ -55,6 +57,7 @@ function delegatedLinkHijacking(options: Pick<JumpOptions, 'duration' | 'offset'
 
   const isInPageLink = (element: HTMLElement) => {
     if (element instanceof HTMLAnchorElement) {
+      console.log('is in page link');
       return element.tagName.toLowerCase() === 'a' && element.hash.length > 0 && stripHash(element.href) === pageUrl;
     }
     return false;
@@ -74,6 +77,7 @@ function delegatedLinkHijacking(options: Pick<JumpOptions, 'duration' | 'offset'
     const el = e.target;
     if (el instanceof Element) {
       if (isInPageLink(el as HTMLElement) && (el as Element).className.indexOf('no-smooth-scroll') === -1) {
+        console.log('handle click');
         jump((el as HTMLAnchorElement).hash, {
           ...options,
           callback: function () {

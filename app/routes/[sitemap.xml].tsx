@@ -1,4 +1,4 @@
-import { getBlogList } from '~/api/blog.server';
+import { getBlogList } from '~/.server/blog';
 
 const time = new Date().toISOString();
 

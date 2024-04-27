@@ -5,8 +5,6 @@ import type { MetaFunction } from '@vercel/remix';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/remix';
 
-import Navbar from '~/page-components/navbar';
-import Footer from '~/page-components/footer';
 import Progress from './page-components/progress';
 import { Dinosaur } from './components/icon';
 import { GTag } from '~/components/gtag';
@@ -14,8 +12,8 @@ import { ThemeContext } from '~/utils/theme';
 import type { Theme } from '~/utils/theme';
 import { gtag } from '~/utils/gtag';
 import { TEXT } from '~/constants';
-import tailwindStyles from '~/assets/styles/tailwind.css?url';
-import codeStyles from '~/assets/styles/code.css?url';
+import tailwindStyles from '~/styles/tailwind.css?url';
+import codeStyles from '~/styles/code.css?url';
 
 export const meta: MetaFunction = () => [{ title: TEXT.siteName }];
 
@@ -89,11 +87,7 @@ export default function App() {
           {ENV.GA_TRACKING_ID && <GTag gaTrackingId={ENV.GA_TRACKING_ID} />}
         </head>
         <body className="background text-primary font-sans transition duration-500">
-          <Navbar />
-          <main className="min-h-[calc(100vh-10.5rem)]">
-            <Outlet />
-          </main>
-          <Footer text={TEXT.footer} />
+          <Outlet />
           <Progress />
           <ScrollRestoration />
           <Analytics />

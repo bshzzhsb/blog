@@ -1,11 +1,10 @@
 import { kv } from '@vercel/kv';
 
-import { VERCEL_KV_BLOG_KEY } from '~/constants';
 import type { BlogDocument, BlogList } from '~/types/inspiring';
 import { getDocContent } from '~/utils/get-doc-content';
 
 export async function getBlogList(): Promise<BlogList> {
-  const blogRecords = await kv.hgetall<Record<string, BlogDocument>>(VERCEL_KV_BLOG_KEY);
+  const blogRecords = await kv.hgetall<Record<string, BlogDocument>>(process.env.KV_BLOG_KEY);
   if (!blogRecords) return [];
 
   console.log('blog list', Array.from(Object.keys(blogRecords)));
@@ -23,7 +22,7 @@ export async function getBlogList(): Promise<BlogList> {
 }
 
 export async function getBlog(slug: string): Promise<BlogDocument | null> {
-  return kv.hget<BlogDocument>(VERCEL_KV_BLOG_KEY, slug);
+  return kv.hget<BlogDocument>(process.env.KV_BLOG_KEY, slug);
 }
 
 function getBlogSlug(id: string) {

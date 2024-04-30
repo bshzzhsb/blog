@@ -10,6 +10,10 @@ declare global {
     interface ProcessEnv {
       GA_TRACKING_ID: string;
       VERCEL_ANALYTICS_ID: string;
+
+      KV_DOC_LIST_KEY: string;
+      KV_BLOG_KEY: string;
+
       USER_PASSWORD: string;
       USER_PASSWORD_SECRET_ID: string;
 

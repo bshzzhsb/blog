@@ -61,7 +61,7 @@ const InspiringEditor: React.FC<InspiringProps> = React.memo(props => {
         editorState={editorState}
         getEditorContent={getEditorContent}
       />
-      <div className="inspiring flex-1 flex items-center flex-col w-full overflow-auto">
+      <div className="inspiring editor flex-1 flex items-center flex-col w-full overflow-auto">
         {editorState !== EditorState.SYNCED ? (
           <div className="flex justify-center items-center w-full h-full">
             <Icon name="loading" className="w-12 h-12 animate-spin ease-in-out" />

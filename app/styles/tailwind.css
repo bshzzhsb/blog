@@ -23,18 +23,6 @@
   font-display: swap;
 }
 
-@keyframes mode-switcher {
-  from {
-    transform: rotate(90deg);
-  }
-  75% {
-    transform: rotate(-15deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
 @layer base {
   svg {
     @apply w-4;
@@ -52,125 +40,18 @@
 }
 
 @layer components {
-  .text-primary {
-    @apply text-black dark:text-white;
-  }
-
-  .text-secondary {
-    @apply text-black/60 dark:text-white/60;
-  }
-
-  .border-primary {
-    @apply border-black dark:border-white;
-  }
-
-  .border-secondary {
-    @apply border-gray-200 dark:border-gray-600;
-  }
-
   .background {
     @apply bg-white dark:bg-dark-bg;
   }
 
   .plain-btn {
-    @apply hover:bg-blue-600/10 active:text-blue-600 active:bg-blue-600/30 p-1 rounded dark:hover:bg-blue-600/50 dark:active:text-blue-400 dark:active:bg-blue-600/30;
-  }
-
-  .blog {
-    @apply leading-7;
-  }
-
-  .blog h1 {
-    @apply mt-12 mb-4 heading text-3xl font-semibold;
-  }
-
-  .blog h2 {
-    @apply mt-12 mb-3 heading text-2xl font-semibold;
-  }
-
-  .blog h3 {
-    @apply my-12 mb-3 heading text-xl font-semibold;
-  }
-
-  .blog h4,
-  .blog h5,
-  .blog h6 {
-    @apply mt-6 mb-2 heading font-medium;
-  }
-
-  .blog blockquote {
-    @apply px-3 py-1 mb-4 text-secondary border-l-2 border-l-blue-500;
-  }
-
-  .blog blockquote p {
-    @apply mb-0;
-  }
-
-  .blog .tiptap > p {
-    @apply mb-6 text-lg leading-8;
-  }
-
-  .blog a {
-    @apply text-blue-500 cursor-pointer hover:shadow-[0_2px_0] transition-shadow;
-  }
-
-  .blog ul {
-    @apply list-disc px-8 mb-4;
-  }
-
-  .blog ol {
-    @apply list-decimal px-8 mb-4;
-  }
-
-  .blog li {
-    @apply mb-2;
-  }
-
-  .blog pre {
-    @apply relative pt-10 pb-8 px-8 mt-4 mb-8 lg:-mx-8 bg-gray-100 dark:bg-gray-900 rounded-xl overflow-x-auto text-sm;
-    @apply before:absolute before:top-0 before:content-[attr(data-lang)] before:px-2 before:py-1 before:text-sm before:rounded-b;
-  }
-
-  .blog pre[data-lang='html']::before {
-    @apply bg-orange-300;
-  }
-
-  .blog pre[data-lang='css']::before {
-    @apply bg-indigo-300;
-  }
-
-  .blog pre[data-lang='js']::before,
-  .blog pre[data-lang='jsx']::before {
-    @apply bg-yellow-300;
-  }
-
-  .blog pre[data-lang='ts']::before,
-  .blog pre[data-lang='tsx']::before {
-    @apply bg-cyan-300;
-  }
-
-  .blog p code {
-    @apply px-2 py-1 mx-1 text-rose-500 bg-gray-100 dark:bg-gray-800 rounded text-sm font-semibold;
-  }
-
-  .blog p code:first-child {
-    @apply ml-0;
-  }
-
-  .blog code span {
-    @apply leading-6;
+    @apply p-1 rounded;
+    @apply hover:bg-blue-600/10 active:text-blue-600 active:bg-blue-600/30;
+    @apply dark:hover:bg-blue-600/50 dark:active:text-blue-400 dark:active:bg-blue-600/30;
   }
 }
 
 @layer utilities {
-  .heading {
-    @apply text-sky-500;
-  }
-
-  .transition-mode-switcher {
-    animation: mode-switcher 0.5s ease-in-out;
-  }
-
   .toc > nav > .active {
     @apply text-blue-500;
   }
@@ -193,18 +74,5 @@
 
   .scrollbar-none::-webkit-scrollbar {
     @apply hidden;
-  }
-
-  .editor-scrollbar::-webkit-scrollbar {
-    @apply w-3 border-l border-l-neutral-600/10;
-    border-left-style: solid;
-  }
-
-  .editor-scrollbar:hover::-webkit-scrollbar-thumb {
-    @apply bg-neutral-500/40;
-  }
-
-  .editor-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-neutral-500/70;
   }
 }

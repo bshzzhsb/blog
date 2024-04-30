@@ -1,9 +1,21 @@
 import type { Config } from 'tailwindcss';
+import plugin from 'tailwindcss/plugin';
 
 module.exports = {
   content: ['./app/**/*.{ts,tsx}'],
   darkMode: 'class',
-  plugins: [],
+  plugins: [
+    plugin(function ({ addComponents }) {
+      addComponents({
+        '.text-primary': {
+          '@apply text-black dark:text-white': {},
+        },
+        '.text-secondary': {
+          '@apply text-black/60 dark:text-white/60': {},
+        },
+      });
+    }),
+  ],
   theme: {
     extend: {
       colors: {

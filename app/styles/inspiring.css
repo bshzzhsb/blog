@@ -1,7 +1,3 @@
-.inspiring-title .inspiring h1 {
-  @apply text-4xl;
-}
-
 .inspiring {
   @apply text-lg leading-7;
 }
@@ -10,35 +6,31 @@
   @apply flex flex-col gap-4 outline-none;
 }
 
-.inspiring p.is-editor-empty:first-child::before,
-.inspiring h1.is-editor-empty:first-child::before {
-  color: #adb5bd;
-  content: attr(data-placeholder);
-  float: left;
-  height: 0;
-  pointer-events: none;
+.inspiring-title h1 {
+  @apply text-4xl;
 }
 
 .inspiring h1 {
-  @apply my-4 text-3xl font-semibold;
+  @apply mt-4 text-3xl font-semibold;
 }
 
 .inspiring h2 {
-  @apply my-3 text-2xl font-semibold;
+  @apply mt-3 text-2xl font-semibold;
 }
 
 .inspiring h3 {
-  @apply my-2 text-xl font-semibold;
+  @apply mt-2 text-xl font-semibold;
 }
 
 .inspiring h4,
 .inspiring h5,
 .inspiring h6 {
-  @apply mt-6 mb-2 font-medium;
+  @apply my-2 font-medium;
 }
 
 .inspiring blockquote {
   @apply px-3 py-1 mb-4 border-l-2 border-l-blue-500;
+  @apply text-secondary;
 }
 
 .inspiring blockquote p {
@@ -47,10 +39,6 @@
 
 .inspiring a {
   @apply text-blue-500 cursor-pointer hover:shadow-[0_2px_0] transition-shadow;
-}
-
-.inspiring > p {
-  @apply mb-4 text-lg leading-8;
 }
 
 .inspiring ul {
@@ -89,7 +77,8 @@
 }
 
 .inspiring p code {
-  @apply px-2 py-1 mx-1 text-rose-500 bg-gray-100 dark:bg-gray-800 rounded text-sm font-semibold;
+  @apply px-2 py-1 mx-1 text-rose-500 bg-gray-100 rounded text-sm font-semibold;
+  @apply dark:bg-gray-800;
 }
 
 .inspiring p code:first-child {
@@ -98,4 +87,45 @@
 
 .inspiring code span {
   @apply leading-6;
+}
+
+.editor p.is-editor-empty:first-child::before,
+.editor h1.is-editor-empty:first-child::before {
+  @apply h-0 text-gray-600 content-[attr(data-placeholder)] float-left pointer-events-none;
+}
+
+.blog h1 {
+  @apply mt-6;
+}
+
+.blog h2 {
+  @apply mt-4;
+}
+
+.blog h3 {
+  @apply my-3;
+}
+
+.blog h4,
+.blog h5,
+.blog h6 {
+  @apply mt-2;
+}
+
+.blog h1,
+.blog h2,
+.blog h3,
+.blog h4,
+.blog h5,
+.blog h6 {
+  @apply text-sky-500;
+}
+
+.blog .tiptap > p {
+  @apply text-lg;
+}
+
+.blog ul,
+.blog ol {
+  @apply mb-2;
 }

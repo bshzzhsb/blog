@@ -1,21 +1,13 @@
 import { Outlet, useLoaderData } from '@remix-run/react';
-import type { LoaderFunctionArgs, LinksFunction, MetaFunction } from '@vercel/remix';
+import type { LoaderFunctionArgs, MetaFunction } from '@vercel/remix';
 import { json, redirect } from '@vercel/remix';
 
-import inspiringStypes from '~/styles/inspiring.css?url';
 import Sidebar from '~/components/inspiring/sidebar';
 import { getDocumentListFromVercelKV } from '~/.server/inspiring/api';
 import { commitSession, getSession } from '~/session';
 import { TEXT } from '~/constants';
 
 export const meta: MetaFunction = () => [{ title: `${TEXT.editorMetaTitle} - ${TEXT.siteName}` }];
-
-export const links: LinksFunction = () => [
-  {
-    rel: 'stylesheet',
-    href: inspiringStypes,
-  },
-];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   console.log('[debug] in editor loader');

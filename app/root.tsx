@@ -12,8 +12,10 @@ import { ThemeContext } from '~/utils/theme';
 import type { Theme } from '~/utils/theme';
 import { gtag } from '~/utils/gtag';
 import { TEXT } from '~/constants';
+
 import tailwindStyles from '~/styles/tailwind.css?url';
 import codeStyles from '~/styles/code.css?url';
+import inspiringStyles from '~/styles/inspiring.css?url';
 import svg from '~/components/icon/index.svg?raw';
 
 export const meta: MetaFunction = () => [{ title: TEXT.siteName }];
@@ -26,6 +28,10 @@ export const links: LinksFunction = () => [
   {
     rel: 'stylesheet',
     href: codeStyles,
+  },
+  {
+    rel: 'stylesheet',
+    href: inspiringStyles,
   },
   {
     rel: 'preload',

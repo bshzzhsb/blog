@@ -3,7 +3,7 @@ export const TEXT = {
   editorMetaTitle: 'Editor',
   name: 'block',
   readMore: 'Read more',
-  footer: 'Always want to record life, but found that life will not record itself',
+  footer: '争渡，争渡，惊起一滩鸥鹭',
   error: 'This page was eaten by the dinosaur.',
   backToHome: 'Back To Home',
   back: 'back',

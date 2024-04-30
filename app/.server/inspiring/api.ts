@@ -2,7 +2,7 @@ import { kv } from '@vercel/kv';
 import { JSONContent } from '@tiptap/react';
 
 import type { BlogDocument, Document, DocumentListItem, TiptapDocumentList } from '~/types/inspiring';
-import { TIPTAP_APP_ID, VERCEL_KV_BLOG_KEY, VERCEL_KV_DOC_LIST_KEY } from '~/constants';
+import { TIPTAP_APP_ID } from '~/constants';
 
 type SaveDocumentTitlePayload = {
   title: JSONContent;
@@ -20,7 +20,7 @@ export async function getDocumentList(): Promise<TiptapDocumentList> {
 }
 
 export async function getDocumentListFromVercelKV() {
-  const list = await kv.hgetall<Record<string, SaveDocumentTitlePayload>>(VERCEL_KV_DOC_LIST_KEY);
+  const list = await kv.hgetall<Record<string, SaveDocumentTitlePayload>>(process.env.KV_DOC_LIST_KEY);
   if (!list) return [];
 
   return Object.entries(list).map(([id, data]) => ({ ...data, id }));
@@ -32,11 +32,11 @@ export async function getDocument(id: string) {
 }
 
 export async function saveDocumentTitleToVercelKV(id: string, data: Omit<DocumentListItem, 'savedAt' | 'id'>) {
-  await kv.hset<Omit<DocumentListItem, 'id'>>(VERCEL_KV_DOC_LIST_KEY, { [id]: { ...data, savedAt: Date.now() } });
+  await kv.hset<Omit<DocumentListItem, 'id'>>(process.env.KV_DOC_LIST_KEY, { [id]: { ...data, savedAt: Date.now() } });
 }
 
 export async function saveAllDocumentsTitlesToVercelKV() {
-  const [documents] = await Promise.all([getDocumentList(), kv.del(VERCEL_KV_DOC_LIST_KEY)]);
+  const [documents] = await Promise.all([getDocumentList(), kv.del(process.env.KV_DOC_LIST_KEY)]);
   for (const document of documents) {
     const getDocumentResponse = await api(`${document.name}?format=json&fragment=title`, 'GET');
     const title = await getDocumentResponse.json();
@@ -52,7 +52,7 @@ export async function saveDocumentToVercel(id: string, data: Document) {
     console.log('cannot find document of id', id);
   }
 
-  await kv.hset<BlogDocument>(VERCEL_KV_BLOG_KEY, {
+  await kv.hset<BlogDocument>(process.env.KV_BLOG_KEY, {
     [id]: {
       title: data.title,
       content: data.content,
@@ -64,7 +64,8 @@ export async function saveDocumentToVercel(id: string, data: Document) {
 }
 
 export async function deleteDocument(id: string) {
-  await Promise.all([kv.hdel(VERCEL_KV_DOC_LIST_KEY, id), api(id, 'DELETE')]);
+  // NOTE: this will not delete the saved document.
+  await Promise.all([kv.hdel(process.env.KV_DOC_LIST_KEY, id), api(id, 'DELETE')]);
 }
 
 const BASE_URL = `https://${TIPTAP_APP_ID}.collab.tiptap.cloud/api/documents`;

@@ -93,7 +93,7 @@ export default function App() {
           <Links />
           {ENV.GA_TRACKING_ID && <GTag gaTrackingId={ENV.GA_TRACKING_ID} />}
         </head>
-        <body className="background text-primary font-sans transition duration-500">
+        <body className="background overflow-hidden text-primary font-sans transition duration-500">
           <div dangerouslySetInnerHTML={{ __html: svg }} className="absolute w-0 h-0 overflow-hidden" />
           <Outlet />
           <Progress />

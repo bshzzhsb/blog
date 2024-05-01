@@ -9,4 +9,7 @@ export const TEXT = {
   back: 'back',
   submitLogin: 'Submit',
   publish: 'Publish',
+
+  format: 'Format',
+  insert: 'Insert',
 };

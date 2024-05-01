@@ -18,7 +18,7 @@ import { HocuspocusProvider, WebSocketStatus } from '@hocuspocus/provider';
 import { TableOfContentData, TableOfContents, getHierarchicalIndexes } from '@tiptap-pro/extension-table-of-contents';
 import { lowlight } from 'lowlight';
 
-import ImageBlock from '~/components/inspiring/extensions/image-block';
+import { ImageBlock, SlashCommand } from '~/components/inspiring/extensions';
 import { EditorState, EditorUser } from '~/types/inspiring';
 
 export function useTitleEditor(doc: Y.Doc, contentEditor: React.RefObject<Editor>) {
@@ -62,6 +62,7 @@ export function useContentEditor(doc: Y.Doc, provider: HocuspocusProvider) {
       ImageBlock,
       Link.configure({ HTMLAttributes: { rel: undefined } }),
       Placeholder.configure({ placeholder: 'Write something...' }),
+      SlashCommand,
       Collaboration.configure({ document: doc, field: 'content' }),
       FileHandler.configure({
         allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],

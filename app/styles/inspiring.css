@@ -76,6 +76,10 @@
   @apply bg-cyan-300;
 }
 
+.inspiring pre code {
+  @apply leading-6;
+}
+
 .inspiring p code {
   @apply px-2 py-1 mx-1 text-rose-500 bg-gray-100 rounded text-sm font-semibold;
   @apply dark:bg-gray-800;
@@ -83,10 +87,6 @@
 
 .inspiring p code:first-child {
   @apply ml-0;
-}
-
-.inspiring code span {
-  @apply leading-6;
 }
 
 .editor p.is-editor-empty:first-child::before,

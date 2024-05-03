@@ -15,7 +15,6 @@ export async function createDocument(id: string, data?: BodyInit) {
 
 export async function getDocumentList(): Promise<TiptapDocumentList> {
   const listDocumentResponse = await api('', 'GET');
-
   return await listDocumentResponse.json();
 }
 
@@ -49,7 +48,7 @@ export async function saveDocumentToVercel(id: string, data: Document) {
   const document = documents.find(doc => doc.name === id);
 
   if (!document) {
-    console.log('cannot find document of id', id);
+    throw new Error(`cannot find document by id: ${id}`);
   }
 
   await kv.hset<BlogDocument>(process.env.KV_BLOG_KEY, {
@@ -71,11 +70,11 @@ export async function deleteDocument(id: string) {
 const BASE_URL = `https://${TIPTAP_APP_ID}.collab.tiptap.cloud/api/documents`;
 
 async function api(path: string, method: string, data?: BodyInit) {
-  const url = new URL(`${BASE_URL}/${path}`);
+  const url = new URL(`${BASE_URL}/${path}`).toString().replace(/\/$/, '');
 
-  console.log('api', url.toString(), { method, Authorization: process.env.TIPTAP_API_SECRET_ID });
+  console.log('api', url, { method, Authorization: process.env.TIPTAP_API_SECRET_ID });
 
-  return fetch(url.toString(), {
+  return fetch(url, {
     method,
     headers: { Authorization: process.env.TIPTAP_API_SECRET_ID },
     body: data,

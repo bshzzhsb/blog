@@ -1,26 +1,32 @@
-import { autoUpdate, computePosition } from '@floating-ui/dom';
+import { ReferenceElement, autoUpdate, computePosition } from '@floating-ui/dom';
 
 import { DisposerBag } from '~/utils/disposer-bag';
 
 export class Popup {
   private element: HTMLDivElement;
+  private anchor: ReferenceElement;
   private disposers = new DisposerBag();
 
-  constructor(child: Element, anchor: Element) {
+  constructor(child: Element, anchor: ReferenceElement) {
+    console.log('new popup', child);
+
     const element = document.createElement('div');
-    element.style.display = '';
+    element.style.display = 'none';
     element.style.position = 'absolute';
     element.appendChild(child);
     document.body.appendChild(element);
     this.element = element;
+    this.anchor = anchor;
 
-    const updatePosition = () => {
-      computePosition(anchor, element, { placement: 'bottom-start' }).then(({ x, y }) => {
-        element.style.left = `${x}px`;
-        element.style.top = `${y}px`;
-      });
-    };
-    this.disposers.add(autoUpdate(anchor, element, updatePosition));
+    if (anchor instanceof Element) {
+      const updatePosition = () => {
+        computePosition(anchor, element, { placement: 'bottom-start' }).then(({ x, y }) => {
+          element.style.left = `${x}px`;
+          element.style.top = `${y}px`;
+        });
+      };
+      this.disposers.add(autoUpdate(anchor, element, updatePosition));
+    }
   }
 
   destroy() {
@@ -41,6 +47,14 @@ export class Popup {
   }
 
   hide() {
-    this.element.style.display = '';
+    this.element.style.display = 'none';
+  }
+
+  updatePosition() {
+    const { element, anchor } = this;
+    computePosition(anchor, element, { placement: 'bottom-start' }).then(({ x, y }) => {
+      element.style.left = `${x}px`;
+      element.style.top = `${y}px`;
+    });
   }
 }

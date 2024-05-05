@@ -10,6 +10,7 @@ import { EditorState } from '~/types/inspiring';
 
 import { useContentEditor, useTitleEditor } from '../../utils/hooks/use-editor';
 import { EditorHeader } from './header';
+import { useBubbleMenu } from './extensions';
 
 interface InspiringProps {
   id: string;
@@ -26,6 +27,8 @@ const InspiringEditor: React.FC<InspiringProps> = React.memo(props => {
   const { titleEditor } = useTitleEditor(ydoc, contentEditorRef);
   const { contentEditor, characterCount, editorState } = useContentEditor(ydoc, provider);
   contentEditorRef.current = contentEditor;
+
+  useBubbleMenu({ editor: contentEditor, pluginKey: 'BubbleMenu' });
 
   useEffect(() => {
     if (!titleEditor) return;
@@ -61,17 +64,14 @@ const InspiringEditor: React.FC<InspiringProps> = React.memo(props => {
         editorState={editorState}
         getEditorContent={getEditorContent}
       />
-      <div className="inspiring editor flex-1 flex items-center flex-col w-full overflow-auto">
-        {editorState !== EditorState.SYNCED ? (
-          <div className="flex justify-center items-center w-full h-full">
+      <div className="inspiring editor relative flex-1 flex items-center flex-col w-full overflow-auto">
+        {editorState !== EditorState.SYNCED && (
+          <div className="absolute flex justify-center items-center w-full h-full bg-white z-10">
             <Icon name="loading" className="w-12 h-12 animate-spin ease-in-out" />
           </div>
-        ) : (
-          <>
-            <EditorContent className="inspiring-title w-full max-w-3xl mx-8 mt-12 mb-8" editor={titleEditor} />
-            <EditorContent className="w-full max-w-3xl mx-8 mb-48 flex-1" editor={contentEditor} />
-          </>
         )}
+        <EditorContent className="inspiring-title w-full max-w-3xl mx-8 mt-12 mb-8" editor={titleEditor} />
+        <EditorContent className="w-full max-w-3xl mx-8 mb-48 flex-1" editor={contentEditor} />
       </div>
     </div>
   );

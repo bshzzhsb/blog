@@ -1,11 +1,13 @@
 import { Editor, Extension } from '@tiptap/core';
 import { PluginKey } from '@tiptap/pm/state';
 import { ReactRenderer } from '@tiptap/react';
-import type { SuggestionKeyDownProps } from '@tiptap/suggestion';
+import type { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion';
 import { Suggestion } from '@tiptap/suggestion';
 
-import { Command, GROUPS, Group } from './group';
-import { MenuList, MenuListProps, MenuListRef } from './menu-list';
+import type { Command, Group } from './group';
+import { GROUPS } from './group';
+import { MenuList } from './menu-list';
+import type { MenuListRef } from './menu-list';
 import { Popup } from './popup';
 
 const KEY = 'SlashCommand';
@@ -13,8 +15,6 @@ const KEY = 'SlashCommand';
 export const SlashCommand = Extension.create({
   name: KEY,
   priority: 500,
-
-  onCreate() {},
 
   addProseMirrorPlugins() {
     return [
@@ -77,7 +77,7 @@ export const SlashCommand = Extension.create({
         },
 
         render: () => {
-          let component: ReactRenderer<MenuListRef, MenuListProps> | null = null;
+          let component: ReactRenderer<MenuListRef, SuggestionProps<Group>> | null = null;
           let popup: Popup | null = null;
 
           return {

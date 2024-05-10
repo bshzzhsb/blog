@@ -1,5 +1,7 @@
 import { IconNames } from './type';
 
+export type { IconNames };
+
 export interface IconProps {
   name: IconNames;
   className?: string;

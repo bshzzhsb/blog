@@ -1,5 +1,5 @@
 .inspiring {
-  @apply text-lg leading-7;
+  @apply text-lg leading-8;
 }
 
 .inspiring .tiptap {
@@ -87,6 +87,15 @@
 
 .inspiring p code:first-child {
   @apply ml-0;
+}
+
+.inspiring code {
+  font-variant-ligatures: none;
+}
+
+.inspiring strong {
+  font-family: 'sriracha';
+  @apply leading-8;
 }
 
 .editor p.is-editor-empty:first-child::before,

@@ -2,7 +2,7 @@ import { Outlet, useLoaderData } from '@remix-run/react';
 import type { LoaderFunctionArgs, MetaFunction } from '@vercel/remix';
 import { json, redirect } from '@vercel/remix';
 
-import Sidebar from '~/components/inspiring/sidebar';
+import Sidebar from '~/page-components/inspiring/editor/sidebar';
 import { getDocumentListFromVercelKV } from '~/.server/inspiring/api';
 import { commitSession, getSession } from '~/session';
 import { TEXT } from '~/constants';
@@ -10,7 +10,6 @@ import { TEXT } from '~/constants';
 export const meta: MetaFunction = () => [{ title: `${TEXT.editorMetaTitle} - ${TEXT.siteName}` }];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  console.log('[debug] in editor loader');
   const session = await getSession(request.headers.get('Cookie'));
 
   if (!session.has(process.env.TIPTAP_TOKEN_KEY)) {

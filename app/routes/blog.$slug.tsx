@@ -1,14 +1,11 @@
-import { memo, useRef } from 'react';
+import { memo } from 'react';
 import type { LoaderFunctionArgs, MetaFunction } from '@vercel/remix';
 import { useLoaderData } from '@remix-run/react';
-import { EditorContent } from '@tiptap/react';
 
 import { getBlog } from '~/.server/blog';
-import { formatDate } from '~/utils/date';
-import TOC from '~/page-components/toc';
 import { TEXT } from '~/constants';
 import { getDocContent } from '~/utils/get-doc-content';
-import { useBlogContent, useBlogTitle } from '~/utils/hooks/use-editor';
+import { InspiringBlog } from '~/page-components/inspiring/blog';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) return [];
@@ -25,31 +22,14 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   return null;
 };
 
-const Blog = memo(() => {
-  const ref = useRef<HTMLElement>(null);
-  const { title, content, createdAt } = useLoaderData<typeof loader>() ?? {};
+const Blog = memo(function Blog() {
+  const blog = useLoaderData<typeof loader>();
 
-  const { blogTitle } = useBlogTitle(title ?? {});
-  const { blogContent, toc } = useBlogContent(content ?? {});
-
-  if (!blogTitle || !blogContent) return null;
+  if (!blog) return null;
 
   return (
     <div className="min-h-[calc(100vh-10.5rem)]">
-      <main className="max-w-5xl pt-24 mx-auto">
-        <header className="flex justify-center px-8 mb-16">
-          <div className="inspiring blog w-full md:max-w-2xl xl:max-w-5xl">
-            <EditorContent editor={blogTitle} className="inspiring-title mb-4 text-4xl" />
-            <div className="text-secondary">{createdAt && formatDate(new Date(createdAt))}</div>
-          </div>
-        </header>
-        <main className="flex justify-center px-8 mb-16">
-          <article className="inspiring blog flex-1 max-w-full md:max-w-2xl" ref={ref}>
-            <EditorContent editor={blogContent} />
-          </article>
-          <TOC className="sticky top-24 ml-auto basis-52 max-h-[calc(100vh-12rem)] hidden xl:block" toc={toc} />
-        </main>
-      </main>
+      <InspiringBlog blog={blog} />
     </div>
   );
 });

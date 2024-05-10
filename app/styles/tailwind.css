@@ -25,17 +25,7 @@
 
 @layer base {
   svg {
-    @apply w-4;
-    @apply h-4;
-    fill: currentColor;
-  }
-
-  code {
-    font-variant-ligatures: none;
-  }
-
-  strong {
-    font-family: 'sriracha';
+    @apply w-4 h-4 fill-current;
   }
 }
 

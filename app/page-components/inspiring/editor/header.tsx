@@ -5,7 +5,7 @@ import { JSONContent } from '@tiptap/react';
 import { TEXT } from '~/constants';
 import { EditorState } from '~/types/inspiring';
 
-import { Icon } from '../icon';
+import { Icon } from '../../../components/icon';
 import EditorInfo from './editor-info';
 
 export interface EditorHeaderProps {

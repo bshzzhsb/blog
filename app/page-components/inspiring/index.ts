@@ -1,0 +1,1 @@
+export { InspiringEditor } from './editor';

@@ -118,6 +118,7 @@ export const ErrorBoundary = ({ error }: { error: Error }) => {
         <Links />
       </head>
       <body>
+        <div dangerouslySetInnerHTML={{ __html: svg }} className="absolute w-0 h-0 overflow-hidden" />
         <div className="flex flex-col justify-center items-center w-screen h-screen">
           <Icon name="dinosaur" className="w-36 h-36 mb-4" />
           <p className="mb-4">{TEXT.error}</p>

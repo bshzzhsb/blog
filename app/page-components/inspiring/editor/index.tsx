@@ -5,15 +5,15 @@ import { TiptapCollabProvider } from '@hocuspocus/provider';
 
 import { TIPTAP_APP_ID } from '~/constants';
 
-import InspiringEditor from './editor';
+import { EditorComponent } from './editor';
 
-interface InspiringProps {
+interface InspiringEditorProps {
   id: string;
   token: string;
   className?: string;
 }
 
-const Inspiring: React.FC<InspiringProps> = React.memo(props => {
+export const InspiringEditor: React.FC<InspiringEditorProps> = React.memo(props => {
   const { id, token, className } = props;
   const [provider, setProvider] = useState<TiptapCollabProvider | undefined>();
   const ydoc = useMemo(() => new Y.Doc(), []);
@@ -34,7 +34,5 @@ const Inspiring: React.FC<InspiringProps> = React.memo(props => {
 
   if (!provider) return null;
 
-  return <InspiringEditor id={id} provider={provider} ydoc={ydoc} className={className} />;
+  return <EditorComponent id={id} provider={provider} ydoc={ydoc} className={className} />;
 });
-
-export default Inspiring;

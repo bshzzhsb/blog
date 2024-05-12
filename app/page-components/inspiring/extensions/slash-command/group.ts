@@ -26,7 +26,7 @@ export const GROUPS: Group[] = [
         id: `heading${level}`,
         label: `Heading ${level}`,
         aliases: [`h${level}`],
-        icon: `h${level}` as 'h1' | 'h2' | 'h3',
+        icon: `h${level}-solid` as 'h1-solid' | 'h2-solid' | 'h3-solid',
         action: (editor: Editor) => {
           editor.chain().focus().setHeading({ level }).run();
         },

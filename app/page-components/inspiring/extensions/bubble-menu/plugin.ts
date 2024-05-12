@@ -104,7 +104,5 @@ export function BubbleMenuPlugin<T>(options: BubbleMenuPluginOptions<T>) {
         return next;
       },
     },
-
-    props: {},
   });
 }

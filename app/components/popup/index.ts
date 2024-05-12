@@ -37,7 +37,9 @@ export class Popup {
   destroy() {
     this.element.replaceChildren();
     this.hide();
-    this.parent.removeChild(this.element);
+    if (this.element.parentElement === this.parent) {
+      this.parent.removeChild(this.element);
+    }
     this.disposers.disposeAll();
   }
 

@@ -97,7 +97,7 @@ export function useContentEditor(doc: Y.Doc, provider: HocuspocusProvider, conta
       setEditorState(EditorState.SYNCED);
     };
 
-    const handleStateChange = (status: WebSocketStatus) => {
+    const handleStateChange = ({ status }: { status: WebSocketStatus }) => {
       const stateMap: Record<WebSocketStatus, EditorState> = {
         [WebSocketStatus.Connecting]: EditorState.CONNECTING,
         [WebSocketStatus.Connected]: EditorState.CONNECTED,
@@ -114,8 +114,6 @@ export function useContentEditor(doc: Y.Doc, provider: HocuspocusProvider, conta
       provider.off('status', handleStateChange);
     };
   }, [provider]);
-
-  console.log('editor state', editorState);
 
   return { contentEditor, users, characterCount, editorState };
 }

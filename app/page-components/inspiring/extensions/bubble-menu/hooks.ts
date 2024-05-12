@@ -26,7 +26,6 @@ export function useContentTypeOptions(editor: Editor): ContentTypeOption[] {
         icon: 'paragraph-regular',
         onClick: () => editor.chain().focus().lift('taskItem').liftListItem('listItem').setParagraph().run(),
         isActive: () => editor.isActive('paragraph'),
-        isDisabled: () => !editor.isActive('paragraph') && !editor.can().setParagraph(),
       },
       ...([1, 2, 3] as const).map(level => ({
         id: `heading${level}`,
@@ -34,10 +33,8 @@ export function useContentTypeOptions(editor: Editor): ContentTypeOption[] {
         icon: `h${level}-solid` as 'h1-solid' | 'h2-solid' | 'h3-solid',
         onClick: () => editor.chain().focus().lift('taskItem').liftListItem('listItem').toggleHeading({ level }).run(),
         isActive: () => editor.isActive('heading', { level }),
-        isDisabled: () => !editor.isActive('heading', { level }) && !editor.can().setHeading({ level }),
       })),
     ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [editor, editor.state],
   );
 }

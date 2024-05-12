@@ -93,11 +93,6 @@
   font-variant-ligatures: none;
 }
 
-.inspiring strong {
-  font-family: 'sriracha';
-  @apply leading-8;
-}
-
 .editor p.is-editor-empty:first-child::before,
 .editor h1.is-editor-empty:first-child::before {
   @apply h-0 text-gray-600 content-[attr(data-placeholder)] float-left pointer-events-none;
@@ -137,4 +132,9 @@
 .blog ul,
 .blog ol {
   @apply mb-2;
+}
+
+.blog strong {
+  font-family: 'sriracha';
+  @apply leading-8;
 }

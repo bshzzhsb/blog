@@ -62,6 +62,7 @@ export const DropdownMenuItem = forwardRef<
       ref={useMergeRefs([item.ref, forwardedRef])}
       type="button"
       role="menuitem"
+      data-active={isActive ? '' : undefined}
       tabIndex={isActive ? 0 : -1}
       disabled={disabled}
       {...getItemProps({

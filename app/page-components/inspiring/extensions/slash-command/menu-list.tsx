@@ -100,7 +100,7 @@ export const MenuList = forwardRef<MenuListRef, SuggestionProps<Group>>((props, 
     [onSelectItem, groups, selectedCommandIndex, selectedGroupIndex],
   );
 
-  // TODO: @sibo select item maybe out of the viewport.
+  // TODO: select item maybe out of the viewport.
 
   if (groups.length === 0) return null;
 

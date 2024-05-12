@@ -82,14 +82,6 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
                   }
                 }
 
-                const a = new Range();
-                const fromNode = view.domAtPos(from);
-                a.setStart(fromNode.node, fromNode.offset);
-                const toNode = view.domAtPos(to);
-                a.setEnd(toNode.node, toNode.offset);
-
-                console.log('posToDOMRect', from, to, posToDOMRect(view, from, to), a, a.getClientRects());
-
                 return posToDOMRect(view, from, to);
               };
 
@@ -100,16 +92,16 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
 
                 // support for CellSelections
                 const { ranges } = selection;
-                const from = Math.min(...ranges.map(range => range.$from.pos));
-                const to = Math.max(...ranges.map(range => range.$to.pos));
+                const fromPos = Math.min(...ranges.map(range => range.$from.pos));
+                const toPos = Math.max(...ranges.map(range => range.$to.pos));
 
-                const a = new Range();
-                const fromNode = view.domAtPos(from);
-                a.setStart(fromNode.node, fromNode.offset);
-                const toNode = view.domAtPos(to);
-                a.setEnd(toNode.node, toNode.offset);
+                const selectionRange = new Range();
+                const from = view.domAtPos(fromPos);
+                selectionRange.setStart(from.node, from.offset);
+                const to = view.domAtPos(toPos);
+                selectionRange.setEnd(to.node, to.offset);
 
-                return a.getClientRects();
+                return selectionRange.getClientRects();
               };
 
               const anchor: ReferenceElement = {

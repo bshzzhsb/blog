@@ -50,7 +50,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ visible, setVisible, path }) => (
       (visible ? '' : 'hidden')
     }
   >
-    <ul className={'flex flex-col gap-8 font-medium'}>
+    <ul className={'flex flex-col gap-8 font-semibold'}>
       {LINKS.map(link => (
         <MobileNavLink
           key={link.to}
@@ -79,7 +79,7 @@ const Navbar = () => {
                 {TEXT.name}
               </Link>
             </div>
-            <ul className={'relative md:flex md:items-center md:gap-8 h-16 hidden font-medium'}>
+            <ul className={'relative md:flex md:items-center md:gap-8 h-16 hidden font-semibold'}>
               {LINKS.map(link => (
                 <NavLink key={link.to} to={link.to} name={link.name} active={location.pathname === link.to} />
               ))}

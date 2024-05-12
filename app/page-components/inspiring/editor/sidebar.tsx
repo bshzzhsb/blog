@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = React.memo(props => {
   const fetcher = useFetcher();
 
   return (
-    <div className="font-medium">
+    <div className="font-semibold">
       <div className="flex justify-between mb-4 text-lg">
         <div className="px-2 py-1">
           <strong>Inspiring</strong>

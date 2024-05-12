@@ -1,5 +1,5 @@
 .inspiring {
-  @apply text-lg leading-8;
+  @apply text-lg leading-7;
 }
 
 .inspiring .tiptap {
@@ -11,11 +11,11 @@
 }
 
 .inspiring h1 {
-  @apply mt-4 text-3xl font-semibold;
+  @apply mt-6 my-2 text-3xl font-semibold;
 }
 
 .inspiring h2 {
-  @apply mt-3 text-2xl font-semibold;
+  @apply mt-4 my-1 text-2xl font-semibold;
 }
 
 .inspiring h3 {
@@ -25,11 +25,11 @@
 .inspiring h4,
 .inspiring h5,
 .inspiring h6 {
-  @apply my-2 font-medium;
+  @apply mt-1 font-semibold;
 }
 
 .inspiring blockquote {
-  @apply px-3 py-1 mb-4 border-l-2 border-l-blue-500;
+  @apply px-3 border-l-2 border-l-blue-500;
   @apply text-secondary;
 }
 
@@ -49,8 +49,17 @@
   @apply px-8 list-decimal;
 }
 
-.inspiring li {
+.inspiring li > p:not(:last-child),
+.inspiring li > blockquote:not(:last-child),
+.inspiring li > ul:not(:last-child),
+.inspiring li > ol:not(:last-child) {
   @apply mb-2;
+}
+
+.inspiring blockquote,
+.inspiring ul,
+.inspiring ol {
+  @apply flex flex-col gap-2;
 }
 
 .inspiring pre {
@@ -136,5 +145,5 @@
 
 .blog strong {
   font-family: 'sriracha';
-  @apply leading-8;
+  @apply leading-7;
 }

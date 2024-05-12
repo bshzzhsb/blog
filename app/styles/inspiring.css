@@ -53,13 +53,13 @@
 .inspiring li > blockquote:not(:last-child),
 .inspiring li > ul:not(:last-child),
 .inspiring li > ol:not(:last-child) {
-  @apply mb-2;
+  @apply mb-4;
 }
 
 .inspiring blockquote,
 .inspiring ul,
 .inspiring ol {
-  @apply flex flex-col gap-2;
+  @apply flex flex-col gap-4;
 }
 
 .inspiring pre {

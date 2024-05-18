@@ -125,12 +125,7 @@
   @apply mt-2;
 }
 
-.blog h1,
-.blog h2,
-.blog h3,
-.blog h4,
-.blog h5,
-.blog h6 {
+.blog .heading {
   @apply text-sky-500;
 }
 

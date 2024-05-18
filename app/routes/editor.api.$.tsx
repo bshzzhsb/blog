@@ -12,7 +12,6 @@ import { uploadImage } from '~/.server/cloudinary';
 import { getSession } from '~/session';
 
 export const action: ActionFunction = async ({ request, params }) => {
-  console.log('editor.api', params);
   const session = await getSession(request.headers.get('Cookie'));
 
   if (!session.has(process.env.TIPTAP_TOKEN_KEY)) {
@@ -30,7 +29,6 @@ export const action: ActionFunction = async ({ request, params }) => {
         return json({}, { status: 400 });
       }
 
-      console.log('api.$.save', id, data.title);
       await saveDocumentTitleToVercelKV(id, data);
       return json({ ok: true });
     }
@@ -59,8 +57,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 
       const dataURL = Buffer.from(await file.arrayBuffer()).toString('base64');
 
-      console.log('dataURL', file.name, file.size, file.type);
-
       try {
         const url = await uploadImage(dataURL, file.type);
         return json(url);
@@ -70,7 +66,6 @@ export const action: ActionFunction = async ({ request, params }) => {
     }
     case 'delete': {
       const [id] = rest;
-      console.log('delete id', id);
       await deleteDocument(id);
       return json({ ok: true });
     }

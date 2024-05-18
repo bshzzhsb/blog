@@ -3,7 +3,6 @@ import { Icon } from '~/components/icon';
 import { classnames } from '~/utils/classname';
 
 export function HeadingComponent(props: NodeViewProps) {
-  console.log(props);
   const { level, id } = props.node.attrs;
   const as = `h${level}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   const attributes = mergeAttributes(props.extension.options.HTMLAttributes, { id, class: 'heading relative group' });

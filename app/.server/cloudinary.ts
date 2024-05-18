@@ -16,6 +16,6 @@ export async function uploadImage(file: string, type: string) {
     });
     return url;
   } catch (e) {
-    console.log('upload image error', e);
+    console.error('upload image error', e);
   }
 }

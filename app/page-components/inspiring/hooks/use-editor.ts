@@ -39,9 +39,6 @@ export function useTitleEditor(doc: Y.Doc, contentEditor: React.RefObject<Editor
       Placeholder.configure({ placeholder: 'Title' }),
       Collaboration.configure({ document: doc, field: 'title' }),
     ],
-    onUpdate: throttle<({ editor }: { editor: Editor }) => void>(({ editor }) => {
-      console.log('title update', editor.getJSON());
-    }, 1000),
   });
 
   return { titleEditor };

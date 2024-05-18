@@ -38,7 +38,6 @@ export const EditorComponent: React.FC<EditorComponentProps> = React.memo(props 
           { title: titleEditor.getJSON() },
           { method: 'POST', action: `/editor/api/save/${id}`, encType: 'application/json' },
         );
-        console.log('[DEBUG] save', id, titleEditor.getJSON());
       }
     };
 

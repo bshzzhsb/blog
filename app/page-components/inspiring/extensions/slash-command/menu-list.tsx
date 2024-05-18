@@ -32,7 +32,6 @@ export const MenuList = forwardRef<MenuListRef, SuggestionProps<Group>>((props, 
     ref,
     () => ({
       onKeyDown: event => {
-        console.log('useImperativeHandle', event.key);
         switch (event.key) {
           case 'ArrowDown': {
             const commands = groups[selectedGroupIndex]?.commands;

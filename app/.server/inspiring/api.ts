@@ -63,7 +63,7 @@ export async function saveDocumentToVercel(id: string, data: Document) {
 }
 
 export async function deleteDocument(id: string) {
-  // NOTE: this will not delete the saved document.
+  // NOTE: This will not delete the saved document.
   await Promise.all([kv.hdel(process.env.KV_DOC_LIST_KEY, id), api(id, 'DELETE')]);
 }
 
@@ -72,7 +72,7 @@ const BASE_URL = `https://${TIPTAP_APP_ID}.collab.tiptap.cloud/api/documents`;
 async function api(path: string, method: string, data?: BodyInit) {
   const url = new URL(`${BASE_URL}/${path}`).toString().replace(/\/$/, '');
 
-  console.log('api', url, { method, Authorization: process.env.TIPTAP_API_SECRET_ID });
+  console.log('api', url, { method });
 
   return fetch(url, {
     method,

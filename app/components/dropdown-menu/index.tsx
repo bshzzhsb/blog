@@ -110,7 +110,7 @@ export const DropdownMenuTrigger = forwardRef<HTMLButtonElement, React.HTMLProps
         {children}
         <Icon
           name="chevron-up-regular"
-          className={classnames('transition', { 'rotate-90': isNested, 'rotate-180': !isNested && isOpen })}
+          className={classnames('transition', { 'rotate-90': isNested, 'rotate-180': !isNested && !isOpen })}
         />
       </button>
     );

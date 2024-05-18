@@ -13,7 +13,6 @@ import { Dropcursor } from '@tiptap/extension-dropcursor';
 import type { FileHandlerOptions } from '@tiptap-pro/extension-file-handler';
 import { FileHandler } from '@tiptap-pro/extension-file-handler';
 import { HardBreak } from '@tiptap/extension-hard-break';
-import { Heading } from '@tiptap/extension-heading';
 import { HorizontalRule } from '@tiptap/extension-horizontal-rule';
 import { Italic } from '@tiptap/extension-italic';
 import { Link } from '@tiptap/extension-link';
@@ -33,6 +32,7 @@ import { lowlight } from 'lowlight';
 
 import type { BubbleMenuOptions } from './bubble-menu';
 import { BubbleMenu } from './bubble-menu';
+import { Heading } from './heading';
 import { ImageBlock } from './image-block';
 import { SlashCommand } from './slash-command';
 

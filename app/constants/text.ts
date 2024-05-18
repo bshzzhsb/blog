@@ -7,6 +7,7 @@ export const TEXT = {
   error: 'This page was eaten by the dinosaur.',
   backToHome: 'Back To Home',
   back: 'back',
+  login: 'Login',
   submitLogin: 'Submit',
   publish: 'Publish',
 

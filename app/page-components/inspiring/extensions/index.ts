@@ -4,10 +4,6 @@ import { BulletList } from '@tiptap/extension-bullet-list';
 import { CharacterCount } from '@tiptap/extension-character-count';
 import { Code } from '@tiptap/extension-code';
 import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight';
-import type { CollaborationOptions } from '@tiptap/extension-collaboration';
-import { Collaboration } from '@tiptap/extension-collaboration';
-import type { CollaborationCursorOptions } from '@tiptap/extension-collaboration-cursor';
-import { CollaborationCursor } from '@tiptap/extension-collaboration-cursor';
 import { Document } from '@tiptap/extension-document';
 import { Dropcursor } from '@tiptap/extension-dropcursor';
 import type { FileHandlerOptions } from '@tiptap-pro/extension-file-handler';
@@ -40,7 +36,7 @@ type BaseExtensionOptions = {
   tableOfContents?: Partial<TableOfContentsOptions>;
 };
 
-export function getBaseExtensions(options: BaseExtensionOptions) {
+export function getBaseExtensions(options?: BaseExtensionOptions) {
   return [
     Blockquote,
     Bold,
@@ -59,7 +55,7 @@ export function getBaseExtensions(options: BaseExtensionOptions) {
     OrderedList,
     Paragraph,
     Strike,
-    TableOfContents.configure(options.tableOfContents),
+    TableOfContents.configure(options?.tableOfContents),
     TaskItem,
     TaskList,
     Text,
@@ -69,16 +65,12 @@ export function getBaseExtensions(options: BaseExtensionOptions) {
 
 type EditorExtensionOptions = {
   bubbleMenu?: BubbleMenuOptions;
-  collaboration?: Partial<CollaborationOptions>;
-  collaborationCursor?: Partial<CollaborationCursorOptions>;
   fileHandler?: Partial<FileHandlerOptions>;
 };
 
 export function getEditorExtensions(options: EditorExtensionOptions) {
   return [
     BubbleMenu.configure(options.bubbleMenu),
-    Collaboration.configure(options.collaboration),
-    CollaborationCursor.configure(options.collaborationCursor),
     Dropcursor,
     FileHandler,
     Placeholder.configure({ placeholder: 'Write something...' }),

@@ -1,8 +1,0 @@
-{
-  "crons": [
-    {
-      "path": "/api/cron/tiptap",
-      "schedule": "0 0 * * *"
-    }
-  ]
-}

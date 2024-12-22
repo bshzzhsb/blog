@@ -11,9 +11,7 @@ export async function registerTiptapToken(request: Request) {
   const jwt = jsonwebtoken.sign(password, process.env.USER_PASSWORD_SECRET_ID);
 
   if (jwt === process.env.USER_PASSWORD) {
-    const tiptapToken = jsonwebtoken.sign({}, process.env.TIPTAP_APP_SECRET_ID);
-    session.set(process.env.TIPTAP_TOKEN_KEY, tiptapToken);
-
+    session.set(process.env.TIPTAP_TOKEN_KEY, 'this_is_a_temporary_token');
     return redirect('/editor', { headers: { 'Set-Cookie': await commitSession(session) } });
   }
 

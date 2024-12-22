@@ -3,7 +3,7 @@ import type { LoaderFunctionArgs, MetaFunction } from '@vercel/remix';
 import { json, redirect } from '@vercel/remix';
 
 import Sidebar from '~/page-components/inspiring/editor/sidebar';
-import { getDocumentListFromVercelKV } from '~/.server/inspiring/api';
+import { liveblocksApi, LiveblocksGetCommands } from '~/.server/liveblocks';
 import { commitSession, getSession } from '~/session';
 import { TEXT } from '~/constants';
 
@@ -16,8 +16,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return redirect('/login');
   }
 
-  const documentList = await getDocumentListFromVercelKV();
-  return json(documentList, {
+  const documentList = await liveblocksApi.get(LiveblocksGetCommands.ROOMS);
+  return json(documentList.data, {
     headers: {
       'Set-Cookie': await commitSession(session),
     },

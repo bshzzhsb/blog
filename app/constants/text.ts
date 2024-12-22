@@ -13,4 +13,6 @@ export const TEXT = {
 
   format: 'Format',
   insert: 'Insert',
+  CONNECTING: 'connecting',
+  CONNECTED: 'connected',
 };

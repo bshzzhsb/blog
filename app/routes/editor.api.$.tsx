@@ -1,15 +1,11 @@
 import type { ActionFunction } from '@vercel/remix';
 import { json, redirect } from '@vercel/remix';
 
-import {
-  createDocument,
-  deleteDocument,
-  saveAllDocumentsTitlesToVercelKV,
-  saveDocumentTitleToVercelKV,
-  saveDocumentToVercel,
-} from '~/.server/inspiring/api';
+import { deleteDocument, saveDocumentToVercel } from '~/.server/inspiring/api';
 import { uploadImage } from '~/.server/cloudinary';
 import { getSession } from '~/session';
+import { liveblocksApi, LiveblocksPostCommands, RoomAccess } from '~/.server/liveblocks';
+import { getDocContent } from '~/utils/get-doc-content';
 
 export const action: ActionFunction = async ({ request, params }) => {
   const session = await getSession(request.headers.get('Cookie'));
@@ -21,6 +17,17 @@ export const action: ActionFunction = async ({ request, params }) => {
   const [api, ...rest] = params['*']?.split('/') ?? [];
 
   switch (api) {
+    case 'create': {
+      const id = `blog.${crypto.randomUUID()}`;
+      await liveblocksApi.post(LiveblocksPostCommands.ROOMS, {
+        id,
+        defaultAccesses: [RoomAccess.WRITE],
+        metadata: {
+          title: 'Default Title',
+        },
+      });
+      return redirect(`/editor/${id}`);
+    }
     case 'save': {
       const [id] = rest;
       const data = await request.json();
@@ -29,16 +36,11 @@ export const action: ActionFunction = async ({ request, params }) => {
         return json({}, { status: 400 });
       }
 
-      await saveDocumentTitleToVercelKV(id, data);
-      return json({ ok: true });
-    }
-    case 'create': {
-      const id = `blog.${crypto.randomUUID()}`;
-      await createDocument(id);
-      return redirect(`/editor/${id}`);
-    }
-    case 'resync': {
-      await saveAllDocumentsTitlesToVercelKV();
+      await liveblocksApi.post(
+        LiveblocksPostCommands.ROOMS_ROOM_ID,
+        { metadata: { title: getDocContent(data.title) } },
+        { roomId: id },
+      );
       return json({ ok: true });
     }
     case 'publish': {

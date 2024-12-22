@@ -9,7 +9,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const key = process.env.TIPTAP_TOKEN_KEY;
   if (session.has(key)) {
-    return json(session.get(key));
+    return json({
+      tiptapToken: session.get(key),
+      liveblockPublicApiKey: process.env.LIVEBLOCKS_API_PUBLIC_KEY,
+    });
   }
 
   return redirect('/login');
@@ -17,11 +20,19 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 const Editor: React.FC = () => {
   const { id } = useParams();
-  const tiptapToken = useLoaderData<typeof loader>();
+  const { tiptapToken, liveblockPublicApiKey } = useLoaderData<typeof loader>();
 
   if (!id || !tiptapToken) return null;
 
-  return <InspiringEditor key={id} id={id} token={tiptapToken} className="h-full overflow-y-auto" />;
+  return (
+    <InspiringEditor
+      key={id}
+      id={id}
+      token={tiptapToken}
+      liveblocksPublicApiKey={liveblockPublicApiKey}
+      className="h-full overflow-y-auto"
+    />
+  );
 };
 
 export default Editor;

@@ -1,23 +1,16 @@
 import { memo } from 'react';
 
+import { TEXT } from '~/constants';
 import { classnames } from '~/utils/classname';
-import { EditorState } from '~/types/inspiring';
 
 export interface EditorInfoProps {
   characters: number;
   words: number;
-  editorState: EditorState;
+  isEditorReady: boolean;
 }
 
-const EditorStateMap: Record<EditorState, string> = {
-  [EditorState.CONNECTING]: 'Connecting',
-  [EditorState.CONNECTED]: 'Connected',
-  [EditorState.DISCONNECTED]: 'Disconnected',
-  [EditorState.SYNCED]: 'Connected',
-};
-
 const EditorInfo: React.FC<EditorInfoProps> = memo(props => {
-  const { characters, words, editorState } = props;
+  const { characters, words, isEditorReady } = props;
 
   return (
     <div className="flex gap-4">
@@ -32,14 +25,12 @@ const EditorInfo: React.FC<EditorInfoProps> = memo(props => {
       <div className="w-[1px] bg-gray-300" />
       <div className="flex items-center gap-2">
         <div
-          className={classnames('w-2 h-2 rounded-full', {
-            'bg-yellow-500 dark:bg-yellow-400': editorState === EditorState.CONNECTING,
-            'bg-green-500 dark:bg-green-400':
-              editorState === EditorState.CONNECTED || editorState === EditorState.SYNCED,
-            'bg-red-500 dark:bg-red-400': editorState === EditorState.DISCONNECTED,
-          })}
+          className={classnames(
+            'w-2 h-2 rounded-full',
+            isEditorReady ? 'bg-green-500 dark:bg-green-400' : 'bg-yellow-500 dark:bg-yellow-400',
+          )}
         />
-        <span>{EditorStateMap[editorState]}</span>
+        <span>{isEditorReady ? TEXT.CONNECTED : TEXT.CONNECTING}</span>
       </div>
     </div>
   );

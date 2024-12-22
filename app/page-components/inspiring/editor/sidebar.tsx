@@ -1,19 +1,18 @@
 import React from 'react';
-import { Form, useFetcher, useNavigation } from '@remix-run/react';
+import { Form, useNavigation } from '@remix-run/react';
 
-import type { DocumentList } from '~/types/inspiring';
+import { Room } from '~/.server/liveblocks';
 import { Icon } from '~/components/icon';
 
 import DocList from './doc-list';
 
 interface SidebarProps {
-  docList: DocumentList;
+  docList: Room[];
 }
 
 const Sidebar: React.FC<SidebarProps> = React.memo(props => {
   const { docList } = props;
   const navigation = useNavigation();
-  const fetcher = useFetcher();
 
   return (
     <div className="font-semibold">
@@ -22,16 +21,6 @@ const Sidebar: React.FC<SidebarProps> = React.memo(props => {
           <strong>Inspiring</strong>
         </div>
         <div className="flex items-center gap-1">
-          <fetcher.Form method="POST" action="/editor/api/resync">
-            <button
-              name="_action"
-              value="RESYNC"
-              type="submit"
-              className="flex justify-center items-center w-7 h-7 rounded cursor-pointer hover:bg-gray-200"
-            >
-              <Icon name="arrows-rotate-solid" className="w-5 h-5" />
-            </button>
-          </fetcher.Form>
           <Form method="POST" action="/editor/api/create">
             <button
               name="_action"

@@ -1,4 +1,4 @@
-import { Extension, ReactRenderer, isActive, isNodeSelection, posToDOMRect } from '@tiptap/react';
+import { Extension, ReactRenderer, ReactRendererOptions, isActive, isNodeSelection, posToDOMRect } from '@tiptap/react';
 import { inline, offset, type ReferenceElement } from '@floating-ui/dom';
 
 import { Popup } from '~/components/popup';
@@ -43,7 +43,7 @@ export const BubbleMenu = Extension.create<BubbleMenuOptions>({
         },
 
         render: () => {
-          let component: ReactRenderer<undefined, undefined> | null = null;
+          let component: ReactRenderer<undefined, ReactRendererOptions> | null = null;
           let popup: Popup | null = null;
 
           return {

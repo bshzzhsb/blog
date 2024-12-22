@@ -23,6 +23,6 @@
   // Vite takes care of building everything, not tsc.
   "noEmit": true,
 
-  "include": ["env.d.ts", "**/*.ts", "**/*.tsx", "app/utils/mdx/rehype-prism.js"],
+  "include": ["env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

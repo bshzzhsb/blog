@@ -1,38 +1,25 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import * as Y from 'yjs';
-
-import { TiptapCollabProvider } from '@hocuspocus/provider';
-
-import { TIPTAP_APP_ID } from '~/constants';
+import React from 'react';
+import { ClientSideSuspense, LiveblocksProvider, RoomProvider } from '@liveblocks/react/suspense';
 
 import { EditorComponent } from './editor';
+import { Loading } from '~/components/loading';
 
 interface InspiringEditorProps {
   id: string;
-  token: string;
+  liveblocksPublicApiKey: string;
   className?: string;
 }
 
 export const InspiringEditor: React.FC<InspiringEditorProps> = React.memo(props => {
-  const { id, token, className } = props;
-  const [provider, setProvider] = useState<TiptapCollabProvider | undefined>();
-  const ydoc = useMemo(() => new Y.Doc(), []);
+  const { id, className, liveblocksPublicApiKey } = props;
 
-  useEffect(() => {
-    const provider = new TiptapCollabProvider({
-      name: id,
-      appId: TIPTAP_APP_ID,
-      token,
-      document: ydoc,
-    });
-    setProvider(provider);
-
-    return () => {
-      provider.destroy();
-    };
-  }, [id, token, ydoc]);
-
-  if (!provider) return null;
-
-  return <EditorComponent id={id} provider={provider} ydoc={ydoc} className={className} />;
+  return (
+    <LiveblocksProvider publicApiKey={liveblocksPublicApiKey}>
+      <RoomProvider id={id}>
+        <ClientSideSuspense fallback={<Loading />}>
+          <EditorComponent id={id} className={className} />
+        </ClientSideSuspense>
+      </RoomProvider>
+    </LiveblocksProvider>
+  );
 });

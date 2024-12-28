@@ -1,4 +1,5 @@
 export type IconNames =
+  | 'arrow-right-from-bracket'
   | 'arrow-right-solid'
   | 'arrow-up-from-bracket-solid'
   | 'arrows-rotate-solid'
@@ -9,6 +10,7 @@ export type IconNames =
   | 'code-solid'
   | 'command-regular'
   | 'dinosaur'
+  | 'github'
   | 'h1-regular'
   | 'h1-solid'
   | 'h2-regular'

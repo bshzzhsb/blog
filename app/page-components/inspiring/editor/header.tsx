@@ -1,22 +1,21 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { useFetcher } from '@remix-run/react';
 import { JSONContent } from '@tiptap/react';
 
 import { TEXT } from '~/constants';
-import { EditorState } from '~/types/inspiring';
+import { Icon } from '~/components/icon';
 
-import { Icon } from '../../../components/icon';
 import EditorInfo from './editor-info';
 
 export interface EditorHeaderProps {
   characters: number;
   words: number;
-  editorState: EditorState;
+  isEditorReady: boolean;
   getEditorContent: () => { id: string; title: JSONContent; content: JSONContent } | undefined;
 }
 
 export const EditorHeader: React.FC<EditorHeaderProps> = memo(props => {
-  const { characters, words, editorState, getEditorContent } = props;
+  const { characters, words, isEditorReady, getEditorContent } = props;
   const publishFetcher = useFetcher();
 
   const handleClickPublish = () => {
@@ -46,7 +45,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = memo(props => {
           )}
           <span>{TEXT.publish}</span>
         </button>
-        <EditorInfo characters={characters} words={words} editorState={editorState} />
+        <EditorInfo characters={characters} words={words} isEditorReady={isEditorReady} />
       </div>
     </div>
   );

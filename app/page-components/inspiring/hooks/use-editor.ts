@@ -1,66 +1,30 @@
-import { useEffect, useState } from 'react';
-import { throttle } from 'lodash-es';
-import * as Y from 'yjs';
 import type { Editor } from '@tiptap/core';
-
 import { CharacterCountStorage } from '@tiptap/extension-character-count';
-import { Collaboration } from '@tiptap/extension-collaboration';
-import { Document } from '@tiptap/extension-document';
-import { Heading } from '@tiptap/extension-heading';
-import { Placeholder } from '@tiptap/extension-placeholder';
-import { Text } from '@tiptap/extension-text';
+import { useLiveblocksExtension } from '@liveblocks/react-tiptap';
 
-import { HocuspocusProvider, WebSocketStatus } from '@hocuspocus/provider';
+import { getBaseExtensions, getEditorExtensions, getTitleExtensions } from '../extensions';
+import { useEditor } from '@tiptap/react';
 
-import { getBaseExtensions, getEditorExtensions } from '../extensions';
-import { EditorState, EditorUser } from '~/types/inspiring';
-import { useEditor } from './use-tiptap-editor';
+export function useTitleEditor(contentEditor: React.RefObject<Editor>) {
+  const liveblocks = useLiveblocksExtension({ field: 'title' });
 
-export function useTitleEditor(doc: Y.Doc, contentEditor: React.RefObject<Editor>) {
   const titleEditor = useEditor({
-    extensions: [
-      Document.extend({
-        content: 'heading',
-      }),
-      Text,
-      Heading.extend({
-        addKeyboardShortcuts() {
-          const handleEnter = () => {
-            return contentEditor.current?.commands.focus('start') ?? true;
-          };
-
-          return {
-            ArrowDown: handleEnter,
-            Enter: handleEnter,
-            'Mod-Enter': handleEnter,
-          };
-        },
-      }).configure({ levels: [1] }),
-      Placeholder.configure({ placeholder: 'Title' }),
-      Collaboration.configure({ document: doc, field: 'title' }),
-    ],
+    extensions: [liveblocks, ...getTitleExtensions(contentEditor)],
   });
 
   return { titleEditor };
 }
 
-export function useContentEditor(doc: Y.Doc, provider: HocuspocusProvider, container?: HTMLDivElement) {
-  const [editorState, setEditorState] = useState(EditorState.CONNECTING);
+export function useContentEditor(container?: HTMLDivElement) {
+  const liveblocks = useLiveblocksExtension({ field: 'content' });
 
   const contentEditor = useEditor(
     {
       extensions: [
-        ...getBaseExtensions({}),
+        liveblocks,
+        ...getBaseExtensions(),
         ...getEditorExtensions({
           bubbleMenu: { container },
-          collaboration: { document: doc, field: 'content' },
-          collaborationCursor: {
-            provider,
-            user: {
-              name: 'bshzzhsb',
-              color: '#001122',
-            } as EditorUser,
-          },
           fileHandler: {
             allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
             onPaste(editor, files) {
@@ -82,35 +46,10 @@ export function useContentEditor(doc: Y.Doc, provider: HocuspocusProvider, conta
     [container],
   );
 
-  const users = contentEditor?.storage.collaborationCursor?.users ?? [];
-
   const characterCount: CharacterCountStorage = contentEditor?.storage.characterCount || {
     characters: () => 0,
     words: () => 0,
   };
 
-  useEffect(() => {
-    const handleSynced = () => {
-      setEditorState(EditorState.SYNCED);
-    };
-
-    const handleStateChange = ({ status }: { status: WebSocketStatus }) => {
-      const stateMap: Record<WebSocketStatus, EditorState> = {
-        [WebSocketStatus.Connecting]: EditorState.CONNECTING,
-        [WebSocketStatus.Connected]: EditorState.CONNECTED,
-        [WebSocketStatus.Disconnected]: EditorState.DISCONNECTED,
-      };
-      setEditorState(stateMap[status]);
-    };
-
-    provider.on('synced', handleSynced);
-    provider.on('status', handleStateChange);
-
-    return () => {
-      provider.off('synced', handleSynced);
-      provider.off('status', handleStateChange);
-    };
-  }, [provider]);
-
-  return { contentEditor, users, characterCount, editorState };
+  return { contentEditor, characterCount };
 }

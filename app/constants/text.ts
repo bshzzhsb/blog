@@ -8,9 +8,11 @@ export const TEXT = {
   backToHome: 'Back To Home',
   back: 'back',
   login: 'Login',
-  submitLogin: 'Submit',
+  LOGIN_WITH_GITHUB: 'Login with GitHub',
   publish: 'Publish',
 
   format: 'Format',
   insert: 'Insert',
+  CONNECTING: 'connecting',
+  CONNECTED: 'connected',
 };

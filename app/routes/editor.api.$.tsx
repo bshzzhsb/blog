@@ -1,26 +1,32 @@
 import type { ActionFunction } from '@vercel/remix';
 import { json, redirect } from '@vercel/remix';
 
-import {
-  createDocument,
-  deleteDocument,
-  saveAllDocumentsTitlesToVercelKV,
-  saveDocumentTitleToVercelKV,
-  saveDocumentToVercel,
-} from '~/.server/inspiring/api';
+import { vercelKv } from '~/.server/vercel-kv';
 import { uploadImage } from '~/.server/cloudinary';
-import { getSession } from '~/session';
+import { liveblocks } from '~/.server/liveblocks';
+import { remixAuth } from '~/.server/auth';
+
+import { getDocContent } from '~/utils/get-doc-content';
+import { Document } from '~/types/inspiring';
 
 export const action: ActionFunction = async ({ request, params }) => {
-  const session = await getSession(request.headers.get('Cookie'));
-
-  if (!session.has(process.env.TIPTAP_TOKEN_KEY)) {
+  if (!(await remixAuth.auth(request))?.user) {
     return redirect('/login');
   }
 
   const [api, ...rest] = params['*']?.split('/') ?? [];
 
   switch (api) {
+    case 'create': {
+      const id = `blog.${crypto.randomUUID()}`;
+      await liveblocks.createRoom(id, {
+        defaultAccesses: ['room:write'],
+        metadata: {
+          title: 'Default Title',
+        },
+      });
+      return redirect(`/editor/${id}`);
+    }
     case 'save': {
       const [id] = rest;
       const data = await request.json();
@@ -29,23 +35,34 @@ export const action: ActionFunction = async ({ request, params }) => {
         return json({}, { status: 400 });
       }
 
-      await saveDocumentTitleToVercelKV(id, data);
-      return json({ ok: true });
-    }
-    case 'create': {
-      const id = `blog.${crypto.randomUUID()}`;
-      await createDocument(id);
-      return redirect(`/editor/${id}`);
-    }
-    case 'resync': {
-      await saveAllDocumentsTitlesToVercelKV();
+      await liveblocks.updateRoom(id, {
+        metadata: { title: getDocContent(data.title) },
+      });
       return json({ ok: true });
     }
     case 'publish': {
       const [id] = rest;
-      const data = await request.json();
-      await saveDocumentToVercel(id, data);
-      return json({ ok: true });
+      const data: Document = await request.json();
+      const newRoomId = encodeURI(getDocContent(data.title).trim().replaceAll(/\s/g, '-'));
+
+      // Update room id to title.
+      if (id !== newRoomId) {
+        await liveblocks.updateRoomId({ currentRoomId: id, newRoomId });
+      }
+
+      // TODO: We don't need to get document again.
+      const document = await liveblocks.getRoom(newRoomId);
+
+      if (!document) {
+        throw new Error(`cannot find document by id: ${id}`);
+      }
+
+      await vercelKv.saveDocument(newRoomId, data, document.createdAt);
+      if (id !== newRoomId) {
+        await vercelKv.deleteDocument(id);
+      }
+
+      return redirect(`/editor/${newRoomId}`);
     }
     case 'upload_image': {
       const data = await request.formData();
@@ -66,7 +83,8 @@ export const action: ActionFunction = async ({ request, params }) => {
     }
     case 'delete': {
       const [id] = rest;
-      await deleteDocument(id);
+      // NOTE: This will not delete the saved document.
+      await liveblocks.deleteRoom(id);
       return json({ ok: true });
     }
   }

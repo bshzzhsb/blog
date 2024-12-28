@@ -2,26 +2,24 @@ import { Outlet, useLoaderData } from '@remix-run/react';
 import type { LoaderFunctionArgs, MetaFunction } from '@vercel/remix';
 import { json, redirect } from '@vercel/remix';
 
+import { remixAuth } from '~/.server/auth';
+
 import Sidebar from '~/page-components/inspiring/editor/sidebar';
-import { getDocumentListFromVercelKV } from '~/.server/inspiring/api';
-import { commitSession, getSession } from '~/session';
+import { liveblocks } from '~/.server/liveblocks';
 import { TEXT } from '~/constants';
+import { Path } from '~/constants/path';
 
 export const meta: MetaFunction = () => [{ title: `${TEXT.editorMetaTitle} - ${TEXT.siteName}` }];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const session = await getSession(request.headers.get('Cookie'));
+  const session = await remixAuth.auth(request);
 
-  if (!session.has(process.env.TIPTAP_TOKEN_KEY)) {
-    return redirect('/login');
+  if (!session?.user) {
+    return redirect(Path.LOGIN);
   }
 
-  const documentList = await getDocumentListFromVercelKV();
-  return json(documentList, {
-    headers: {
-      'Set-Cookie': await commitSession(session),
-    },
-  });
+  const documentList = await liveblocks.getRooms();
+  return json(documentList.data);
 };
 
 const EditorIndex: React.FC = () => {

@@ -16,7 +16,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   if (params.slug) {
-    const blog = await getBlog(`blog.${params.slug}`);
+    const blog = await getBlog(params.slug);
     return blog;
   }
   return null;

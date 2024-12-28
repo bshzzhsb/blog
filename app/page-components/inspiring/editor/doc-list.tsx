@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, useFetcher } from '@remix-run/react';
+import type { RoomData } from '@liveblocks/node';
+import type { SerializeFrom } from '@vercel/remix';
 
-import type { DocumentList } from '~/types/inspiring';
-import { getDocContent } from '~/utils/get-doc-content';
 import { Icon } from '~/components/icon';
 
 interface DocListProps {
-  docList: DocumentList;
+  docList: SerializeFrom<RoomData>[];
 }
 
 const DocList: React.FC<DocListProps> = React.memo(props => {
@@ -20,14 +20,14 @@ const DocList: React.FC<DocListProps> = React.memo(props => {
   return (
     <div className="flex flex-col gap-0.5 text-sm leading-5 text-gray-700">
       {docList
-        .sort((a, b) => b.savedAt - a.savedAt)
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         .map(doc => (
           <Link
             key={doc.id}
             to={`/editor/${encodeURIComponent(doc.id)}`}
             className="group flex items-center px-2 py-1 rounded hover:bg-gray-200"
           >
-            <span className="flex-1 line-clamp-1">{getDocContent(doc.title) || 'Undefined'}</span>
+            <span className="flex-1 line-clamp-1">{doc.metadata?.title || 'Undefined'}</span>
             <button
               className="hidden group-hover:block w-5 h-5 p-0.5 rounded hover:bg-gray-300"
               onClick={e => {

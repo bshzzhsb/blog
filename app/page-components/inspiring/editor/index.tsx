@@ -6,7 +6,6 @@ import { Loading } from '~/components/loading';
 
 interface InspiringEditorProps {
   id: string;
-  token: string;
   liveblocksPublicApiKey: string;
   className?: string;
 }

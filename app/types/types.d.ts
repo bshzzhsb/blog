@@ -16,13 +16,13 @@ declare global {
       USER_PASSWORD: string;
       USER_PASSWORD_SECRET_ID: string;
 
-      TIPTAP_TOKEN_KEY: 'tiptapToken';
-
       CLOUDINARY_API_KEY: string;
       CLOUDINARY_API_SECRET: string;
 
       LIVEBLOCKS_API_PUBLIC_KEY: string;
       LIVEBLOCKS_API_SECRET_KEY: string;
+
+      AUTH_EMAIL: string;
     }
   }
 

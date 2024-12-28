@@ -21,6 +21,15 @@ const Sidebar: React.FC<SidebarProps> = React.memo(props => {
           <strong>Inspiring</strong>
         </div>
         <div className="flex items-center gap-1">
+          <Form method="POST" action="/auth/signout">
+            <button
+              name="_action"
+              type="submit"
+              className="flex justify-center items-center w-7 h-7 rounded cursor-pointer hover:bg-gray-200"
+            >
+              <Icon name="arrow-right-from-bracket" />
+            </button>
+          </Form>
           <Form method="POST" action="/editor/api/create">
             <button
               name="_action"

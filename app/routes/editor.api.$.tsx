@@ -3,14 +3,12 @@ import { json, redirect } from '@vercel/remix';
 
 import { deleteDocument, saveDocumentToVercel } from '~/.server/inspiring/api';
 import { uploadImage } from '~/.server/cloudinary';
-import { getSession } from '~/session';
 import { liveblocksApi, LiveblocksPostCommands, RoomAccess } from '~/.server/liveblocks';
 import { getDocContent } from '~/utils/get-doc-content';
+import { remixAuth } from '~/.server/auth';
 
 export const action: ActionFunction = async ({ request, params }) => {
-  const session = await getSession(request.headers.get('Cookie'));
-
-  if (!session.has(process.env.TIPTAP_TOKEN_KEY)) {
+  if (!(await remixAuth.auth(request))?.user) {
     return redirect('/login');
   }
 

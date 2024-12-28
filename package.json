@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/bshzzhsb/blog#readme",
   "dependencies": {
+    "@auth/core": "^0.37.4",
     "@cloudinary/react": "^1.13.0",
     "@cloudinary/url-gen": "^1.19.0",
     "@floating-ui/dom": "^1.6.4",

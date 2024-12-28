@@ -5,7 +5,7 @@ import { json, redirect } from '@vercel/remix';
 import { remixAuth } from '~/.server/auth';
 
 import Sidebar from '~/page-components/inspiring/editor/sidebar';
-import { liveblocksApi, LiveblocksGetCommands } from '~/.server/liveblocks';
+import { liveblocks } from '~/.server/liveblocks';
 import { TEXT } from '~/constants';
 import { Path } from '~/constants/path';
 
@@ -18,7 +18,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return redirect(Path.LOGIN);
   }
 
-  const documentList = await liveblocksApi.get(LiveblocksGetCommands.ROOMS);
+  const documentList = await liveblocks.getRooms();
   return json(documentList.data);
 };
 

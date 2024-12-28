@@ -13,9 +13,6 @@ declare global {
 
       KV_BLOG_KEY: string;
 
-      USER_PASSWORD: string;
-      USER_PASSWORD_SECRET_ID: string;
-
       CLOUDINARY_API_KEY: string;
       CLOUDINARY_API_SECRET: string;
 

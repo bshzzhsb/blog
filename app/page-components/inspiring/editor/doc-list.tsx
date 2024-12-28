@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, useFetcher } from '@remix-run/react';
+import type { RoomData } from '@liveblocks/node';
+import type { SerializeFrom } from '@vercel/remix';
 
-import { Room } from '~/.server/liveblocks';
 import { Icon } from '~/components/icon';
 
 interface DocListProps {
-  docList: Room[];
+  docList: SerializeFrom<RoomData>[];
 }
 
 const DocList: React.FC<DocListProps> = React.memo(props => {

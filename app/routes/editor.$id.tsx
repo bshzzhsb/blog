@@ -5,13 +5,13 @@ import { InspiringEditor } from '~/page-components/inspiring';
 
 export const loader = async () => {
   return json({
-    liveblockPublicApiKey: process.env.LIVEBLOCKS_API_PUBLIC_KEY,
+    liveblocksPublicApiKey: process.env.LIVEBLOCKS_API_PUBLIC_KEY,
   });
 };
 
 const Editor: React.FC = () => {
   const { id } = useParams();
-  const { liveblockPublicApiKey } = useLoaderData<typeof loader>();
+  const { liveblocksPublicApiKey } = useLoaderData<typeof loader>();
 
   if (!id) return null;
 
@@ -19,7 +19,7 @@ const Editor: React.FC = () => {
     <InspiringEditor
       key={id}
       id={id}
-      liveblocksPublicApiKey={liveblockPublicApiKey}
+      liveblocksPublicApiKey={liveblocksPublicApiKey}
       className="h-full overflow-y-auto"
     />
   );

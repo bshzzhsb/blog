@@ -5,7 +5,10 @@ import { classnames } from '~/utils/classname';
 export function HeadingComponent(props: NodeViewProps) {
   const { level, id } = props.node.attrs;
   const as = `h${level}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  const attributes = mergeAttributes(props.extension.options.HTMLAttributes, { id, class: 'heading relative group' });
+  const attributes = mergeAttributes(props.extension.options.HTMLAttributes, {
+    id,
+    className: 'heading relative group',
+  });
 
   return (
     <NodeViewWrapper as={as} {...attributes}>

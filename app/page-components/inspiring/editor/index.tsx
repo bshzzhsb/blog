@@ -11,10 +11,10 @@ interface InspiringEditorProps {
 }
 
 export const InspiringEditor: React.FC<InspiringEditorProps> = React.memo(props => {
-  const { id, className, liveblocksPublicApiKey: liveblockPublicApiKey } = props;
+  const { id, className, liveblocksPublicApiKey } = props;
 
   return (
-    <LiveblocksProvider publicApiKey={liveblockPublicApiKey}>
+    <LiveblocksProvider publicApiKey={liveblocksPublicApiKey}>
       <RoomProvider id={id}>
         <ClientSideSuspense fallback={<Loading />}>
           <EditorComponent id={id} className={className} />

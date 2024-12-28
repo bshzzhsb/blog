@@ -1,3 +1,4 @@
+import type { Editor } from '@tiptap/core';
 import { Blockquote } from '@tiptap/extension-blockquote';
 import { Bold } from '@tiptap/extension-bold';
 import { BulletList } from '@tiptap/extension-bullet-list';
@@ -35,6 +36,30 @@ import { SlashCommand } from './slash-command';
 type BaseExtensionOptions = {
   tableOfContents?: Partial<TableOfContentsOptions>;
 };
+
+export function getTitleExtensions(contentEditor: React.RefObject<Editor>) {
+  return [
+    Document.extend({
+      content: 'heading',
+    }),
+    Text,
+    Paragraph,
+    Heading.extend({
+      addKeyboardShortcuts() {
+        const handleEnter = () => {
+          return contentEditor.current?.commands.focus('start') ?? true;
+        };
+
+        return {
+          ArrowDown: handleEnter,
+          Enter: handleEnter,
+          'Mod-Enter': handleEnter,
+        };
+      },
+    }).configure({ levels: [1] }),
+    Placeholder.configure({ placeholder: 'Title' }),
+  ];
+}
 
 export function getBaseExtensions(options?: BaseExtensionOptions) {
   return [

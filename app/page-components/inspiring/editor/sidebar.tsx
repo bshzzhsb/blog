@@ -1,13 +1,14 @@
 import React from 'react';
 import { Form, useNavigation } from '@remix-run/react';
+import type { RoomData } from '@liveblocks/node';
+import type { SerializeFrom } from '@vercel/remix';
 
-import { Room } from '~/.server/liveblocks';
 import { Icon } from '~/components/icon';
 
 import DocList from './doc-list';
 
 interface SidebarProps {
-  docList: Room[];
+  docList: SerializeFrom<RoomData>[];
 }
 
 const Sidebar: React.FC<SidebarProps> = React.memo(props => {

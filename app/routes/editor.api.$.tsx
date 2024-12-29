@@ -43,7 +43,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     case 'publish': {
       const [id] = rest;
       const data: Document = await request.json();
-      const newRoomId = encodeURI(getDocContent(data.title).trim().replaceAll(/\s/g, '-'));
+      const newRoomId = getDocContent(data.title).trim().replaceAll(/\s/g, '-');
 
       // Update room id to title.
       if (id !== newRoomId) {
@@ -62,7 +62,7 @@ export const action: ActionFunction = async ({ request, params }) => {
         await vercelKv.deleteDocument(id);
       }
 
-      return redirect(`/editor/${newRoomId}`);
+      return redirect(`/editor/${encodeURIComponent(newRoomId)}`);
     }
     case 'upload_image': {
       const data = await request.formData();

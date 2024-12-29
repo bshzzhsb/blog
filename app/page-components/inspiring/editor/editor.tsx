@@ -36,7 +36,7 @@ export const EditorComponent: React.FC<EditorComponentProps> = React.memo(props 
         event.preventDefault();
         saveFetcher.submit(
           { title: titleEditor.getJSON() },
-          { method: 'POST', action: `/editor/api/save/${id}`, encType: 'application/json' },
+          { method: 'POST', action: `/editor/api/save/${encodeURIComponent(id)}`, encType: 'application/json' },
         );
       }
     };

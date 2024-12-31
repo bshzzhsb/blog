@@ -24,5 +24,5 @@ export async function getBlog(slug: string): Promise<BlogDocument | null> {
 }
 
 function getBlogSlug(id: string) {
-  return id.replace(/^blog\./g, '');
+  return encodeURIComponent(id.replace(/^blog\./g, ''));
 }

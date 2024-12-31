@@ -27,7 +27,7 @@ export const EditorHeader: React.FC<EditorHeaderProps> = memo(props => {
     const { id, title, content } = editorContent;
     publishFetcher.submit(
       { title, content },
-      { method: 'POST', action: `/editor/api/publish/${id}`, encType: 'application/json' },
+      { method: 'POST', action: `/editor/api/publish/${encodeURIComponent(id)}`, encType: 'application/json' },
     );
   };
 

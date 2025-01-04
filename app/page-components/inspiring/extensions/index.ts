@@ -97,7 +97,7 @@ export function getEditorExtensions(options: EditorExtensionOptions) {
   return [
     BubbleMenu.configure(options.bubbleMenu),
     Dropcursor,
-    FileHandler,
+    FileHandler.configure(options.fileHandler),
     Placeholder.configure({ placeholder: 'Write something...' }),
     SlashCommand,
   ];

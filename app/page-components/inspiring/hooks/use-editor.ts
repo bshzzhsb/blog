@@ -18,6 +18,19 @@ export function useTitleEditor(contentEditor: React.RefObject<Editor>) {
 export function useContentEditor(container?: HTMLDivElement) {
   const liveblocks = useLiveblocksExtension({ field: 'content' });
 
+  function handleInputImage(editor: Editor, files: File[]) {
+    files.forEach(async file => {
+      const data = new FormData();
+      data.append('file', file);
+      const response = await fetch('/editor/api/upload_image', {
+        method: 'POST',
+        body: data,
+      });
+      const url = await response.json();
+      return editor.chain().setImageBlockAt({ pos: editor.state.selection.anchor, src: url }).focus().run();
+    });
+  }
+
   const contentEditor = useEditor(
     {
       extensions: [
@@ -27,18 +40,8 @@ export function useContentEditor(container?: HTMLDivElement) {
           bubbleMenu: { container },
           fileHandler: {
             allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
-            onPaste(editor, files) {
-              files.forEach(async file => {
-                const data = new FormData();
-                data.append('file', file);
-                const response = await fetch('/editor/api/upload_image', {
-                  method: 'POST',
-                  body: data,
-                });
-                const url = await response.json();
-                return editor.chain().setImageBlockAt({ pos: editor.state.selection.anchor, src: url }).focus().run();
-              });
-            },
+            onPaste: handleInputImage,
+            onDrop: handleInputImage,
           },
         }),
       ],

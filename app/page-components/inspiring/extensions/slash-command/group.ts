@@ -22,6 +22,14 @@ export const GROUPS: Group[] = [
     id: 'format',
     title: TEXT.format,
     commands: [
+      {
+        id: 'admonition',
+        label: 'Admonition',
+        icon: 'code-solid',
+        action: (editor: Editor) => {
+          editor.chain().focus().setAdmonition().run();
+        },
+      },
       ...([1, 2, 3] as const).map(level => ({
         id: `heading${level}`,
         label: `Heading ${level}`,

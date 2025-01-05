@@ -27,6 +27,7 @@ import { Underline } from '@tiptap/extension-underline';
 
 import { lowlight } from 'lowlight';
 
+import { Admonition, AdmonitionContent, AdmonitionTitle } from './admonition';
 import type { BubbleMenuOptions } from './bubble-menu';
 import { BubbleMenu } from './bubble-menu';
 import { Heading } from './heading';
@@ -63,6 +64,9 @@ export function getTitleExtensions(contentEditor: React.RefObject<Editor>) {
 
 export function getBaseExtensions(options?: BaseExtensionOptions) {
   return [
+    Admonition,
+    AdmonitionContent,
+    AdmonitionTitle,
     Blockquote,
     Bold,
     BulletList,

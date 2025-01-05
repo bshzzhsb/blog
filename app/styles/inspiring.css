@@ -42,11 +42,19 @@
 }
 
 .inspiring ul {
-  @apply px-8 list-disc;
+  @apply list-inside list-disc;
 }
 
 .inspiring ol {
-  @apply px-8 list-decimal;
+  @apply list-inside list-decimal;
+}
+
+.inspiring li > p {
+  @apply inline;
+}
+
+.inspiring li {
+  @apply marker:text-blue-600;
 }
 
 .inspiring li > p:not(:last-child),

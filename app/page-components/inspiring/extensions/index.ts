@@ -4,7 +4,6 @@ import { Bold } from '@tiptap/extension-bold';
 import { BulletList } from '@tiptap/extension-bullet-list';
 import { CharacterCount } from '@tiptap/extension-character-count';
 import { Code } from '@tiptap/extension-code';
-import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight';
 import { Document } from '@tiptap/extension-document';
 import { Dropcursor } from '@tiptap/extension-dropcursor';
 import type { FileHandlerOptions } from '@tiptap-pro/extension-file-handler';
@@ -25,9 +24,8 @@ import { TaskList } from '@tiptap/extension-task-list';
 import { Text } from '@tiptap/extension-text';
 import { Underline } from '@tiptap/extension-underline';
 
-import { lowlight } from 'lowlight';
-
 import { Admonition, AdmonitionContent, AdmonitionTitle } from './admonition';
+import { Codeblock } from './codeblock';
 import type { BubbleMenuOptions } from './bubble-menu';
 import { BubbleMenu } from './bubble-menu';
 import { Heading } from './heading';
@@ -72,7 +70,7 @@ export function getBaseExtensions(options?: BaseExtensionOptions) {
     BulletList,
     CharacterCount,
     Code,
-    CodeBlockLowlight.configure({ lowlight }),
+    Codeblock,
     Document,
     HardBreak,
     Heading,

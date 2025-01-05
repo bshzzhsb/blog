@@ -1,44 +1,32 @@
 import React from 'react';
 
-import { Icon, IconNames } from '~/components/icon';
-import { classnames } from '~/utils/classname';
+import { Icon } from '~/components/icon';
 
 import type { AdmonitionType } from './types';
 
-interface RoundedIconProps {
-  className: string;
-  icon: IconNames;
-  iconClassName: string;
-}
-
-const RoundedIcon: React.FC<RoundedIconProps> = props => {
-  const { className, icon, iconClassName } = props;
-
-  return (
-    <span className={classnames('flex justify-center items-center p-0.5 rounded-full', className)}>
-      <Icon name={icon} className={classnames('p-px', iconClassName)} />
-    </span>
-  );
+const Info: React.FC = () => {
+  return <Icon name="circle-info" className="w-5 h-5 text-blue-500" />;
 };
 
-const Info: React.FC = () => {
-  return <RoundedIcon icon="info" className="bg-blue-500" iconClassName="text-white" />;
+const Check: React.FC = () => {
+  return <Icon name="circle-check" className="w-5 h-5 text-green-500" />;
 };
 
 const Question: React.FC = () => {
-  return <RoundedIcon icon="question" className="bg-orange-500" iconClassName="text-white" />;
+  return <Icon name="circle-question" className="w-5 h-5 text-orange-500" />;
 };
 
 const Warning: React.FC = () => {
-  return <RoundedIcon icon="exclamation" className="bg-yellow-500" iconClassName="text-white" />;
+  return <Icon name="circle-exclamation" className="w-5 h-5 text-yellow-500" />;
 };
 
 const Bolt: React.FC = () => {
-  return <RoundedIcon icon="bolt" className="bg-red-500" iconClassName="text-white" />;
+  return <Icon name="circle-bolt" className="w-5 h-5 text-red-500" />;
 };
 
 export const IconMap: Record<AdmonitionType, React.ReactNode> = {
   info: <Info />,
+  check: <Check />,
   question: <Question />,
   warning: <Warning />,
   bolt: <Bolt />,

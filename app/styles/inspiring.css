@@ -92,6 +92,16 @@
   font-variant-ligatures: none;
 }
 
+.inspiring .admonition blockquote,
+.inspiring .admonition ul,
+.inspiring .admonition ol {
+  @apply gap-0;
+}
+
+.inspiring .admonition-content div[data-node-view-content-react] {
+  @apply flex flex-col gap-1;
+}
+
 .editor p.is-editor-empty:first-child::before,
 .editor h1.is-editor-empty:first-child::before {
   @apply h-0 text-gray-600 content-[attr(data-placeholder)] float-left pointer-events-none;

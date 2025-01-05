@@ -1,4 +1,4 @@
-export type AdmonitionType = 'info' | 'question' | 'warning' | 'bolt';
+export type AdmonitionType = 'info' | 'check' | 'question' | 'warning' | 'bolt';
 
 export interface AdmonitionAttrs {
   type: AdmonitionType;

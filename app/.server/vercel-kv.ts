@@ -1,11 +1,13 @@
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
 
 import type { BlogDocument, Document } from '~/types/inspiring';
+
+const redis = Redis.fromEnv();
 
 const KV_BLOG_KEY = process.env.KV_BLOG_KEY;
 
 async function saveDocument(id: string, data: Document, createAt: Date) {
-  await kv.hset<BlogDocument>(KV_BLOG_KEY, {
+  await redis.hset<BlogDocument>(KV_BLOG_KEY, {
     [id]: {
       title: data.title,
       content: data.content,
@@ -16,7 +18,7 @@ async function saveDocument(id: string, data: Document, createAt: Date) {
 }
 
 async function deleteDocument(id: string) {
-  await kv.hdel(KV_BLOG_KEY, id);
+  await redis.hdel(KV_BLOG_KEY, id);
 }
 
 export const vercelKv = { saveDocument, deleteDocument };
